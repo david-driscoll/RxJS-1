@@ -1,10 +1,6 @@
 import {Observable, ObservableOrPromise, ArrayOrIterator} from '../Observable';
 import {zip} from './zip-static';
 
-export function zipProto<T, TResult>(
-  project: (v1: T) => TResult): Observable<TResult>;
-export function zipProto<T, TResult>(
-  project: (v1: T) => TResult): Observable<TResult>;
 export function zipProto<T, T2>(
   second: ObservableOrPromise<T2>): Observable<[T, T2]>;
 export function zipProto<T, T2>(
