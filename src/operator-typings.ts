@@ -200,7 +200,7 @@ export interface operator_proto_sampleTime<T> {
   (delay: number, scheduler?: Scheduler): Observable<T>;
 }
 export interface operator_proto_scan<T> {
-  <R>(project: _Accumulator<T, R>, acc?: R): Observable<R>;
+  <R>(accumulator: _Accumulator<T, R>, seed?: T | R): Observable<R>;
 }
 export interface operator_proto_share<T> {
   (): Observable<T>;
@@ -311,8 +311,6 @@ export interface operator_proto_withLatestFrom<T> {
   <R>( ...observables: Array<ArrayOrIterator<T> | ((...values: Array<T>) => R)>): Observable<R>;
 }
 export interface operator_proto_zip<T> {
-  Proto<T, TResult>( project: (v1: T) => TResult): Observable<TResult>;
-  Proto<T, TResult>( project: (v1: T) => TResult): Observable<TResult>;
   Proto<T, T2>( second: ObservableOrPromise<T2>): Observable<[T, T2]>;
   Proto<T, T2>( second: ObservableOrPromise<T2> | ArrayOrIterator<T2>): Observable<[T, T2]>;
   Proto<T, T2>( second: ArrayOrIterator<T2>): Observable<[T, T2]>;

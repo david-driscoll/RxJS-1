@@ -1,6 +1,8 @@
 import {Observable} from '../Observable';
 import {Scheduler} from '../Scheduler';
 import {isScheduler} from '../util/isScheduler';
+import {ArrayObservable} from '../observables/ArrayObservable';
+import {MergeAllOperator} from './mergeAll-support';
 
 /**
  * Joins this observable with multiple other observables by subscribing to them one at a time, starting with the source,
@@ -26,8 +28,11 @@ export function concat<T>(...observables: (Observable<T> | Scheduler)[]): Observ
 export function concat(...observables: (Observable<any> | Scheduler)[]): Observable<any> {
   let args = <any[]>observables;
   args.unshift(this);
-  if (args.length > 1 && isScheduler(args[args.length - 1])) {
-    args.splice(args.length - 2, 0, 1);
+
+  let scheduler: Scheduler = null;
+  if (isScheduler(args[args.length - 1])) {
+    scheduler = args.pop();
   }
-  return Observable.fromArray(args).mergeAll(1);
+
+  return new ArrayObservable(args, scheduler).lift(new MergeAllOperator(1));
 }
