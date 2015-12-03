@@ -5,6 +5,8 @@ import {Subscription} from '../Subscription';
 import {OuterSubscriber} from '../OuterSubscriber';
 import {subscribeToResult} from '../util/subscribeToResult';
 
+export function _switch<T>(): T;
+export function _switch<R>(): Observable<R>;
 export function _switch<T>(): Observable<T> {
   return this.lift(new SwitchOperator());
 }

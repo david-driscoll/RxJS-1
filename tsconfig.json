@@ -5,14 +5,16 @@
     "sourceMap": true,
     "declaration": true,
     "target": "es6",
-    "outDir": "dist/es6"
+    "outDir": "dist/es6",
+    "noImplicitAny": true
   },
   "formatCodeOptions": {
     "indentSize": 2,
     "tabSize": 2
   },
-   "files": [
-     "src/Rx.ts",
-     "src/Rx.KitchenSink.ts"
-   ]
+  "files": [
+    "typings/es6-build-shim.d.ts",
+    "src/Rx.ts",
+    "src/Rx.KitchenSink.ts"
+  ]
 }

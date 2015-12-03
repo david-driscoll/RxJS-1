@@ -3,21 +3,22 @@ import {Subject} from './Subject';
 /* tslint:enable:no-unused-variable */
 import {Observable} from './Observable';
 import {CoreOperators} from './CoreOperators';
-import {Scheduler as IScheduler} from './Scheduler';
 
+/* tslint:disable */
+import * as operator from './operator-typings';
+/* tslint:enable */
 export interface KitchenSinkOperators<T> extends CoreOperators<T> {
-  isEmpty?: () => Observable<boolean>;
-  elementAt?: (index: number, defaultValue?: any) => Observable<T>;
-  distinctUntilKeyChanged?: (key: string, compare?: (x: any, y: any) => boolean) => Observable<T>;
-  find?: (predicate: (value: T, index: number, source: Observable<T>) => boolean, thisArg?: any) => Observable<T>;
-  findIndex?: (predicate: (value: T, index: number, source: Observable<T>) => boolean, thisArg?: any) => Observable<number>;
-  max?: <T, R>(comparer?: (x: R, y: T) => R) => Observable<R>;
-  min?: <T, R>(comparer?: (x: R, y: T) => R) => Observable<R>;
-  timeInterval?: <T>(scheduler?: IScheduler) => Observable<T>;
-  mergeScan?: <T, R>(project: (acc: R, x: T) => Observable<R>, seed: R, concurrent?: number) => Observable<R>;
-  exhaust?: () => Observable<T>;
-  exhaustMap?: <R>(project: ((x: T, ix: number) => Observable<any>),
-                       projectResult?: (x: T, y: any, ix: number, iy: number) => R) => Observable<R>;
+  isEmpty: operator.operator_proto_isEmpty<T>;
+  elementAt: operator.operator_proto_elementAt<T>;
+  distinctUntilKeyChanged: operator.operator_proto_distinctUntilKeyChanged<T>;
+  find: operator.operator_proto_find<T>;
+  findIndex: operator.operator_proto_findIndex<T>;
+  max: operator.operator_proto_max<T>;
+  min: operator.operator_proto_min<T>;
+  timeInterval: operator.operator_proto_timeInterval<T>;
+  mergeScan: operator.operator_proto_mergeScan<T>;
+  exhaust: operator.operator_proto_exhaust<T>;
+  exhaustMap: operator.operator_proto_exhaustMap<T>;
 }
 
 // statics

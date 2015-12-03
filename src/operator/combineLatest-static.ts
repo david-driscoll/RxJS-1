@@ -4,6 +4,7 @@ import {CombineLatestOperator} from './combineLatest-support';
 import {Scheduler} from '../Scheduler';
 import {isScheduler} from '../util/isScheduler';
 import {isArray} from '../util/isArray';
+import {ObservableInput} from '../types';
 
 /**
  * Combines the values from observables passed as arguments. This is done by subscribing
@@ -15,7 +16,16 @@ import {isArray} from '../util/isArray';
  * @returns {Observable} an observable of other projected values from the most recent values from each observable, or an array of each of
  * the most recent values from each observable.
  */
-export function combineLatest<R>(...observables: Array<Observable<any> |
+/*-- *compute 6* export function combineLatest<{|X|}>({|v|: ObservableInput<|X|>}): Observable<[{|X|}]>; --*/
+/*-- *compute 6* export function combineLatest<{|X|}>(array: [{ObservableInput<|X|>}]): Observable<[{|X|}]>; --*/
+/*-- *compute 6* export function combineLatest<{|X|}, TResult>({|v|: ObservableInput<|X|>},
+                                                               project: ({|v|: |X|}) => TResult): Observable<TResult>; --*/
+/*-- *compute 6* export function combineLatest<{|X|}, TResult>(array: [{ObservableInput<|X|>}],
+                                                               project: ({|v|: |X|}) => TResult): Observable<TResult>; --*/
+export function combineLatest<TResult>(array: ObservableInput<any>[], project?: Function): Observable<TResult>;
+export function combineLatest<T>(...observables: Array<ObservableInput<any>>): Observable<T>;
+export function combineLatest<T, R>(...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): Observable<R>;
+export function combineLatest<T, R>(...observables: Array<any | Observable<any> |
                                                       Array<Observable<any>> |
                                                       ((...values: Array<any>) => R) |
                                                       Scheduler>): Observable<R> {
@@ -36,5 +46,5 @@ export function combineLatest<R>(...observables: Array<Observable<any> |
     observables = <Array<Observable<any>>>observables[0];
   }
 
-  return new ArrayObservable(observables, scheduler).lift(new CombineLatestOperator(project));
+  return new ArrayObservable(observables, scheduler).lift<T, R>(new CombineLatestOperator<T, R>(project));
 }

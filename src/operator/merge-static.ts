@@ -4,8 +4,14 @@ import {ArrayObservable} from '../observable/fromArray';
 import {MergeAllOperator} from './mergeAll-support';
 import {queue} from '../scheduler/queue';
 import {isScheduler} from '../util/isScheduler';
+import {ObservableInput} from '../types';
 
-export function merge<R>(...observables: Array<Observable<any> | Scheduler | number>): Observable<R> {
+/*-- *compute 6* export function merge<{|X|}>({|v|: ObservableInput<|X|>}, scheduler?: Scheduler): Observable<[{|U|}]>; --*/
+/*-- *compute 6* export function merge<{|X|}>({|v|: ObservableInput<|X|>},
+                                                   concurrency: number, scheduler?: Scheduler): Observable<[{|U|}]>; --*/
+export function merge<T>(...observables: (ObservableInput<T> | Scheduler | number)[]): Observable<T>;
+export function merge<T, R>(...observables: (ObservableInput<any> | Scheduler | number)[]): Observable<R>;
+export function merge<T>(...observables: Array<Observable<T> | Scheduler | number>): Observable<T> {
  let concurrent = Number.POSITIVE_INFINITY;
  let scheduler: Scheduler = queue;
   let last: any = observables[observables.length - 1];
@@ -19,8 +25,8 @@ export function merge<R>(...observables: Array<Observable<any> | Scheduler | num
   }
 
   if (observables.length === 1) {
-    return <Observable<R>>observables[0];
+    return <Observable<T>>observables[0];
   }
 
-  return new ArrayObservable(observables, scheduler).lift(new MergeAllOperator(concurrent));
+  return new ArrayObservable<Observable<T>>(<any>observables, scheduler).lift<Observable<T>, T>(new MergeAllOperator<T>(concurrent));
 }

@@ -5,6 +5,7 @@ import {tryCatch} from '../util/tryCatch';
 import {errorObject} from '../util/errorObject';
 import {OuterSubscriber} from '../OuterSubscriber';
 import {subscribeToResult} from '../util/subscribeToResult';
+import {ObservableInput} from '../types';
 
 /**
  * @param {Observable} observables the observables to get the latest values from.
@@ -24,8 +25,14 @@ import {subscribeToResult} from '../util/subscribeToResult';
  * result: ---([a,d,x])---------([b,e,y])--------([c,f,z])---|
  * ```
  */
-export function withLatestFrom<R>(...args: Array<Observable<any> | ((...values: Array<any>) => R)>): Observable<R> {
-  let project;
+export function withLatestFrom<T, TResult>(project: (v1: T) => TResult): Observable<TResult>;
+/*-- *compute 2-6* export function withLatestFrom<T, {|X|}>({|v|: ObservableInput<|X|>}): Observable<[T, {|X|}]>; --*/
+/*-- *compute 2-6* export function withLatestFrom<T, {|X|}, TResult>({|v|: ObservableInput<|X|>},
+                                                                    project: (v1: T, {|v|: |X|}) => TResult): Observable<TResult>; --*/
+export function withLatestFrom<T, R>(...observables: Array<ObservableInput<R>>): Observable<Array<T | R>>;
+export function withLatestFrom<T, R>(...observables: Array<ObservableInput<T> | ((...values: Array<T>) => R)>): Observable<R>;
+export function withLatestFrom<T, R>(...args: Array<Observable<any> | ((...values: Array<any>) => R)>): Observable<R> {
+  let project: any;
   if (typeof args[args.length - 1] === 'function') {
     project = args.pop();
   }
@@ -39,7 +46,7 @@ class WithLatestFromOperator<T, R> implements Operator<T, R> {
   }
 
   call(subscriber: Subscriber<T>): Subscriber<T> {
-    return new WithLatestFromSubscriber<T, R>(subscriber, this.observables, this.project);
+    return new WithLatestFromSubscriber(subscriber, this.observables, this.project);
   }
 }
 
@@ -64,7 +71,7 @@ class WithLatestFromSubscriber<T, R> extends OuterSubscriber<T, R> {
     }
   }
 
-  notifyNext(observable, value, observableIndex, index) {
+  notifyNext(observable: any, value: any, observableIndex: number, index: number) {
     this.values[observableIndex] = value;
     const toRespond = this.toRespond;
     if (toRespond.length > 0) {
