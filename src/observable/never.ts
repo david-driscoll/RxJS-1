@@ -3,7 +3,7 @@ import {Subscriber} from '../Subscriber';
 import {noop} from '../util/noop';
 
 export class InfiniteObservable<T> extends Observable<T> {
-  static create<T>() {
+  static factory<T>() {
     return new InfiniteObservable<T>();
   }
 

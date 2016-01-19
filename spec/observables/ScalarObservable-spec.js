@@ -13,7 +13,7 @@ describe('ScalarObservable', function () {
 
   it('should create ScalarObservable via static create function', function () {
     var s = new ScalarObservable(1);
-    var r = ScalarObservable.create(1);
+    var r = ScalarObservable.factory(1);
 
     expect(s).toEqual(r);
   });

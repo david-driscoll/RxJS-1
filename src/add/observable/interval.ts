@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {IntervalObservable} from '../../observable/interval';
 
-Observable.interval = IntervalObservable.create;
+Observable.interval = IntervalObservable.factory;
 
 export var _void: void;

@@ -6,7 +6,7 @@ import {Subscriber} from '../Subscriber';
 
 export class FromEventObservable<T, R> extends Observable<T> {
 
-  static create<T>(sourceObj: any, eventName: string, selector?: (...args: Array<any>) => T) {
+  static factory<T>(sourceObj: any, eventName: string, selector?: (...args: Array<any>) => T) {
     return new FromEventObservable(sourceObj, eventName, selector);
   }
 

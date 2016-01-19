@@ -99,7 +99,7 @@ function generateNewObservableFileContents (op:OperatorWrapper): OperatorWrapper
   var imports = `import {Observable} from '../../Observable';
 import {${op.exportedClassName}} from '../../observable/${op.path.replace('.ts','')}';`;
   var patch = op.aliases.map((alias) => {
-    return `Observable.${alias} = ${op.exportedClassName}.${(overrides && overrides[alias]) || 'create'};`;
+    return `Observable.${alias} = ${op.exportedClassName}.${(overrides && overrides[alias]) || 'factory'};`;
   }).join('\n');
 
   var contents = `${header}
@@ -164,7 +164,7 @@ function getAliases (op:OperatorWrapper): OperatorWrapper {
 }
 
 function checkForCreate (op: OperatorWrapper): boolean {
-  return /static create/.test(op.srcFileContents);
+  return /static factory/.test(op.srcFileContents);
 }
 
 if (process.argv.find((v) => v === '--exec')) {

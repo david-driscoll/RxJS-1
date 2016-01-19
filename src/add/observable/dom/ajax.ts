@@ -1,5 +1,5 @@
 import {Observable} from '../../../Observable';
-import { AjaxObservable, AjaxCreationMethod } from '../../../observable/dom/ajax';
-Observable.ajax = AjaxObservable.create;
+import { AjaxObservable } from '../../../observable/dom/ajax';
+Observable.ajax = AjaxObservable.factory;
 
 export var _void: void;

@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {TimerObservable} from '../../observable/timer';
 
-Observable.timer = TimerObservable.create;
+Observable.timer = TimerObservable.factory;
 
 export var _void: void;

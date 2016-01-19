@@ -11,34 +11,34 @@ describe('IteratorObservable', function () {
 
   it('should create IteratorObservable via static create function', function () {
     var s = new IteratorObservable([]);
-    var r = IteratorObservable.create([]);
+    var r = IteratorObservable.factory([]);
     expect(s).toEqual(r);
   });
 
   it('should not accept null (or truthy-equivalent to null) iterator', function () {
     expect(function () {
-      IteratorObservable.create(null);
+      IteratorObservable.factory(null);
     }).toThrowError('iterator cannot be null.');
     expect(function () {
-      IteratorObservable.create(void 0);
+      IteratorObservable.factory(void 0);
     }).toThrowError('iterator cannot be null.');
   });
 
   it('should not accept boolean as iterator', function () {
     expect(function () {
-      IteratorObservable.create(false);
+      IteratorObservable.factory(false);
     }).toThrowError('Object is not iterable');
   });
 
   it('should not accept non-function project', function () {
     expect(function () {
-      IteratorObservable.create([], 42);
+      IteratorObservable.factory([], 42);
     }).toThrowError('When provided, `project` must be a function.');
   });
 
   it('should emit members of an array iterator', function (done) {
     var expected = [10, 20, 30, 40];
-    IteratorObservable.create([10, 20, 30, 40])
+    IteratorObservable.factory([10, 20, 30, 40])
       .subscribe(
         function (x) { expect(x).toBe(expected.shift()); },
         done.fail,
@@ -50,7 +50,7 @@ describe('IteratorObservable', function () {
   });
 
   it('should emit members of an array iterator on a particular scheduler', function () {
-    var source = IteratorObservable.create(
+    var source = IteratorObservable.factory(
       [10, 20, 30, 40],
       function (x) { return x; },
       null,
@@ -63,7 +63,7 @@ describe('IteratorObservable', function () {
   });
 
   it('should emit members of an array iterator on a particular scheduler, project throws', function () {
-    var source = IteratorObservable.create(
+    var source = IteratorObservable.factory(
       [10, 20, 30, 40],
       function (x) {
         if (x === 30) {
@@ -84,7 +84,7 @@ describe('IteratorObservable', function () {
   'but is unsubscribed early', function (done) {
     var expected = [10, 20, 30, 40];
 
-    var source = IteratorObservable.create(
+    var source = IteratorObservable.factory(
       [10, 20, 30, 40],
       function (x) { return x; },
       null,
@@ -108,7 +108,7 @@ describe('IteratorObservable', function () {
 
   it('should emit members of an array iterator, and project them', function (done) {
     var expected = [100, 400, 900, 1600];
-    IteratorObservable.create([10, 20, 30, 40], function (x) { return x * x; })
+    IteratorObservable.factory([10, 20, 30, 40], function (x) { return x * x; })
       .subscribe(
         function (x) { expect(x).toBe(expected.shift()); },
         done.fail,
@@ -128,7 +128,7 @@ describe('IteratorObservable', function () {
         return x * x;
       }
     }
-    IteratorObservable.create([10, 20, 30, 40], project)
+    IteratorObservable.factory([10, 20, 30, 40], project)
       .subscribe(
         function (x) {
           expect(x).toBe(expected.shift());
@@ -144,7 +144,7 @@ describe('IteratorObservable', function () {
 
   it('should emit characters of a string iterator', function (done) {
     var expected = ['f', 'o', 'o'];
-    IteratorObservable.create('foo')
+    IteratorObservable.factory('foo')
       .subscribe(
         function (x) { expect(x).toBe(expected.shift()); },
         done.fail,
@@ -157,7 +157,7 @@ describe('IteratorObservable', function () {
 
   it('should emit characters of a string iterator, and project them', function (done) {
     var expected = ['F', 'O', 'O'];
-    IteratorObservable.create('foo', function (x) { return x.toUpperCase(); })
+    IteratorObservable.factory('foo', function (x) { return x.toUpperCase(); })
       .subscribe(
         function (x) { expect(x).toBe(expected.shift()); },
         done.fail,
@@ -183,6 +183,6 @@ describe('IteratorObservable', function () {
       done.fail
     );
 
-    IteratorObservable.create([10, 20, 30, 40, 50, 60]).subscribe(subscriber);
+    IteratorObservable.factory([10, 20, 30, 40, 50, 60]).subscribe(subscriber);
   });
 });

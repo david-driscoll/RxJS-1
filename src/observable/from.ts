@@ -15,7 +15,7 @@ export class FromObservable<T> extends Observable<T> {
     super(null);
   }
 
-  static create<T>(ish: any, scheduler: Scheduler = null): Observable<T> {
+  static factory<T>(ish: any, scheduler: Scheduler = null): Observable<T> {
     if (ish != null) {
       if (typeof ish[SymbolShim.observable] === 'function') {
         if (ish instanceof Observable && !scheduler) {

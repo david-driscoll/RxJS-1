@@ -11,7 +11,7 @@ export class ForkJoinObservable<T> extends Observable<T> {
     super();
   }
 
-  static create<T>(...sources: Array<Observable<any> | Promise<any> |
+  static factory<T>(...sources: Array<Observable<any> | Promise<any> |
                                   Array<Observable<any>> |
                                   ((...values: Array<any>) => any)>): Observable<T> {
     if (sources === null || arguments.length === 0) {

@@ -5,7 +5,7 @@ import {errorObject} from '../util/errorObject';
 
 export class DeferObservable<T> extends Observable<T> {
 
-  static create<T>(observableFactory: () => Observable<T>): Observable<T> {
+  static factory<T>(observableFactory: () => Observable<T>): Observable<T> {
     return new DeferObservable(observableFactory);
   }
 

@@ -72,7 +72,7 @@ export class Observable<T> implements CoreOperators<T>  {
    * @returns {Observable} a new cold observable
    * @description creates a new cold Observable by calling the Observable constructor
    */
-  static create: Function = <T>(subscribe?: <R>(subscriber: Subscriber<R>) => Subscription | Function | void) => {
+  static create<T>(subscribe?: <R>(subscriber: Subscriber<R>) => Subscription | Function | void) {
     return new Observable<T>(subscribe);
   };
 
@@ -156,27 +156,27 @@ export class Observable<T> implements CoreOperators<T>  {
 
   // static method stubs
   static ajax: AjaxCreationMethod;
-  static bindCallback: typeof BoundCallbackObservable.create;
-  static bindNodeCallback: typeof BoundNodeCallbackObservable.create;
+  static bindCallback: typeof BoundCallbackObservable.factory;
+  static bindNodeCallback: typeof BoundNodeCallbackObservable.factory;
   static combineLatest: typeof combineLatestStatic;
   static concat: typeof concatStatic;
-  static defer: typeof DeferObservable.create;
-  static empty: typeof EmptyObservable.create;
-  static forkJoin: typeof ForkJoinObservable.create;
-  static from: typeof FromObservable.create;
-  static fromArray: typeof ArrayObservable.create;
-  static fromEvent: typeof FromEventObservable.create;
-  static fromEventPattern: typeof FromEventPatternObservable.create;
-  static fromPromise: typeof PromiseObservable.create;
-  static interval: typeof IntervalObservable.create;
+  static defer: typeof DeferObservable.factory;
+  static empty: typeof EmptyObservable.factory;
+  static forkJoin: typeof ForkJoinObservable.factory;
+  static from: typeof FromObservable.factory;
+  static fromArray: typeof ArrayObservable.factory;
+  static fromEvent: typeof FromEventObservable.factory;
+  static fromEventPattern: typeof FromEventPatternObservable.factory;
+  static fromPromise: typeof PromiseObservable.factory;
+  static interval: typeof IntervalObservable.factory;
   static merge: typeof mergeStatic;
-  static never: typeof InfiniteObservable.create;
+  static never: typeof InfiniteObservable.factory;
   static of: typeof ArrayObservable.of;
   static race: typeof raceStatic;
-  static range: typeof RangeObservable.create;
-  static throw: typeof ErrorObservable.create;
-  static timer: typeof TimerObservable.create;
-  static webSocket: typeof WebSocketSubject.create;
+  static range: typeof RangeObservable.factory;
+  static throw: typeof ErrorObservable.factory;
+  static timer: typeof TimerObservable.factory;
+  static webSocket: typeof WebSocketSubject.factory;
   static zip: typeof zipStatic;
 
   // core operators

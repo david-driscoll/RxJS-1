@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {EmptyObservable} from '../../observable/empty';
 
-Observable.empty = EmptyObservable.create;
+Observable.empty = EmptyObservable.factory;
 
 export var _void: void;

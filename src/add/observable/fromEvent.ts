@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {FromEventObservable} from '../../observable/fromEvent';
 
-Observable.fromEvent = FromEventObservable.create;
+Observable.fromEvent = FromEventObservable.factory;
 
 export var _void: void;

@@ -9,7 +9,7 @@ import {Subscriber} from '../Subscriber';
 
 export class TimerObservable extends Observable<number> {
 
-  static create(dueTime: number | Date = 0, period?: number | Scheduler, scheduler?: Scheduler): Observable<number> {
+  static factory(dueTime: number | Date = 0, period?: number | Scheduler, scheduler?: Scheduler): Observable<number> {
     return new TimerObservable(dueTime, period, scheduler);
   }
 

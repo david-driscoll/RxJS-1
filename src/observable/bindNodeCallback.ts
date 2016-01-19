@@ -9,9 +9,9 @@ import {AsyncSubject} from '../subject/AsyncSubject';
 export class BoundNodeCallbackObservable<T> extends Observable<T> {
   subject: AsyncSubject<T>;
 
-  static create<T>(callbackFunc: Function,
-                   selector: Function = undefined,
-                   scheduler?: Scheduler): Function {
+  static factory<T>(callbackFunc: Function,
+                    selector: Function = undefined,
+                    scheduler?: Scheduler): Function {
     return (...args: any[]): Observable<T> => {
       return new BoundNodeCallbackObservable(callbackFunc, selector, args, scheduler);
     };

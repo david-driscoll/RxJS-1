@@ -23,7 +23,7 @@ describe('SubscribeOnObservable', function () {
 
   it('should create observable via staic create function', function () {
     var s = new SubscribeOnObservable(rxTestScheduler);
-    var r = SubscribeOnObservable.create(rxTestScheduler);
+    var r = SubscribeOnObservable.factory(rxTestScheduler);
 
     expect(s).toEqual(r);
   });

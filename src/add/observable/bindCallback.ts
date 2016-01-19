@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {BoundCallbackObservable} from '../../observable/bindCallback';
 
-Observable.bindCallback = BoundCallbackObservable.create;
+Observable.bindCallback = BoundCallbackObservable.factory;
 
 export var _void: void;

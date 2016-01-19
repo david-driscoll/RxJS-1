@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {ForkJoinObservable} from '../../observable/forkJoin';
 
-Observable.forkJoin = ForkJoinObservable.create;
+Observable.forkJoin = ForkJoinObservable.factory;
 
 export var _void: void;

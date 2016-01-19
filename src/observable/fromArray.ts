@@ -8,7 +8,7 @@ import {Subscription} from '../Subscription';
 
 export class ArrayObservable<T> extends Observable<T> {
 
-  static create<T>(array: T[], scheduler?: Scheduler) {
+  static factory<T>(array: T[], scheduler?: Scheduler) {
     return new ArrayObservable(array, scheduler);
   }
 

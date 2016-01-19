@@ -5,7 +5,7 @@ import {Observable} from '../Observable';
 import {asap} from '../scheduler/asap';
 
 export class IntervalObservable extends Observable<number> {
-  static create(period: number = 0, scheduler: Scheduler = asap): Observable<number> {
+  static factory(period: number = 0, scheduler: Scheduler = asap): Observable<number> {
     return new IntervalObservable(period, scheduler);
   }
 

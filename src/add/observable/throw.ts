@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {ErrorObservable} from '../../observable/throw';
 
-Observable.throw = ErrorObservable.create;
+Observable.throw = ErrorObservable.factory;
 
 export var _void: void;

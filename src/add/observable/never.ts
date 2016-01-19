@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {InfiniteObservable} from '../../observable/never';
 
-Observable.never = InfiniteObservable.create;
+Observable.never = InfiniteObservable.factory;
 
 export var _void: void;

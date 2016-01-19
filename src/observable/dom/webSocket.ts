@@ -1,4 +1,4 @@
-import {Subject} from '../../Subject';
+import {BaseSubject} from '../../Subject';
 import {Subscriber} from '../../Subscriber';
 import {Observable} from '../../Observable';
 import {Operator} from '../../Operator';
@@ -20,7 +20,7 @@ export interface WebSocketSubjectConfig {
   WebSocketCtor?: { new(url: string, protocol?: string|Array<string>): WebSocket };
 }
 
-export class WebSocketSubject<T> extends Subject<T> {
+export class WebSocketSubject<T> extends BaseSubject<T> {
   url: string;
   protocol: string|Array<string>;
   socket: WebSocket;
@@ -33,7 +33,7 @@ export class WebSocketSubject<T> extends Subject<T> {
     return JSON.parse(e.data);
   }
 
-  static create<T>(urlConfigOrSource: string | WebSocketSubjectConfig): WebSocketSubject<T> {
+  static factory<T>(urlConfigOrSource: string | WebSocketSubjectConfig): WebSocketSubject<T> {
     return new WebSocketSubject(urlConfigOrSource);
   }
 

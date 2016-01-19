@@ -5,7 +5,7 @@ import {Subscription} from '../Subscription';
 
 export class EmptyObservable<T> extends Observable<T> {
 
-  static create<T>(scheduler?: Scheduler): Observable<T> {
+  static factory<T>(scheduler?: Scheduler): Observable<T> {
     return new EmptyObservable<T>(scheduler);
   }
 

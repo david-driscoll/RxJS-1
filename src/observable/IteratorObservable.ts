@@ -12,7 +12,7 @@ import {Subscriber} from '../Subscriber';
 export class IteratorObservable<T> extends Observable<T> {
   private iterator: any;
 
-  static create<T>(iterator: any,
+  static factory<T>(iterator: any,
                    project?: ((x?: any, i?: number) => T) | any,
                    thisArg?: any | Scheduler,
                    scheduler?: Scheduler) {

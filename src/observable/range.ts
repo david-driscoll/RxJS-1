@@ -5,7 +5,7 @@ import {Subscriber} from '../Subscriber';
 
 export class RangeObservable extends Observable<number> {
 
-  static create(start: number = 0, end: number = 0, scheduler?: Scheduler): Observable<number> {
+  static factory(start: number = 0, end: number = 0, scheduler?: Scheduler): Observable<number> {
     return new RangeObservable(start, end, scheduler);
   }
 

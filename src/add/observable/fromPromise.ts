@@ -5,6 +5,6 @@
 import {Observable} from '../../Observable';
 import {PromiseObservable} from '../../observable/fromPromise';
 
-Observable.fromPromise = PromiseObservable.create;
+Observable.fromPromise = PromiseObservable.factory;
 
 export var _void: void;

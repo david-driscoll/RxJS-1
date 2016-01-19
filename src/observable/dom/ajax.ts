@@ -93,7 +93,7 @@ export function ajaxGetJSON<T, R>(url: string, resultSelector?: (data: T) => R, 
    * @returns {Observable} An observable sequence containing the XMLHttpRequest.
   */
 export class AjaxObservable<T> extends Observable<T> {
-  static create: AjaxCreationMethod = (() => {
+  static factory: AjaxCreationMethod = (() => {
     const create: any = (urlOrRequest: string | AjaxRequest) => {
       return new AjaxObservable(urlOrRequest);
     };

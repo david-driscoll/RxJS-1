@@ -11,13 +11,13 @@ describe('ErrorObservable', function () {
 
   it('should create ErrorObservable via static create function', function () {
     var e = new ErrorObservable('error');
-    var r = ErrorObservable.create('error');
+    var r = ErrorObservable.factory('error');
 
     expect(e).toEqual(r);
   });
 
   it('should accept scheduler', function () {
-    var e = ErrorObservable.create('error', rxTestScheduler);
+    var e = ErrorObservable.factory('error', rxTestScheduler);
 
     expectObservable(e).toBe('#');
   });

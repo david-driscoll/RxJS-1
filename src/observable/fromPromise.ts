@@ -8,7 +8,7 @@ export class PromiseObservable<T> extends Observable<T> {
 
   public value: T;
 
-  static create<T>(promise: Promise<T>, scheduler: Scheduler = null): Observable<T> {
+  static factory<T>(promise: Promise<T>, scheduler: Scheduler = null): Observable<T> {
     return new PromiseObservable(promise, scheduler);
   }
 

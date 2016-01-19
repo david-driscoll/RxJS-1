@@ -4,7 +4,7 @@ import {Subscription} from '../Subscription';
 
 export class ErrorObservable extends Observable<any> {
 
-  static create<T>(error: any, scheduler?: Scheduler) {
+  static factory<T>(error: any, scheduler?: Scheduler) {
     return new ErrorObservable(error, scheduler);
   }
 

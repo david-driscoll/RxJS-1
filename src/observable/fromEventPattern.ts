@@ -6,7 +6,7 @@ import {Subscriber} from '../Subscriber';
 
 export class FromEventPatternObservable<T, R> extends Observable<T> {
 
-  static create<T>(addHandler: (handler: Function) => any,
+  static factory<T>(addHandler: (handler: Function) => any,
                    removeHandler: (handler: Function) => void,
                    selector?: (...args: Array<any>) => T) {
     return new FromEventPatternObservable(addHandler, removeHandler, selector);
