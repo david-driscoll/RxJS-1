@@ -41,6 +41,8 @@ export type ObservableOrPromise<T> = Observable<T> | Promise<T>;
 export type ArrayOrIterator<T> = Iterator<T> | ArrayLike<T>;
 export type ObservableInput<T> = ObservableOrPromise<T> | ArrayOrIterator<T>;
 
+import {ZipSignature} from './operator/zip';
+
 /**
  * A representation of any set of values over any amount of time. This the most basic building block
  * of RxJS.
@@ -275,7 +277,7 @@ export class Observable<T> implements CoreOperators<T>  {
   windowToggle: <O>(openings: Observable<O>, closingSelector?: (openValue: O) => Observable<any>) => Observable<Observable<T>>;
   windowWhen: (closingSelector: () => Observable<any>) => Observable<Observable<T>>;
   withLatestFrom: <R>(...observables: Array<Observable<any> | ((...values: Array<any>) => R)>) => Observable<R>;
-  zip: <R>(...observables: Array<Observable<any> | ((...values: Array<any>) => R)>) => Observable<R>;
+  zip: ZipSignature<T>;
   zipAll: <R>(project?: (...values: Array<any>) => R) => Observable<R>;
 
   /**

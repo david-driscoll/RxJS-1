@@ -5,6 +5,8 @@ import {Subject} from './Subject';
 import {GroupedObservable} from './operator/groupBy-support';
 import {Notification} from './Notification';
 
+import {ZipSignature} from './operator/zip';
+
 export interface CoreOperators<T> {
   buffer?: (closingNotifier: Observable<any>) => Observable<T[]>;
   bufferCount?: (bufferSize: number, startBufferEvery: number) => Observable<T[]>;
@@ -90,6 +92,6 @@ export interface CoreOperators<T> {
   windowToggle?: <O>(openings: Observable<O>, closingSelector?: (openValue: O) => Observable<any>) => Observable<Observable<T>>;
   windowWhen?: (closingSelector: () => Observable<any>) => Observable<Observable<T>>;
   withLatestFrom?: <R>(...observables: Array<Observable<any> | ((...values: Array<any>) => R)>) => Observable<R>;
-  zip?: <R>(...observables: Array<Observable<any> | ((...values: Array<any>) => R)>) => Observable<R>;
+  zip: ZipSignature<T>;
   zipAll?: <R>(project?: (...values: Array<any>) => R) => Observable<R>;
 }

@@ -3,8 +3,8 @@
  * Any manual edits to this file will be lost next time the script is run.
  **/
 import {Observable} from '../../Observable';
-import {zipProto} from '../../operator/zip';
+import {zip} from '../../operator/zip';
 
-Observable.prototype.zip = zipProto;
+Observable.prototype.zip = zip;
 
 export var _void: void;
