@@ -2,32 +2,32 @@
 // Subject imported before Observable to bypass circular dependency issue since
 // Subject extends Observable and Observable references Subject in it's
 // definition
-import {Subject} from './Subject';
+export {Subject} from './Subject';
 /* tslint:enable:no-unused-variable */
-import {Observable} from './Observable';
+export {Observable} from './Observable';
 
 // statics
 /* tslint:disable:no-use-before-declare */
-export * from './add/observable/combineLatest';
-export * from './add/observable/concat';
-export * from './add/observable/merge';
-export * from './add/observable/race';
-export * from './add/observable/bindCallback';
-export * from './add/observable/bindNodeCallback';
-export * from './add/observable/defer';
-export * from './add/observable/empty';
-export * from './add/observable/forkJoin';
-export * from './add/observable/from';
-export * from './add/observable/fromArray';
-export * from './add/observable/fromEvent';
-export * from './add/observable/fromEventPattern';
-export * from './add/observable/fromPromise';
-export * from './add/observable/interval';
-export * from './add/observable/never';
-export * from './add/observable/range';
-export * from './add/observable/throw';
-export * from './add/observable/timer';
-export * from './add/observable/zip';
+import './add/observable/combineLatest';
+import './add/observable/concat';
+import './add/observable/merge';
+import './add/observable/race';
+import './add/observable/bindCallback';
+import './add/observable/bindNodeCallback';
+import './add/observable/defer';
+import './add/observable/empty';
+import './add/observable/forkJoin';
+import './add/observable/from';
+import './add/observable/fromArray';
+import './add/observable/fromEvent';
+import './add/observable/fromEventPattern';
+import './add/observable/fromPromise';
+import './add/observable/interval';
+import './add/observable/never';
+import './add/observable/range';
+import './add/observable/throw';
+import './add/observable/timer';
+import './add/observable/zip';
 
 //operators
 import './add/observable/buffer';
@@ -119,18 +119,19 @@ import './add/observable/zip';
 import './add/observable/zipAll';
 
 /* tslint:disable:no-unused-variable */
-import {Operator} from './Operator';
-import {Observer} from './Observer';
-import {Subscription, UnsubscriptionError} from './Subscription';
-import {Subscriber} from './Subscriber';
-import {AsyncSubject} from './subject/AsyncSubject';
-import {ReplaySubject} from './subject/ReplaySubject';
-import {BehaviorSubject} from './subject/BehaviorSubject';
-import {ConnectableObservable} from './observable/ConnectableObservable';
-import {Notification} from './Notification';
-import {EmptyError} from './util/EmptyError';
-import {ArgumentOutOfRangeError} from './util/ArgumentOutOfRangeError';
-import {ObjectUnsubscribedError} from './util/ObjectUnsubscribedError';
+export {Operator} from './Operator';
+export {Observer} from './Observer';
+export {Subscription, UnsubscriptionError} from './Subscription';
+export {Subscriber} from './Subscriber';
+export {AsyncSubject} from './subject/AsyncSubject';
+export {ReplaySubject} from './subject/ReplaySubject';
+export {BehaviorSubject} from './subject/BehaviorSubject';
+export {ConnectableObservable} from './observable/ConnectableObservable';
+export {Notification} from './Notification';
+export {EmptyError} from './util/EmptyError';
+export {ArgumentOutOfRangeError} from './util/ArgumentOutOfRangeError';
+export {ObjectUnsubscribedError} from './util/ObjectUnsubscribedError';
+
 import {asap} from './scheduler/asap';
 import {queue} from './scheduler/queue';
 import {AsapScheduler} from './scheduler/AsapScheduler';
@@ -150,21 +151,6 @@ var Symbol = {
 /* tslint:enable:no-var-keyword */
 
 export {
-    Subject,
     Scheduler,
-    Observable,
-    Observer,
-    Operator,
-    Subscriber,
-    Subscription,
-    Symbol,
-    AsyncSubject,
-    ReplaySubject,
-    BehaviorSubject,
-    ConnectableObservable,
-    Notification,
-    EmptyError,
-    ArgumentOutOfRangeError,
-    ObjectUnsubscribedError,
-    UnsubscriptionError
+    Symbol
 };
