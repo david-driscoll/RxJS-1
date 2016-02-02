@@ -8,26 +8,26 @@ import {Observable} from './Observable';
 
 // statics
 /* tslint:disable:no-use-before-declare */
-import './add/observable/combineLatest';
-import './add/observable/concat';
-import './add/observable/merge';
-import './add/observable/race';
-import './add/observable/bindCallback';
-import './add/observable/bindNodeCallback';
-import './add/observable/defer';
-import './add/observable/empty';
-import './add/observable/forkJoin';
-import './add/observable/from';
-import './add/observable/fromArray';
-import './add/observable/fromEvent';
-import './add/observable/fromEventPattern';
-import './add/observable/fromPromise';
-import './add/observable/interval';
-import './add/observable/never';
-import './add/observable/range';
-import './add/observable/throw';
-import './add/observable/timer';
-import './add/observable/zip';
+export * from './add/observable/combineLatest';
+export * from './add/observable/concat';
+export * from './add/observable/merge';
+export * from './add/observable/race';
+export * from './add/observable/bindCallback';
+export * from './add/observable/bindNodeCallback';
+export * from './add/observable/defer';
+export * from './add/observable/empty';
+export * from './add/observable/forkJoin';
+export * from './add/observable/from';
+export * from './add/observable/fromArray';
+export * from './add/observable/fromEvent';
+export * from './add/observable/fromEventPattern';
+export * from './add/observable/fromPromise';
+export * from './add/observable/interval';
+export * from './add/observable/never';
+export * from './add/observable/range';
+export * from './add/observable/throw';
+export * from './add/observable/timer';
+export * from './add/observable/zip';
 
 //operators
 import './add/observable/buffer';
