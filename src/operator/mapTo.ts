@@ -11,7 +11,11 @@ import {Observable} from '../Observable';
  * @returns {Observable} an observable of the passed value that emits everytime the source does
  */
 export function mapTo<T, R>(value: R): Observable<R> {
-  return this.lift(new MapToOperator(value));
+  return this.lift(new MapToOperator<T, R>(value));
+}
+
+export interface MapToSignature<T> {
+  <R>(value: R): Observable<R>;
 }
 
 class MapToOperator<T, R> implements Operator<T, R> {

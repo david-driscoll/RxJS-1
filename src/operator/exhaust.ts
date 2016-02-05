@@ -12,13 +12,17 @@ import {subscribeToResult} from '../util/subscribeToResult';
  * Similar to `concatAll`, but will not hold on to items that come in before the first is exhausted.
  * @returns {Observable} an Observable which contains all of the items of the first Observable and following Observables in the source.
  */
-export function exhaust<T>(): Observable<T> {
-  return this.lift(new SwitchFirstOperator());
+export function exhaust<T, R>(): Observable<R> {
+  return this.lift(new SwitchFirstOperator<T>());
+}
+
+export interface SwitchFirstSignature<T> {
+  (): T;
 }
 
 class SwitchFirstOperator<T> implements Operator<T, T> {
   call(subscriber: Subscriber<T>): Subscriber<T> {
-    return new SwitchFirstSubscriber(subscriber);
+    return new SwitchFirstSubscriber<T>(subscriber);
   }
 }
 

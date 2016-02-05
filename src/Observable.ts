@@ -39,6 +39,19 @@ import {WebSocketSubject} from './observable/dom/WebSocketSubject';
 
 import {CombineLatestSignature} from './operator/combineLatest';
 import {WithLatestFromSignature} from './operator/withLatestFrom';
+import {ConcatSignature} from './operator/concat';
+import {ConcatAllSignature} from './operator/concatAll';
+import {ConcatMapSignature} from './operator/concatMap';
+import {ConcatMapToSignature} from './operator/concatMapTo';
+import {MergeSignature} from './operator/merge';
+import {MergeAllSignature} from './operator/mergeAll';
+import {MergeMapSignature} from './operator/mergeMap';
+import {MergeMapToSignature} from './operator/mergeMapTo';
+import {MapSignature} from './operator/map';
+import {MapToSignature} from './operator/mapTo';
+import {SwitchSignature} from './operator/switch';
+import {SwitchMapSignature} from './operator/switchMap';
+import {SwitchMapToSignature} from './operator/switchMapTo';
 
 export type ObservableOrPromise<T> = Observable<T> | Promise<T>;
 export type ArrayOrIterator<T> = Iterator<T> | ArrayLike<T>;
@@ -202,10 +215,10 @@ export class Observable<T> implements CoreOperators<T>  {
   catch: (selector: (err: any, source: Observable<T>, caught: Observable<any>) => Observable<any>) => Observable<T>;
   combineAll: <R>(project?: (...values: Array<any>) => R) => Observable<R>;
   combineLatest: CombineLatestSignature<T>;
-  concat: <R>(...observables: (Observable<any> | Scheduler)[]) => Observable<R>;
-  concatAll: () => Observable<any>;
-  concatMap: <R>(project: ((x: T, ix: number) => Observable<any>), projectResult?: (x: T, y: any, ix: number, iy: number) => R) => Observable<R>;
-  concatMapTo: <R>(observable: Observable<any>, projectResult?: (x: T, y: any, ix: number, iy: number) => R) => Observable<R>;
+  concat: ConcatSignature<T>;
+  concatAll: ConcatAllSignature<T>;
+  concatMap: ConcatMapSignature<T>;
+  concatMapTo: ConcatMapToSignature<T>;
   count: (predicate?: (value: T, index: number, source: Observable<T>) => boolean) => Observable<number>;
   dematerialize: () => Observable<any>;
   debounce: (durationSelector: (value: T) => Observable<any> | Promise<any>) => Observable<T>;
@@ -220,10 +233,8 @@ export class Observable<T> implements CoreOperators<T>  {
   finally: (finallySelector: () => void) => Observable<T>;
   first: <R>(predicate?: (value: T, index: number, source: Observable<T>) => boolean,
              resultSelector?: (value: T, index: number) => R, defaultValue?: any) => Observable<T> | Observable<R>;
-  flatMap: <R>(project: ((x: T, ix: number) => Observable<any>),
-               projectResult?: (x: T, y: any, ix: number, iy: number) => R,
-               concurrent?: number) => Observable<R>;
-  flatMapTo: <R>(observable: Observable<any>, projectResult?: (x: T, y: any, ix: number, iy: number) => R, concurrent?: number) => Observable<R>;
+  flatMap: MergeMapSignature<T>;
+  flatMapTo: MergeMapToSignature<T>;
   groupBy: <K, R>(keySelector: (value: T) => K,
                elementSelector?: (value: T) => R,
                durationSelector?: (group: GroupedObservable<K, R>) => Observable<any>) => Observable<GroupedObservable<K, R>>;
@@ -236,15 +247,13 @@ export class Observable<T> implements CoreOperators<T>  {
   let: <T, R>(func: (selector: Observable<T>) => Observable<R>) => Observable<R>;
   letBind: <T, R>(func: (selector: Observable<T>) => Observable<R>) => Observable<R>;
   every: (predicate: (value: T, index: number) => boolean, thisArg?: any) => Observable<T>;
-  map: <R>(project: (x: T, ix?: number) => R, thisArg?: any) => Observable<R>;
-  mapTo: <R>(value: R) => Observable<R>;
+  map: MapSignature<T>;
+  mapTo: MapToSignature<T>;
   materialize: () => Observable<Notification<T>>;
-  merge: (...observables: any[]) => Observable<any>;
-  mergeAll: (concurrent?: any) => Observable<any>;
-  mergeMap: <R>(project: ((x: T, ix: number) => Observable<any>),
-                projectResult?: (x: T, y: any, ix: number, iy: number) => R,
-                concurrent?: number) => Observable<R>;
-  mergeMapTo: <R>(observable: Observable<any>, projectResult?: (x: T, y: any, ix: number, iy: number) => R, concurrent?: number) => Observable<R>;
+  merge: MergeSignature<T>;
+  mergeAll: MergeAllSignature<T>;
+  mergeMap: MergeMapSignature<T>;
+  mergeMapTo: MergeMapToSignature<T>;
   multicast: (subjectOrSubjectFactory: Subject<T>|(() => Subject<T>)) => ConnectableObservable<T>;
   observeOn: (scheduler: Scheduler, delay?: number) => Observable<T>;
   partition: (predicate: (x: T) => boolean) => Observable<T>[];
@@ -268,9 +277,9 @@ export class Observable<T> implements CoreOperators<T>  {
   skipWhile: (predicate: (x: T, index: number) => boolean) => Observable<T>;
   startWith: (x: T) => Observable<T>;
   subscribeOn: (scheduler: Scheduler, delay?: number) => Observable<T>;
-  switch: <R>() => Observable<R>;
-  switchMap: <R>(project: ((x: T, ix: number) => Observable<any>), projectResult?: (x: T, y: any, ix: number, iy: number) => R) => Observable<R>;
-  switchMapTo: <R>(observable: Observable<any>, projectResult?: (x: T, y: any, ix: number, iy: number) => R) => Observable<R>;
+  switch: SwitchSignature<T>;
+  switchMap: SwitchMapSignature<T>;
+  switchMapTo: SwitchMapToSignature<T>;
   take: (count: number) => Observable<T>;
   takeLast: (count: number) => Observable<T>;
   takeUntil: (notifier: Observable<any>) => Observable<T>;

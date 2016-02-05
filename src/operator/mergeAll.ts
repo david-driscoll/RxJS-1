@@ -9,6 +9,10 @@ export function mergeAll<T>(concurrent: number = Number.POSITIVE_INFINITY): T {
   return this.lift(new MergeAllOperator(concurrent));
 }
 
+export interface MergeAllSignature<T> {
+  (): T;
+}
+
 export class MergeAllOperator<T> implements Operator<Observable<T>, T> {
   constructor(private concurrent: number) {
   }

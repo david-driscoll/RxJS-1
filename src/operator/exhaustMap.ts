@@ -1,5 +1,5 @@
 import {Operator} from '../Operator';
-import {Observable} from '../Observable';
+import {Observable, ObservableInput} from '../Observable';
 import {Subscriber} from '../Subscriber';
 import {OuterSubscriber} from '../OuterSubscriber';
 import {InnerSubscriber} from '../InnerSubscriber';
@@ -12,21 +12,27 @@ import {subscribeToResult} from '../util/subscribeToResult';
  * @param {function} [resultSelector] optional function for then selecting on each inner Observable.
  * @returns {Observable} an Observable containing all the projected Observables of each item of the source concatenated together.
  */
-export function exhaustMap<T, R, R2>(project: (value: T, index: number) => Observable<R>,
-                                     resultSelector?: (
+export function exhaustMap<T, I, R>(project: (value: T, index: number) => ObservableInput<I>,
+                                    resultSelector?: (
                                             outerValue: T,
-                                            innerValue: R,
+                                            innerValue: I,
                                             outerIndex: number,
-                                            innerIndex: number) => R2): Observable<R2> {
-  return this.lift(new SwitchFirstMapOperator(project, resultSelector));
+                                            innerIndex: number) => R): Observable<R> {
+  return this.lift(new SwitchFirstMapOperator<T, I, R>(project, resultSelector));
 }
 
-class SwitchFirstMapOperator<T, R, R2> implements Operator<T, R2> {
-  constructor(private project: (value: T, index: number) => Observable<R>,
-              private resultSelector?: (outerValue: T, innerValue: R, outerIndex: number, innerIndex: number) => R2) {
+export interface SwitchFirstMapSignature<T> {
+  <R>(project: (value: T, index: number) => ObservableInput<R>): Observable<R>;
+  <I, R>(project: (value: T, index: number) => ObservableInput<I>,
+         resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
+}
+
+class SwitchFirstMapOperator<T, I, R> implements Operator<T, R> {
+  constructor(private project: (value: T, index: number) => ObservableInput<I>,
+              private resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R) {
   }
 
-  call(subscriber: Subscriber<R2>): Subscriber<T> {
+  call(subscriber: Subscriber<R>): Subscriber<T> {
     return new SwitchFirstMapSubscriber(subscriber, this.project, this.resultSelector);
   }
 }
@@ -37,7 +43,7 @@ class SwitchFirstMapSubscriber<T, R, R2> extends OuterSubscriber<T, R> {
   private index: number = 0;
 
   constructor(destination: Subscriber<R2>,
-              private project: (value: T, index: number) => Observable<R>,
+              private project: (value: T, index: number) => ObservableInput<R>,
               private resultSelector?: (outerValue: T, innerValue: R, outerIndex: number, innerIndex: number) => R2) {
     super(destination);
   }

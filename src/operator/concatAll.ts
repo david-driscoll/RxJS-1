@@ -14,3 +14,7 @@ import {MergeAllOperator} from './mergeAll';
 export function concatAll<T>(): T {
   return this.lift(new MergeAllOperator(1));
 }
+
+export interface ConcatAllSignature<T> {
+  (): T;
+}

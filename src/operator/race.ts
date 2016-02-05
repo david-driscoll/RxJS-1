@@ -41,16 +41,16 @@ export function raceStatic<T>(...observables: Array<Observable<T> | Array<Observ
     }
   }
 
-  return new ArrayObservable(observables).lift(new RaceOperator());
+  return new ArrayObservable<T>(<any>observables).lift(new RaceOperator<T>());
 }
 
-export class RaceOperator<T, R> implements Operator<T, R> {
+export class RaceOperator<T> implements Operator<T, T> {
   call(subscriber: Subscriber<T>): Subscriber<T> {
     return new RaceSubscriber(subscriber);
   }
 }
 
-export class RaceSubscriber<T, R> extends OuterSubscriber<T, R> {
+export class RaceSubscriber<T> extends OuterSubscriber<T, T> {
   private hasFirst: boolean = false;
   private observables: Observable<any>[] = [];
   private subscriptions: Subscription[] = [];
@@ -80,9 +80,9 @@ export class RaceSubscriber<T, R> extends OuterSubscriber<T, R> {
     }
   }
 
-  notifyNext(outerValue: T, innerValue: R,
+  notifyNext(outerValue: T, innerValue: T,
              outerIndex: number, innerIndex: number,
-             innerSub: InnerSubscriber<T, R>): void {
+             innerSub: InnerSubscriber<T, T>): void {
     if (!this.hasFirst) {
       this.hasFirst = true;
 
