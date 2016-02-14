@@ -1,6 +1,7 @@
 import {Operator} from '../Operator';
 import {Observable} from '../Observable';
 import {Subscriber} from '../Subscriber';
+import {_accumulator} from '../util/input-types';
 
 /**
  * Returns an Observable that applies a specified accumulator function to each item emitted by the source Observable.
@@ -13,12 +14,16 @@ import {Subscriber} from '../Subscriber';
  * @param {any} [seed] The initial accumulator value.
  * @returns {Obervable} An observable of the accumulated values.
  */
-export function scan<T, R>(accumulator: (acc: R, x: T) => R, seed?: T | R): Observable<R> {
+export function scan<T, R>(accumulator: _accumulator<T, R>, seed?: T | R): Observable<R> {
   return this.lift(new ScanOperator(accumulator, seed));
 }
 
+export interface ScanSignature<T> {
+  <R>(accumulator: _accumulator<T, R>, seed?: T | R): Observable<R>;
+}
+
 class ScanOperator<T, R> implements Operator<T, R> {
-  constructor(private accumulator: (acc: R, x: T) => R, private seed?: T | R) {
+  constructor(private accumulator: _accumulator<T, R>, private seed?: T | R) {
   }
 
   call(subscriber: Subscriber<R>): Subscriber<T> {
@@ -40,7 +45,7 @@ class ScanSubscriber<T, R> extends Subscriber<T> {
 
   private accumulatorSet: boolean = false;
 
-  constructor(destination: Subscriber<R>, private accumulator: (acc: R, x: T) => R, seed?: T|R) {
+  constructor(destination: Subscriber<R>, private accumulator: _accumulator<T, R>, seed?: T|R) {
     super(destination);
     this.seed = seed;
     this.accumulator = accumulator;

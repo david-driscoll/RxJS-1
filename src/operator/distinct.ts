@@ -5,6 +5,7 @@ import {Subscriber} from '../Subscriber';
 import {OuterSubscriber} from '../OuterSubscriber';
 import {InnerSubscriber} from '../InnerSubscriber';
 import {subscribeToResult} from '../util/subscribeToResult';
+import {_comparer} from '../util/input-types';
 
 /**
  * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from previous items.
@@ -16,12 +17,16 @@ import {subscribeToResult} from '../util/subscribeToResult';
  * @param {Observable} [flushes] optional Observable for flushing the internal HashSet of the operator.
  * @returns {Observable} an Observable that emits items from the source Observable with distinct values.
  */
-export function distinct<T>(compare?: (x: T, y: T) => boolean, flushes?: Observable<any>): Observable<T> {
+export function distinct<T>(compare?: _comparer<T>, flushes?: Observable<any>): Observable<T> {
   return this.lift(new DistinctOperator(compare, flushes));
 }
 
+export interface DistinctSignature<T> {
+  (compare?: _comparer<T>, flushes?: Observable<any>): Observable<T>;
+}
+
 class DistinctOperator<T> implements Operator<T, T> {
-  constructor(private compare: (x: T, y: T) => boolean, private flushes: Observable<any>) {
+  constructor(private compare: _comparer<T>, private flushes: Observable<any>) {
   }
 
   call(subscriber: Subscriber<T>): Subscriber<T> {
@@ -29,10 +34,10 @@ class DistinctOperator<T> implements Operator<T, T> {
   }
 }
 
-export class DistinctSubscriber<T, R> extends OuterSubscriber<T, R> {
+export class DistinctSubscriber<T> extends OuterSubscriber<T, T> {
   private values: Array<T> = [];
 
-  constructor(destination: Subscriber<T>, compare: (x: T, y: T) => boolean, flushes: Observable<any>) {
+  constructor(destination: Subscriber<T>, compare: _comparer<T>, flushes: Observable<any>) {
     super(destination);
     if (typeof compare === 'function') {
       this.compare = compare;
@@ -43,13 +48,13 @@ export class DistinctSubscriber<T, R> extends OuterSubscriber<T, R> {
     }
   }
 
-  notifyNext(outerValue: T, innerValue: R,
+  notifyNext(outerValue: T, innerValue: T,
              outerIndex: number, innerIndex: number,
-             innerSub: InnerSubscriber<T, R>): void {
+             innerSub: InnerSubscriber<T, T>): void {
     this.values.length = 0;
   }
 
-  notifyError(error: any, innerSub: InnerSubscriber<T, R>): void {
+  notifyError(error: any, innerSub: InnerSubscriber<T, T>): void {
     this._error(error);
   }
 

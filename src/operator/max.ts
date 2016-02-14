@@ -1,5 +1,6 @@
 import {Observable} from '../Observable';
 import {ReduceOperator} from './reduce';
+import {_valueComparer} from '../util/input-types';
 
 /**
  * The Max operator operates on an Observable that emits numbers (or items that can be evaluated as numbers),
@@ -11,9 +12,13 @@ import {ReduceOperator} from './reduce';
  * items.
  * @returns {Observable} an Observable that emits item with the largest number.
  */
-export function max<T>(comparer?: (value1: T, value2: T) => T): Observable<T> {
+export function max<T>(comparer?: _valueComparer<T>): Observable<T> {
   const max: typeof comparer = (typeof comparer === 'function')
     ? comparer
     : (x, y) => x > y ? x : y;
   return this.lift(new ReduceOperator(max));
+}
+
+export interface MaxSignature<T> {
+  (comparer?: _valueComparer<T>): Observable<T>;
 }

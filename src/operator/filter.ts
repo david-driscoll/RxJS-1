@@ -1,6 +1,7 @@
 import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
 import {Observable} from '../Observable';
+import {_predicate} from '../util/input-types';
 
 /**
  * Similar to the well-known `Array.prototype.filter` method, this operator filters values down to a set
@@ -11,12 +12,16 @@ import {Observable} from '../Observable';
  * @param {any} [thisArg] an optional argument to determine the value of `this` in the `select` function
  * @returns {Observable} an observable of values allowed by the select function
  */
-export function filter<T>(select: (value: T, index: number) => boolean, thisArg?: any): Observable<T> {
+export function filter<T>(select: _predicate<T>, thisArg?: any): Observable<T> {
   return this.lift(new FilterOperator(select, thisArg));
 }
 
+export interface FilterSignature<T> {
+  (select: _predicate<T>, thisArg?: any): Observable<T>;
+}
+
 class FilterOperator<T> implements Operator<T, T> {
-  constructor(private select: (value: T, index: number) => boolean, private thisArg?: any) {
+  constructor(private select: _predicate<T>, private thisArg?: any) {
   }
 
   call(subscriber: Subscriber<T>): Subscriber<T> {
@@ -28,7 +33,7 @@ class FilterSubscriber<T> extends Subscriber<T> {
 
   count: number = 0;
 
-  constructor(destination: Subscriber<T>, private select: (value: T, index: number) => boolean, private thisArg: any) {
+  constructor(destination: Subscriber<T>, private select: _predicate<T>, private thisArg: any) {
     super(destination);
     this.select = select;
   }

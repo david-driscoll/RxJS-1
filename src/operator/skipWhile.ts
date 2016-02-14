@@ -1,6 +1,7 @@
 import {Observable} from '../Observable';
 import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
+import {_predicate} from '../util/input-types';
 
 /**
  * Returns an Observable that skips all items emitted by the source Observable as long as a specified condition holds
@@ -12,12 +13,16 @@ import {Subscriber} from '../Subscriber';
  * @returns {Observable<T>} an Observable that begins emitting items emitted by the source Observable when the
  * specified predicate becomes false.
  */
-export function skipWhile<T>(predicate: (value: T, index: number) => boolean): Observable<T> {
+export function skipWhile<T>(predicate: _predicate<T>): Observable<T> {
   return this.lift(new SkipWhileOperator(predicate));
 }
 
+export interface SkipWhileSignature<T> {
+  (predicate: _predicate<T>): Observable<T>;
+}
+
 class SkipWhileOperator<T> implements Operator<T, T> {
-  constructor(private predicate: (value: T, index: number) => boolean) {
+  constructor(private predicate: _predicate<T>) {
   }
 
   call(subscriber: Subscriber<T>): Subscriber<T> {
@@ -30,7 +35,7 @@ class SkipWhileSubscriber<T> extends Subscriber<T> {
   private index: number = 0;
 
   constructor(destination: Subscriber<T>,
-              private predicate: (value: T, index: number) => boolean) {
+              private predicate: _predicate<T>) {
     super(destination);
   }
 

@@ -1,6 +1,7 @@
 import {Observable} from '../Observable';
 import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
+import {_accumulator}  from '../util/input-types';
 
 /**
  * Returns an Observable that applies a specified accumulator function to the first item emitted by a source Observable,
@@ -18,13 +19,17 @@ import {Subscriber} from '../Subscriber';
  * @returns {Observable} an Observable that emits a single item that is the result of accumulating the output from the
  * items emitted by the source Observable.
  */
-export function reduce<T, R>(project: (acc: R, value: T) => R, seed?: R): Observable<R> {
+export function reduce<T, R>(project: _accumulator<T, R>, seed?: R): Observable<R> {
   return this.lift(new ReduceOperator(project, seed));
+}
+
+export interface ReduceSignature<T> {
+  <R>(project: _accumulator<T, R>, seed?: R): Observable<R>;
 }
 
 export class ReduceOperator<T, R> implements Operator<T, R> {
 
-  constructor(private project: (acc: R, value: T) => R, private seed?: R) {
+  constructor(private project: _accumulator<T, R>, private seed?: R) {
   }
 
   call(subscriber: Subscriber<R>): Subscriber<T> {
@@ -37,9 +42,9 @@ export class ReduceSubscriber<T, R> extends Subscriber<T> {
   acc: T | R;
   hasSeed: boolean;
   hasValue: boolean = false;
-  project: (acc: R, value: T) => R;
+  project: _accumulator<T, R>;
 
-  constructor(destination: Subscriber<R>, project: (acc: R, value: T) => R, seed?: R) {
+  constructor(destination: Subscriber<R>, project: _accumulator<T, R>, seed?: R) {
     super(destination);
     this.acc = seed;
     this.project = project;

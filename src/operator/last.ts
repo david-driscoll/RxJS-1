@@ -2,6 +2,7 @@ import {Observable} from '../Observable';
 import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
 import {EmptyError} from '../util/EmptyError';
+import {_sourcePredicate, _mapProject} from '../util/input-types';
 
 /**
  * Returns an Observable that emits only the last item emitted by the source Observable.
@@ -16,14 +17,20 @@ import {EmptyError} from '../util/EmptyError';
  * from the source, or an NoSuchElementException if no such items are emitted.
  * @throws - Throws if no items that match the predicate are emitted by the source Observable.
  */
-export function last<T, R>(predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-                           resultSelector?: (value: T, index: number) => R,
-                           defaultValue?: R): Observable<T> | Observable<R> {
+export function last<T, R>(predicate?: _sourcePredicate<T>,
+                           resultSelector?: (value: T, index: number) => R  | void,
+                           defaultValue?: R): Observable<T | R> {
   return this.lift(new LastOperator(predicate, resultSelector, defaultValue, this));
 }
 
+export interface LastSignature<T> {
+  (predicate?: _sourcePredicate<T>): Observable<T>;
+  (predicate: _sourcePredicate<T>, resultSelector: void, defaultValue?: T): Observable<T>;
+  <R>(predicate?: _sourcePredicate<T>, resultSelector?: _mapProject<T, R>, defaultValue?: R): Observable<T | R>;
+}
+
 class LastOperator<T, R> implements Operator<T, R> {
-  constructor(private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
+  constructor(private predicate?: _sourcePredicate<T>,
               private resultSelector?: (value: T, index: number) => R,
               private defaultValue?: any,
               private source?: Observable<T>) {
@@ -40,7 +47,7 @@ class LastSubscriber<T, R> extends Subscriber<T> {
   private index: number = 0;
 
   constructor(destination: Subscriber<R>,
-              private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
+              private predicate?: _sourcePredicate<T>,
               private resultSelector?: (value: T, index: number) => R,
               private defaultValue?: any,
               private source?: Observable<T>) {

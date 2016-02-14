@@ -1,6 +1,6 @@
 import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
-import {Observable} from '../Observable';
+import {Observable, ObservableOrPromise} from '../Observable';
 import {Subscription} from '../Subscription';
 
 import {tryCatch} from '../util/tryCatch';
@@ -10,6 +10,10 @@ import {subscribeToResult} from '../util/subscribeToResult';
 
 export function inspect<T>(durationSelector: (value: T) => Observable<any> | Promise<any>): Observable<T> {
   return this.lift(new InspectOperator(durationSelector));
+}
+
+export interface InspectSignature<T> {
+  (durationSelector: (value: T) => ObservableOrPromise<any>): Observable<T>;
 }
 
 class InspectOperator<T> implements Operator<T, T> {

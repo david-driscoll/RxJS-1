@@ -3,6 +3,7 @@ import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
 import {Observer} from '../Observer';
 import {EmptyError} from '../util/EmptyError';
+import {_sourcePredicate} from '../util/input-types';
 
 /**
  * Returns an Observable that emits the single item emitted by the source Observable that matches a specified
@@ -16,12 +17,16 @@ import {EmptyError} from '../util/EmptyError';
  * the predicate.
  .
  */
-export function single<T>(predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T> {
+export function single<T>(predicate?: _sourcePredicate<T>): Observable<T> {
   return this.lift(new SingleOperator(predicate, this));
 }
 
+export interface SingleSignature<T> {
+  (predicate?: _sourcePredicate<T>): Observable<T>;
+}
+
 class SingleOperator<T> implements Operator<T, T> {
-  constructor(private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
+  constructor(private predicate?: _sourcePredicate<T>,
               private source?: Observable<T>) {
   }
 
@@ -36,7 +41,7 @@ class SingleSubscriber<T> extends Subscriber<T> {
   private index: number = 0;
 
   constructor(destination: Observer<T>,
-              private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
+              private predicate?: _sourcePredicate<T>,
               private source?: Observable<T>) {
     super(destination);
   }

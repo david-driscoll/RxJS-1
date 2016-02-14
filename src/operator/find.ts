@@ -1,6 +1,7 @@
 import {Observable} from '../Observable';
 import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
+import {_sourcePredicate} from '../util/input-types';
 
 /**
  * Returns an Observable that searches for the first item in the source Observable that
@@ -8,15 +9,19 @@ import {Subscriber} from '../Subscriber';
  * @param {function} predicate function called with each item to test for condition matching.
  * @returns {Observable} an Observable of the first item that matches the condition.
  */
-export function find<T>(predicate: (value: T, index: number, source: Observable<T>) => boolean, thisArg?: any): Observable<T> {
+export function find<T>(predicate: _sourcePredicate<T>, thisArg?: any): Observable<T> {
   if (typeof predicate !== 'function') {
     throw new TypeError('predicate is not a function');
   }
   return this.lift(new FindValueOperator(predicate, this, false, thisArg));
 }
 
+export interface FindSignature<T> {
+  (predicate: _sourcePredicate<T>, thisArg?: any): Observable<T>;
+}
+
 export class FindValueOperator<T> implements Operator<T, T> {
-  constructor(private predicate: (value: T, index: number, source: Observable<T>) => boolean,
+  constructor(private predicate: _sourcePredicate<T>,
               private source: Observable<T>,
               private yieldIndex: boolean,
               private thisArg?: any) {
@@ -31,7 +36,7 @@ export class FindValueSubscriber<T> extends Subscriber<T> {
   private index: number = 0;
 
   constructor(destination: Subscriber<T>,
-              private predicate: (value: T, index: number, source: Observable<T>) => boolean,
+              private predicate: _sourcePredicate<T>,
               private source: Observable<T>,
               private yieldIndex: boolean,
               private thisArg?: any) {

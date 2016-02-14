@@ -7,15 +7,20 @@ import {errorObject} from '../util/errorObject';
 import {subscribeToResult} from '../util/subscribeToResult';
 import {OuterSubscriber} from '../OuterSubscriber';
 import {InnerSubscriber} from '../InnerSubscriber';
+import {_mergeAccumulator} from '../util/input-types';
 
-export function mergeScan<T, R>(project: (acc: R, value: T) => Observable<R>,
+export function mergeScan<T, R>(project: _mergeAccumulator<T, R>,
                                 seed: R,
                                 concurrent: number = Number.POSITIVE_INFINITY): Observable<R> {
   return this.lift(new MergeScanOperator(project, seed, concurrent));
 }
 
+export interface MergeScanSignature<T> {
+  <R>(project: _mergeAccumulator<T, R>, seed: R, concurrent?: number): Observable<R>;
+}
+
 export class MergeScanOperator<T, R> implements Operator<T, R> {
-  constructor(private project: (acc: R, value: T) => Observable<R>,
+  constructor(private project: _mergeAccumulator<T, R>,
               private seed: R,
               private concurrent: number) {
   }
@@ -35,7 +40,7 @@ export class MergeScanSubscriber<T, R> extends OuterSubscriber<T, R> {
   protected index: number = 0;
 
   constructor(destination: Subscriber<R>,
-              private project: (acc: R, value: T) => Observable<R>,
+              private project: _mergeAccumulator<T, R>,
               private acc: R,
               private concurrent: number) {
     super(destination);
