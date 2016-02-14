@@ -3,7 +3,6 @@ import {Operator} from './Operator';
 import {Subscriber} from './Subscriber';
 import {Subscription} from './Subscription';
 import {root} from './util/root';
-import {CoreOperators} from './CoreOperators';
 import {SymbolShim} from './util/SymbolShim';
 import {toSubscriber} from './util/toSubscriber';
 import {tryCatch} from './util/tryCatch';
@@ -42,7 +41,7 @@ export type ObservableInput<T> = ObservableOrPromise<T> | ArrayOrIterator<T>;
  *
  * @class Observable<T>
  */
-export class Observable<T> implements CoreOperators<T>  {
+export class Observable<T> {
 
   public _isScalar: boolean = false;
 

@@ -17,8 +17,8 @@ export function distinctUntilChanged<T, K>(compare?: _comparer<K>, keySelector?:
 }
 
 export interface DistinctUntilChangedSignature<T> {
- <T>(compare?: _comparer<T>): Observable<T>;
- <T, K>(compare: _comparer<K>, keySelector: (x: T) => K): Observable<T>;
+ (compare?: _comparer<T>): Observable<T>;
+ <K>(compare: _comparer<K>, keySelector: (x: T) => K): Observable<T>;
 }
 
 class DistinctUntilChangedOperator<T, K> implements Operator<T, T> {

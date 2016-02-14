@@ -47,7 +47,7 @@ export function raceStatic<R>(...observables: Array<Observable<any> | Array<Obse
     }
   }
 
-  return new ArrayObservable<T>(<any>observables).lift(new RaceOperator<T>());
+  return new ArrayObservable<R>(<any>observables).lift(new RaceOperator<any>());
 }
 
 export class RaceOperator<T> implements Operator<T, T> {
