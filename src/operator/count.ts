@@ -2,6 +2,7 @@ import {Observable} from '../Observable';
 import {Operator} from '../Operator';
 import {Observer} from '../Observer';
 import {Subscriber} from '../Subscriber';
+import {_sourcePredicate} from '../util/input-types';
 
 /**
  * Returns an observable of a single number that represents the number of items that either:
@@ -16,12 +17,16 @@ import {Subscriber} from '../Subscriber';
  * @returns {Observable} an observable of one number that represents the count as described
  * above
  */
-export function count<T>(predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number> {
+export function count<T>(predicate?: _sourcePredicate<T>): Observable<number> {
   return this.lift(new CountOperator(predicate, this));
 }
 
+export interface CountSignature<T> {
+  (predicate?: _sourcePredicate<T>): Observable<number>;
+}
+
 class CountOperator<T> implements Operator<T, number> {
-  constructor(private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
+  constructor(private predicate?: _sourcePredicate<T>,
               private source?: Observable<T>) {
   }
 
@@ -35,7 +40,7 @@ class CountSubscriber<T> extends Subscriber<T> {
   private index: number = 0;
 
   constructor(destination: Observer<number>,
-              private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
+              private predicate?: _sourcePredicate<T>,
               private source?: Observable<T>) {
     super(destination);
   }

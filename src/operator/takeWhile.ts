@@ -1,13 +1,18 @@
 import {Operator} from '../Operator';
 import {Observable} from '../Observable';
 import {Subscriber} from '../Subscriber';
+import {_predicate} from '../util/input-types';
 
-export function takeWhile<T>(predicate: (value: T, index: number) => boolean): Observable<T> {
+export function takeWhile<T>(predicate: _predicate<T>): Observable<T> {
   return this.lift(new TakeWhileOperator(predicate));
 }
 
+export interface TakeWhileSignature<T> {
+  (predicate: _predicate<T>): Observable<T>;
+}
+
 class TakeWhileOperator<T> implements Operator<T, T> {
-  constructor(private predicate: (value: T, index: number) => boolean) {
+  constructor(private predicate: _predicate<T>) {
   }
 
   call(subscriber: Subscriber<T>): Subscriber<T> {
@@ -19,7 +24,7 @@ class TakeWhileSubscriber<T> extends Subscriber<T> {
   private index: number = 0;
 
   constructor(destination: Subscriber<T>,
-              private predicate: (value: T, index: number) => boolean) {
+              private predicate: _predicate<T>) {
     super(destination);
   }
 

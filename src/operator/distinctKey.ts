@@ -1,5 +1,6 @@
 import {distinct} from './distinct';
 import {Observable} from '../Observable';
+import {_comparer} from '../util/input-types';
 
 /**
  * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from previous items,
@@ -13,11 +14,16 @@ import {Observable} from '../Observable';
  * @param {Observable} [flushes] optional Observable for flushing the internal HashSet of the operator.
  * @returns {Observable} an Observable that emits items from the source Observable with distinct values.
  */
-export function distinctKey<T>(key: string, compare?: (x: T, y: T) => boolean, flushes?: Observable<any>): Observable<T> {
+export function distinctKey<T>(key: string, compare?: _comparer<T>, flushes?: Observable<any>): Observable<T> {
   return distinct.call(this, function(x: T, y: T) {
     if (compare) {
       return compare(x[key], y[key]);
     }
     return x[key] === y[key];
   }, flushes);
+}
+
+export interface DistinctKeySignature<T> {
+  (key: string): Observable<T>;
+  <K>(key: string, compare: _comparer<K>, flushes?: Observable<any>): Observable<T>;
 }

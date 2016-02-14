@@ -2,6 +2,7 @@ import {Observable} from '../Observable';
 import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
 import {EmptyError} from '../util/EmptyError';
+import {_sourcePredicate, _mapProject} from '../util/input-types';
 
 /**
  * Returns an Observable that emits the first item of the source Observable that matches the specified condition.
@@ -9,15 +10,21 @@ import {EmptyError} from '../util/EmptyError';
  * @param {function} predicate function called with each item to test for condition matching.
  * @returns {Observable} an Observable of the first item that matches the condition.
  */
-export function first<T, R>(predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-                            resultSelector?: (value: T, index: number) => R,
-                            defaultValue?: R): Observable<T> | Observable<R> {
+export function first<T, R>(predicate?: _sourcePredicate<T>,
+                            resultSelector?: _mapProject<T, R>,
+                            defaultValue?: R): Observable<T | R> {
   return this.lift(new FirstOperator(predicate, resultSelector, defaultValue, this));
 }
 
+export interface FirstSignature<T> {
+  (predicate?: _sourcePredicate<T>): Observable<T>;
+  (predicate: _sourcePredicate<T>, resultSelector: void, defaultValue?: T): Observable<T>;
+  <R>(predicate?: _sourcePredicate<T>, resultSelector?: _mapProject<T, R>, defaultValue?: R): Observable<T | R>;
+}
+
 class FirstOperator<T, R> implements Operator<T, R> {
-  constructor(private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-              private resultSelector?: (value: T, index: number) => R,
+  constructor(private predicate?: _sourcePredicate<T>,
+              private resultSelector?: _mapProject<T, R>,
               private defaultValue?: any,
               private source?: Observable<T>) {
   }
@@ -32,8 +39,8 @@ class FirstSubscriber<T, R> extends Subscriber<T> {
   private hasCompleted: boolean = false;
 
   constructor(destination: Subscriber<R>,
-              private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-              private resultSelector?: (value: T, index: number) => R,
+              private predicate?: _sourcePredicate<T>,
+              private resultSelector?: _mapProject<T, R>,
               private defaultValue?: any,
               private source?: Observable<T>) {
     super(destination);

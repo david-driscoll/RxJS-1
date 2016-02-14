@@ -5,6 +5,7 @@ import {Subscription} from '../Subscription';
 import {OuterSubscriber} from '../OuterSubscriber';
 import {InnerSubscriber} from '../InnerSubscriber';
 import {subscribeToResult} from '../util/subscribeToResult';
+import {_mergeMapProject, _mergeMapResultSelector} from '../util/input-types';
 
 /**
  * Returns a new Observable by applying a function that you supply to each item emitted by the source Observable that
@@ -16,32 +17,34 @@ import {subscribeToResult} from '../util/subscribeToResult';
  * @returns {Observable} an Observable that emits the items emitted by the Observable returned from applying func to
  * the most recently emitted item emitted by the source Observable.
  */
-export function switchMap<T, R, R2>(project: (value: T, index: number) => Observable<R>,
-                                    resultSelector?: (
-                                             outerValue: T,
-                                             innerValue: R,
-                                             outerIndex: number,
-                                             innerIndex: number) => R2): Observable<R2> {
+export function switchMap<T, I, R>(project: _mergeMapProject<T, I>,
+                                   resultSelector?: _mergeMapResultSelector<T, I, R>): Observable<R> {
   return this.lift(new SwitchMapOperator(project, resultSelector));
 }
 
-class SwitchMapOperator<T, R, R2> implements Operator<T, R> {
-  constructor(private project: (value: T, index: number) => Observable<R>,
-              private resultSelector?: (outerValue: T, innerValue: R, outerIndex: number, innerIndex: number) => R2) {
+export interface SwitchMapSignature<T> {
+  <R>(project: _mergeMapProject<T, R>): Observable<R>;
+  <I, R>(project: _mergeMapProject<T, I>,
+         resultSelector: _mergeMapResultSelector<T, I, R>): Observable<R>;
+}
+
+class SwitchMapOperator<T, I, R> implements Operator<T, I> {
+  constructor(private project: _mergeMapProject<T, I>,
+              private resultSelector?: _mergeMapResultSelector<T, I, R>) {
   }
 
-  call(subscriber: Subscriber<R>): Subscriber<T> {
+  call(subscriber: Subscriber<I>): Subscriber<T> {
     return new SwitchMapSubscriber(subscriber, this.project, this.resultSelector);
   }
 }
 
-class SwitchMapSubscriber<T, R, R2> extends OuterSubscriber<T, R> {
+class SwitchMapSubscriber<T, I, R> extends OuterSubscriber<T, I> {
   private index: number = 0;
   private innerSubscription: Subscription;
 
-  constructor(destination: Subscriber<R>,
-              private project: (value: T, index: number) => Observable<R>,
-              private resultSelector?: (outerValue: T, innerValue: R, outerIndex: number, innerIndex: number) => R2) {
+  constructor(destination: Subscriber<I>,
+              private project: _mergeMapProject<T, I>,
+              private resultSelector?: _mergeMapResultSelector<T, I, R>) {
     super(destination);
   }
 
@@ -84,9 +87,9 @@ class SwitchMapSubscriber<T, R, R2> extends OuterSubscriber<T, R> {
     }
   }
 
-  notifyNext(outerValue: T, innerValue: R,
+  notifyNext(outerValue: T, innerValue: I,
              outerIndex: number, innerIndex: number,
-             innerSub: InnerSubscriber<T, R>): void {
+             innerSub: InnerSubscriber<T, I>): void {
     if (this.resultSelector) {
       this._tryNotifyNext(outerValue, innerValue, outerIndex, innerIndex);
     } else {
@@ -94,7 +97,7 @@ class SwitchMapSubscriber<T, R, R2> extends OuterSubscriber<T, R> {
     }
   }
 
-  _tryNotifyNext(outerValue: T, innerValue: R, outerIndex: number, innerIndex: number): void {
+  _tryNotifyNext(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number): void {
     let result: any;
     try {
       result = this.resultSelector(outerValue, innerValue, outerIndex, innerIndex);

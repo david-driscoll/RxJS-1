@@ -1,5 +1,6 @@
 import {distinctUntilChanged} from './distinctUntilChanged';
 import {Observable} from '../Observable';
+import {_comparer} from '../util/input-types';
 
 /**
  * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item,
@@ -17,4 +18,9 @@ export function distinctUntilKeyChanged<T>(key: string, compare?: (x: T, y: T) =
     }
     return x[key] === y[key];
   });
+}
+
+export interface DistinctUntilKeyChangedSignature<T> {
+  (key: string): Observable<T>;
+  <K>(key: string, compare: _comparer<K>): Observable<T>;
 }

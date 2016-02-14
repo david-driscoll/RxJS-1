@@ -1,6 +1,7 @@
 import {Operator} from '../Operator';
 import {Subscriber} from '../Subscriber';
 import {Observable} from '../Observable';
+import {_mapProject} from '../util/input-types';
 
 /**
  * Similar to the well known `Array.prototype.map` function, this operator
@@ -12,15 +13,19 @@ import {Observable} from '../Observable';
  * @param {any} [thisArg] an optional argument to define what `this` is in the project function
  * @returns {Observable} a observable of projected values
  */
-export function map<T, R>(project: (value: T, index: number) => R, thisArg?: any): Observable<R> {
+export function map<T, R>(project: _mapProject<T, R>, thisArg?: any): Observable<R> {
   if (typeof project !== 'function') {
     throw new TypeError('argument is not a function. Are you looking for `mapTo()`?');
   }
   return this.lift(new MapOperator(project, thisArg));
 }
 
+export interface MapSignature<T> {
+  <R>(project: _mapProject<T, R>, thisArg?: any): Observable<R>;
+}
+
 class MapOperator<T, R> implements Operator<T, R> {
-  constructor(private project: (value: T, index: number) => R, private thisArg: any) {
+  constructor(private project: _mapProject<T, R>, private thisArg: any) {
   }
 
   call(subscriber: Subscriber<R>): Subscriber<T> {
@@ -33,7 +38,7 @@ class MapSubscriber<T, R> extends Subscriber<T> {
   private thisArg: any;
 
   constructor(destination: Subscriber<R>,
-              private project: (value: T, index: number) => R,
+              private project: _mapProject<T, R>,
               thisArg: any) {
     super(destination);
     this.thisArg = thisArg || this;
