@@ -1,7 +1,11 @@
 
 import {Observable} from '../../Observable';
-import {pairwise} from '../../operator/pairwise';
-import {KitchenSinkOperators} from '../../Rx.KitchenSink';
+import {pairwise, PairwiseSignature} from '../../operator/pairwise';
 
-const observableProto = (<KitchenSinkOperators<any>>Observable.prototype);
-observableProto.pairwise = pairwise;
+Observable.prototype.pairwise = pairwise;
+
+declare module '../../Observable' {
+  interface Observable<T> {
+    pairwise: PairwiseSignature<T>;
+  }
+}

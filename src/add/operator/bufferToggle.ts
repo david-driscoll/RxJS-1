@@ -1,11 +1,11 @@
 
 import {Observable} from '../../Observable';
-import {bufferToggle} from '../../operator/bufferToggle';
+import {bufferToggle, BufferToggleSignature} from '../../operator/bufferToggle';
 
 Observable.prototype.bufferToggle = bufferToggle;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    bufferToggle: <O>(openings: Observable<O>, closingSelector?: (openValue: O) => Observable<any>) => Observable<T[]>;
+    bufferToggle: BufferToggleSignature<T>;
   }
 }

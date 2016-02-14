@@ -1,11 +1,11 @@
 
 import {Observable} from '../../Observable';
-import {skipWhile} from '../../operator/skipWhile';
+import {skipWhile, SkipWhileSignature} from '../../operator/skipWhile';
 
 Observable.prototype.skipWhile = skipWhile;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    skipWhile: (predicate: (x: T, index: number) => boolean) => Observable<T>;
+    skipWhile: SkipWhileSignature<T>;
   }
 }

@@ -1,7 +1,11 @@
 
 import {Observable} from '../../Observable';
-import {min} from '../../operator/min';
-import {KitchenSinkOperators} from '../../Rx.KitchenSink';
+import {min, MinSignature} from '../../operator/min';
 
-const observableProto = (<KitchenSinkOperators<any>>Observable.prototype);
-observableProto.min = min;
+Observable.prototype.min = min;
+
+declare module '../../Observable' {
+  interface Observable<T> {
+    min: MinSignature<T>;
+  }
+}

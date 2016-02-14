@@ -1,11 +1,11 @@
 
 import {Observable} from '../../Observable';
-import {every} from '../../operator/every';
+import {every, EverySignature} from '../../operator/every';
 
 Observable.prototype.every = every;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    every: (predicate: (value: T, index: number) => boolean, thisArg?: any) => Observable<T>;
+    every: EverySignature<T>;
   }
 }

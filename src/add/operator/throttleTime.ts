@@ -1,12 +1,11 @@
 
 import {Observable} from '../../Observable';
-import {Scheduler} from '../../Scheduler';
-import {throttleTime} from '../../operator/throttleTime';
+import {throttleTime, ThrottleTimeSignature} from '../../operator/throttleTime';
 
 Observable.prototype.throttleTime = throttleTime;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    throttleTime: (delay: number, scheduler?: Scheduler) => Observable<T>;
+    throttleTime: ThrottleTimeSignature<T>;
   }
 }

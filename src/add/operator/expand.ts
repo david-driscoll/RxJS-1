@@ -1,12 +1,11 @@
 
 import {Observable} from '../../Observable';
-import {expand} from '../../operator/expand';
-import {Scheduler} from '../../Scheduler';
+import {expand, ExpandSignature} from '../../operator/expand';
 
 Observable.prototype.expand = expand;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    expand: <R>(project: (x: T, ix: number) => Observable<R>, concurrent: number, scheduler: Scheduler) => Observable<R>;
+    expand: ExpandSignature<T>;
   }
 }

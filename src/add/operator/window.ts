@@ -1,11 +1,11 @@
 
 import {Observable} from '../../Observable';
-import {window} from '../../operator/window';
+import {window, WindowSignature} from '../../operator/window';
 
 Observable.prototype.window = window;
 
 declare module '../../Observable' {
   interface Observable<T> {
-    window: (closingNotifier: Observable<any>) => Observable<Observable<T>>;
+    window: WindowSignature<T>;
   }
 }
