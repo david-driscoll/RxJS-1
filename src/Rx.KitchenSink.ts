@@ -4,6 +4,8 @@ import {Subject} from './Subject';
 import {Observable} from './Observable';
 import {CoreOperators} from './CoreOperators';
 import {Scheduler as IScheduler} from './Scheduler';
+import {SwitchFirstSignature} from './operator/exhaust';
+import {SwitchFirstMapSignature} from './operator/exhaustMap';
 
 export interface KitchenSinkOperators<T> extends CoreOperators<T> {
   isEmpty?: () => Observable<boolean>;
@@ -18,9 +20,8 @@ export interface KitchenSinkOperators<T> extends CoreOperators<T> {
   pairwise?: <R>() => Observable<R>;
   timeInterval?: <T>(scheduler?: IScheduler) => Observable<T>;
   mergeScan?: <T, R>(project: (acc: R, x: T) => Observable<R>, seed: R, concurrent?: number) => Observable<R>;
-  exhaust?: () => Observable<T>;
-  exhaustMap?: <R>(project: ((x: T, ix: number) => Observable<any>),
-                       projectResult?: (x: T, y: any, ix: number, iy: number) => R) => Observable<R>;
+  exhaust?: SwitchFirstSignature<T>;
+  exhaustMap?: SwitchFirstMapSignature<T>;
 }
 
 // statics
