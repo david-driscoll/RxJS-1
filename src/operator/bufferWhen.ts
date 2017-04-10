@@ -42,8 +42,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method bufferWhen
  * @owner Observable
  */
-export function bufferWhen<T>(this: Observable<T>, closingSelector: () => Observable<any>): Observable<T[]> {
-  return this.lift(new BufferWhenOperator<T>(closingSelector));
+export function bufferWhen<T>(source: Observable<T>, closingSelector: () => Observable<any>): Observable<T[]> {
+  return source.lift(new BufferWhenOperator<T>(closingSelector));
 }
 
 class BufferWhenOperator<T> implements Operator<T, T[]> {

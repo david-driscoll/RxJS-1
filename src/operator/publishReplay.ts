@@ -12,8 +12,8 @@ import { ConnectableObservable } from '../observable/ConnectableObservable';
  * @method publishReplay
  * @owner Observable
  */
-export function publishReplay<T>(this: Observable<T>, bufferSize: number = Number.POSITIVE_INFINITY,
+export function publishReplay<T>(source: Observable<T>, bufferSize: number = Number.POSITIVE_INFINITY,
                                  windowTime: number = Number.POSITIVE_INFINITY,
                                  scheduler?: IScheduler): ConnectableObservable<T> {
-  return multicast.call(this, new ReplaySubject<T>(bufferSize, windowTime, scheduler));
+  return multicast(source, new ReplaySubject<T>(bufferSize, windowTime, scheduler));
 }

@@ -51,8 +51,8 @@ import { async } from '../scheduler/async';
  * @method debounceTime
  * @owner Observable
  */
-export function debounceTime<T>(this: Observable<T>, dueTime: number, scheduler: IScheduler = async): Observable<T> {
-  return this.lift(new DebounceTimeOperator(dueTime, scheduler));
+export function debounceTime<T>(source: Observable<T>, dueTime: number, scheduler: IScheduler = async): Observable<T> {
+  return source.lift(new DebounceTimeOperator(dueTime, scheduler));
 }
 
 class DebounceTimeOperator<T> implements Operator<T, T> {

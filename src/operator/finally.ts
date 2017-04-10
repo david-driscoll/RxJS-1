@@ -11,8 +11,8 @@ import { Observable } from '../Observable';
  * @method finally
  * @owner Observable
  */
-export function _finally<T>(this: Observable<T>, callback: () => void): Observable<T> {
-  return this.lift(new FinallyOperator(callback));
+export function _finally<T>(source: Observable<T>, callback: () => void): Observable<T> {
+  return source.lift(new FinallyOperator(callback));
 }
 
 class FinallyOperator<T> implements Operator<T, T> {

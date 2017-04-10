@@ -6,8 +6,8 @@ import { Observable } from '../Observable';
 import { TeardownLogic } from '../Subscription';
 
 /* tslint:disable:max-line-length */
-export function distinctUntilChanged<T>(this: Observable<T>, compare?: (x: T, y: T) => boolean): Observable<T>;
-export function distinctUntilChanged<T, K>(this: Observable<T>, compare: (x: K, y: K) => boolean, keySelector: (x: T) => K): Observable<T>;
+export function distinctUntilChanged<T>(source: Observable<T>, compare?: (x: T, y: T) => boolean): Observable<T>;
+export function distinctUntilChanged<T, K>(source: Observable<T>, compare: (x: K, y: K) => boolean, keySelector: (x: T) => K): Observable<T>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -49,8 +49,8 @@ export function distinctUntilChanged<T, K>(this: Observable<T>, compare: (x: K, 
  * @method distinctUntilChanged
  * @owner Observable
  */
-export function distinctUntilChanged<T, K>(this: Observable<T>, compare?: (x: K, y: K) => boolean, keySelector?: (x: T) => K): Observable<T> {
-  return this.lift(new DistinctUntilChangedOperator<T, K>(compare, keySelector));
+export function distinctUntilChanged<T, K>(source: Observable<T>, compare?: (x: K, y: K) => boolean, keySelector?: (x: T) => K): Observable<T> {
+  return source.lift(new DistinctUntilChangedOperator<T, K>(compare, keySelector));
 }
 
 class DistinctUntilChangedOperator<T, K> implements Operator<T, T> {

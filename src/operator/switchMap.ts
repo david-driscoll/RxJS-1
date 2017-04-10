@@ -7,8 +7,8 @@ import { InnerSubscriber } from '../InnerSubscriber';
 import { subscribeToResult } from '../util/subscribeToResult';
 
 /* tslint:disable:max-line-length */
-export function switchMap<T, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<R>): Observable<R>;
-export function switchMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
+export function switchMap<T, R>(source: Observable<T>, project: (value: T, index: number) => ObservableInput<R>): Observable<R>;
+export function switchMap<T, I, R>(source: Observable<T>, project: (value: T, index: number) => ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -58,9 +58,9 @@ export function switchMap<T, I, R>(this: Observable<T>, project: (value: T, inde
  * @method switchMap
  * @owner Observable
  */
-export function switchMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>,
+export function switchMap<T, I, R>(source: Observable<T>, project: (value: T, index: number) => ObservableInput<I>,
                                    resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<I | R> {
-  return this.lift(new SwitchMapOperator(project, resultSelector));
+  return source.lift(new SwitchMapOperator(project, resultSelector));
 }
 
 class SwitchMapOperator<T, I, R> implements Operator<T, I> {

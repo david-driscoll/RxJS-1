@@ -13,8 +13,8 @@ import { noop } from '../util/noop';
  * @method ignoreElements
  * @owner Observable
  */
-export function ignoreElements<T>(this: Observable<T>): Observable<T> {
-  return this.lift(new IgnoreElementsOperator());
+export function ignoreElements<T>(source: Observable<T>): Observable<T> {
+  return source.lift(new IgnoreElementsOperator());
 };
 
 class IgnoreElementsOperator<T, R> implements Operator<T, R> {

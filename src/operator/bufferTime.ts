@@ -8,9 +8,9 @@ import { Subscription } from '../Subscription';
 import { isScheduler } from '../util/isScheduler';
 
 /* tslint:disable:max-line-length */
-export function bufferTime<T>(this: Observable<T>, bufferTimeSpan: number, scheduler?: IScheduler): Observable<T[]>;
-export function bufferTime<T>(this: Observable<T>, bufferTimeSpan: number, bufferCreationInterval: number, scheduler?: IScheduler): Observable<T[]>;
-export function bufferTime<T>(this: Observable<T>, bufferTimeSpan: number, bufferCreationInterval: number, maxBufferSize: number, scheduler?: IScheduler): Observable<T[]>;
+export function bufferTime<T>(source: Observable<T>, bufferTimeSpan: number, scheduler?: IScheduler): Observable<T[]>;
+export function bufferTime<T>(source: Observable<T>, bufferTimeSpan: number, bufferCreationInterval: number, scheduler?: IScheduler): Observable<T[]>;
+export function bufferTime<T>(source: Observable<T>, bufferTimeSpan: number, bufferCreationInterval: number, maxBufferSize: number, scheduler?: IScheduler): Observable<T[]>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -56,7 +56,7 @@ export function bufferTime<T>(this: Observable<T>, bufferTimeSpan: number, buffe
  * @method bufferTime
  * @owner Observable
  */
-export function bufferTime<T>(this: Observable<T>, bufferTimeSpan: number): Observable<T[]> {
+export function bufferTime<T>(source: Observable<T>, bufferTimeSpan: number): Observable<T[]> {
   let length: number = arguments.length;
 
   let scheduler: IScheduler = async;
@@ -75,7 +75,7 @@ export function bufferTime<T>(this: Observable<T>, bufferTimeSpan: number): Obse
     maxBufferSize = arguments[2];
   }
 
-  return this.lift(new BufferTimeOperator<T>(bufferTimeSpan, bufferCreationInterval, maxBufferSize, scheduler));
+  return source.lift(new BufferTimeOperator<T>(bufferTimeSpan, bufferCreationInterval, maxBufferSize, scheduler));
 }
 
 class BufferTimeOperator<T> implements Operator<T, T[]> {

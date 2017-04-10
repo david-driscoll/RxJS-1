@@ -14,8 +14,8 @@ import { TeardownLogic } from '../Subscription';
  * @method skip
  * @owner Observable
  */
-export function skip<T>(this: Observable<T>, count: number): Observable<T> {
-  return this.lift(new SkipOperator(count));
+export function skip<T>(source: Observable<T>, count: number): Observable<T> {
+  return source.lift(new SkipOperator(count));
 }
 
 class SkipOperator<T> implements Operator<T, T> {

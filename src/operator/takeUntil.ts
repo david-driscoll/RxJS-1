@@ -40,8 +40,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method takeUntil
  * @owner Observable
  */
-export function takeUntil<T>(this: Observable<T>, notifier: Observable<any>): Observable<T> {
-  return this.lift(new TakeUntilOperator(notifier));
+export function takeUntil<T>(source: Observable<T>, notifier: Observable<any>): Observable<T> {
+  return source.lift(new TakeUntilOperator(notifier));
 }
 
 class TakeUntilOperator<T> implements Operator<T, T> {

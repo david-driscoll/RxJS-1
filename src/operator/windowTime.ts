@@ -69,17 +69,17 @@ import { isScheduler } from '../util/isScheduler';
  * @method windowTime
  * @owner Observable
  */
-export function windowTime<T>(this: Observable<T>, windowTimeSpan: number,
+export function windowTime<T>(source: Observable<T>, windowTimeSpan: number,
                               scheduler?: IScheduler): Observable<Observable<T>>;
-export function windowTime<T>(this: Observable<T>, windowTimeSpan: number,
+export function windowTime<T>(source: Observable<T>, windowTimeSpan: number,
                               windowCreationInterval: number,
                               scheduler?: IScheduler): Observable<Observable<T>>;
-export function windowTime<T>(this: Observable<T>, windowTimeSpan: number,
+export function windowTime<T>(source: Observable<T>, windowTimeSpan: number,
                               windowCreationInterval: number,
                               maxWindowSize: number,
                               scheduler?: IScheduler): Observable<Observable<T>>;
 
-export function windowTime<T>(this: Observable<T>,
+export function windowTime<T>(source: Observable<T>,
                               windowTimeSpan: number): Observable<Observable<T>> {
 
   let scheduler: IScheduler = async;
@@ -102,7 +102,7 @@ export function windowTime<T>(this: Observable<T>,
     windowCreationInterval = arguments[1];
   }
 
-  return this.lift(new WindowTimeOperator<T>(windowTimeSpan, windowCreationInterval, maxWindowSize, scheduler));
+  return source.lift(new WindowTimeOperator<T>(windowTimeSpan, windowCreationInterval, maxWindowSize, scheduler));
 }
 
 class WindowTimeOperator<T> implements Operator<T, Observable<T>> {

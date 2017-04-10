@@ -3,9 +3,9 @@ import { Observable } from '../Observable';
 import { Subscriber } from '../Subscriber';
 
 /* tslint:disable:max-line-length */
-export function scan<T>(this: Observable<T>, accumulator: (acc: T, value: T, index: number) => T, seed?: T): Observable<T>;
-export function scan<T>(this: Observable<T>, accumulator: (acc: T[], value: T, index: number) => T[], seed?: T[]): Observable<T[]>;
-export function scan<T, R>(this: Observable<T>, accumulator: (acc: R, value: T, index: number) => R, seed?: R): Observable<R>;
+export function scan<T>(source: Observable<T>, accumulator: (acc: T, value: T, index: number) => T, seed?: T): Observable<T>;
+export function scan<T>(source: Observable<T>, accumulator: (acc: T[], value: T, index: number) => T[], seed?: T[]): Observable<T[]>;
+export function scan<T, R>(source: Observable<T>, accumulator: (acc: R, value: T, index: number) => R, seed?: R): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -45,7 +45,7 @@ export function scan<T, R>(this: Observable<T>, accumulator: (acc: R, value: T, 
  * @method scan
  * @owner Observable
  */
-export function scan<T, R>(this: Observable<T>, accumulator: (acc: R, value: T, index: number) => R, seed?: T | R): Observable<R> {
+export function scan<T, R>(source: Observable<T>, accumulator: (acc: R, value: T, index: number) => R, seed?: T | R): Observable<R> {
   let hasSeed = false;
   // providing a seed of `undefined` *should* be valid and trigger
   // hasSeed! so don't use `seed !== undefined` checks!
@@ -56,7 +56,7 @@ export function scan<T, R>(this: Observable<T>, accumulator: (acc: R, value: T, 
     hasSeed = true;
   }
 
-  return this.lift(new ScanOperator(accumulator, seed, hasSeed));
+  return source.lift(new ScanOperator(accumulator, seed, hasSeed));
 }
 
 class ScanOperator<T, R> implements Operator<T, R> {

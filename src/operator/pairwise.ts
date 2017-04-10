@@ -37,8 +37,8 @@ import { Subscriber } from '../Subscriber';
  * @method pairwise
  * @owner Observable
  */
-export function pairwise<T>(this: Observable<T>): Observable<[T, T]> {
-  return this.lift(new PairwiseOperator());
+export function pairwise<T>(source: Observable<T>): Observable<[T, T]> {
+  return source.lift(new PairwiseOperator());
 }
 
 class PairwiseOperator<T> implements Operator<T, [T, T]> {

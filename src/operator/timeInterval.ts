@@ -15,8 +15,8 @@ export interface ITimeInterval<T> {
  * @method timeInterval
  * @owner Observable
  */
-export function timeInterval<T>(this: Observable<T>, scheduler: IScheduler = async): Observable<ITimeInterval<T>> {
-  return this.lift(new TimeIntervalOperator(scheduler));
+export function timeInterval<T>(source: Observable<T>, scheduler: IScheduler = async): Observable<ITimeInterval<T>> {
+  return source.lift(new TimeIntervalOperator(scheduler));
 }
 
 export class TimeInterval<T> implements ITimeInterval<T> {

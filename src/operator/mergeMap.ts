@@ -7,8 +7,8 @@ import { OuterSubscriber } from '../OuterSubscriber';
 import { InnerSubscriber } from '../InnerSubscriber';
 
 /* tslint:disable:max-line-length */
-export function mergeMap<T, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<R>, concurrent?: number): Observable<R>;
-export function mergeMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number): Observable<R>;
+export function mergeMap<T, R>(source: Observable<T>, project: (value: T, index: number) => ObservableInput<R>, concurrent?: number): Observable<R>;
+export function mergeMap<T, I, R>(source: Observable<T>, project: (value: T, index: number) => ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -67,16 +67,17 @@ export function mergeMap<T, I, R>(this: Observable<T>, project: (value: T, index
  * by the source Observable and merging the results of the Observables obtained
  * from this transformation.
  * @method mergeMap
+ * @alias flatMap
  * @owner Observable
  */
-export function mergeMap<T, I, R>(this: Observable<T>, project: (value: T, index: number) => ObservableInput<I>,
+export function mergeMap<T, I, R>(source: Observable<T>, project: (value: T, index: number) => ObservableInput<I>,
                                   resultSelector?: ((outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R) | number,
                                   concurrent: number = Number.POSITIVE_INFINITY): Observable<I | R> {
   if (typeof resultSelector === 'number') {
     concurrent = <number>resultSelector;
     resultSelector = null;
   }
-  return this.lift(new MergeMapOperator(project, <any>resultSelector, concurrent));
+  return source.lift(new MergeMapOperator(project, <any>resultSelector, concurrent));
 }
 
 export class MergeMapOperator<T, I, R> implements Operator<T, I> {

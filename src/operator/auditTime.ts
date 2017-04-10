@@ -47,8 +47,8 @@ import { Subscription, TeardownLogic } from '../Subscription';
  * @method auditTime
  * @owner Observable
  */
-export function auditTime<T>(this: Observable<T>, duration: number, scheduler: IScheduler = async): Observable<T> {
-  return this.lift(new AuditTimeOperator(duration, scheduler));
+export function auditTime<T>(source: Observable<T>, duration: number, scheduler: IScheduler = async): Observable<T> {
+  return source.lift(new AuditTimeOperator(duration, scheduler));
 }
 
 class AuditTimeOperator<T> implements Operator<T, T> {

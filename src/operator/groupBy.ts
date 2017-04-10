@@ -7,10 +7,10 @@ import { FastMap } from '../util/FastMap';
 import { GroupedObservable, RefCountSubscription } from '../observable/GroupedObservable';
 
 /* tslint:disable:max-line-length */
-export function groupBy<T, K>(this: Observable<T>, keySelector: (value: T) => K): Observable<GroupedObservable<K, T>>;
-export function groupBy<T, K>(this: Observable<T>, keySelector: (value: T) => K, elementSelector: void, durationSelector: (grouped: GroupedObservable<K, T>) => Observable<any>): Observable<GroupedObservable<K, T>>;
-export function groupBy<T, K, R>(this: Observable<T>, keySelector: (value: T) => K, elementSelector?: (value: T) => R, durationSelector?: (grouped: GroupedObservable<K, R>) => Observable<any>): Observable<GroupedObservable<K, R>>;
-export function groupBy<T, K, R>(this: Observable<T>, keySelector: (value: T) => K, elementSelector?: (value: T) => R, durationSelector?: (grouped: GroupedObservable<K, R>) => Observable<any>, subjectSelector?: () => Subject<R>): Observable<GroupedObservable<K, R>>;
+export function groupBy<T, K>(source: Observable<T>, keySelector: (value: T) => K): Observable<GroupedObservable<K, T>>;
+export function groupBy<T, K>(source: Observable<T>, keySelector: (value: T) => K, elementSelector: void, durationSelector: (grouped: GroupedObservable<K, T>) => Observable<any>): Observable<GroupedObservable<K, T>>;
+export function groupBy<T, K, R>(source: Observable<T>, keySelector: (value: T) => K, elementSelector?: (value: T) => R, durationSelector?: (grouped: GroupedObservable<K, R>) => Observable<any>): Observable<GroupedObservable<K, R>>;
+export function groupBy<T, K, R>(source: Observable<T>, keySelector: (value: T) => K, elementSelector?: (value: T) => R, durationSelector?: (grouped: GroupedObservable<K, R>) => Observable<any>, subjectSelector?: () => Subject<R>): Observable<GroupedObservable<K, R>>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -80,11 +80,11 @@ export function groupBy<T, K, R>(this: Observable<T>, keySelector: (value: T) =>
  * @method groupBy
  * @owner Observable
  */
-export function groupBy<T, K, R>(this: Observable<T>, keySelector: (value: T) => K,
+export function groupBy<T, K, R>(source: Observable<T>, keySelector: (value: T) => K,
                                  elementSelector?: ((value: T) => R) | void,
                                  durationSelector?: (grouped: GroupedObservable<K, R>) => Observable<any>,
                                  subjectSelector?: () => Subject<R>): Observable<GroupedObservable<K, R>> {
-  return this.lift(new GroupByOperator(keySelector, elementSelector, durationSelector, subjectSelector));
+  return source.lift(new GroupByOperator(keySelector, elementSelector, durationSelector, subjectSelector));
 }
 
 class GroupByOperator<T, K, R> implements Operator<T, GroupedObservable<K, R>> {

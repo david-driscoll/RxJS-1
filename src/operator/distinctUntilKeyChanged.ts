@@ -2,8 +2,8 @@ import { distinctUntilChanged } from './distinctUntilChanged';
 import { Observable } from '../Observable';
 
 /* tslint:disable:max-line-length */
-export function distinctUntilKeyChanged<T>(this: Observable<T>, key: string): Observable<T>;
-export function distinctUntilKeyChanged<T, K>(this: Observable<T>, key: string, compare: (x: K, y: K) => boolean): Observable<T>;
+export function distinctUntilKeyChanged<T>(source: Observable<T>, key: string): Observable<T>;
+export function distinctUntilKeyChanged<T, K>(source: Observable<T>, key: string, compare: (x: K, y: K) => boolean): Observable<T>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -63,8 +63,8 @@ export function distinctUntilKeyChanged<T, K>(this: Observable<T>, key: string, 
  * @method distinctUntilKeyChanged
  * @owner Observable
  */
-export function distinctUntilKeyChanged<T>(this: Observable<T>, key: string, compare?: (x: T, y: T) => boolean): Observable<T> {
-  return distinctUntilChanged.call(this, function(x: T, y: T) {
+export function distinctUntilKeyChanged<T>(source: Observable<T>, key: string, compare?: (x: T, y: T) => boolean): Observable<T> {
+  return distinctUntilChanged(source, function(x: T, y: T) {
     if (compare) {
       return compare(x[key], y[key]);
     }

@@ -3,8 +3,8 @@ import { Observable } from '../Observable';
 import { Subscriber } from '../Subscriber';
 
 /* tslint:disable:max-line-length */
-export function defaultIfEmpty<T>(this: Observable<T>, defaultValue?: T): Observable<T>;
-export function defaultIfEmpty<T, R>(this: Observable<T>, defaultValue?: R): Observable<T | R>;
+export function defaultIfEmpty<T>(source: Observable<T>, defaultValue?: T): Observable<T>;
+export function defaultIfEmpty<T, R>(source: Observable<T>, defaultValue?: R): Observable<T | R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -37,8 +37,8 @@ export function defaultIfEmpty<T, R>(this: Observable<T>, defaultValue?: R): Obs
  * @method defaultIfEmpty
  * @owner Observable
  */
-export function defaultIfEmpty<T, R>(this: Observable<T>, defaultValue: R = null): Observable<T | R> {
-  return this.lift(new DefaultIfEmptyOperator(defaultValue));
+export function defaultIfEmpty<T, R>(source: Observable<T>, defaultValue: R = null): Observable<T | R> {
+  return source.lift(new DefaultIfEmptyOperator(defaultValue));
 }
 
 class DefaultIfEmptyOperator<T, R> implements Operator<T, T | R> {

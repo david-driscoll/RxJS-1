@@ -16,8 +16,8 @@ import { Action } from '../scheduler/Action';
  * @method observeOn
  * @owner Observable
  */
-export function observeOn<T>(this: Observable<T>, scheduler: IScheduler, delay: number = 0): Observable<T> {
-  return this.lift(new ObserveOnOperator(scheduler, delay));
+export function observeOn<T>(source: Observable<T>, scheduler: IScheduler, delay: number = 0): Observable<T> {
+  return source.lift(new ObserveOnOperator(scheduler, delay));
 }
 
 export class ObserveOnOperator<T> implements Operator<T, T> {

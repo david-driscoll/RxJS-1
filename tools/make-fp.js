@@ -3,12 +3,12 @@ var fs = require('fs');
 var path = require('path');
 var dest = path.resolve(__dirname, '..', process.argv.slice(2).join('').trim(), 'src');
 
-var fpFolder = path.resolve(dest, 'fp');
+var prototypeFolder = path.resolve(__dirname, '../src/add/operator');
 var pipeFolder = path.resolve(dest, 'pipe');
 var opFolder = path.resolve(dest, 'operator');
 
-if (!fs.existsSync(fpFolder)) {
-  fs.mkdirSync(fpFolder);
+if (!fs.existsSync(prototypeFolder)) {
+  fs.mkdirSync(prototypeFolder);
 }
 if (!fs.existsSync(pipeFolder)) {
   fs.mkdirSync(pipeFolder);
@@ -16,6 +16,7 @@ if (!fs.existsSync(pipeFolder)) {
 
 var operators = [];
 var operatorNameMap = {};
+var operatorAlias = {};
 
 /**
  * This is a simple parser for finding parts of a method
@@ -130,6 +131,7 @@ fs.readdirSync(opFolder)
     var name = operator.split('.')[0];
     operators.push(name);
     operatorNameMap[name] = name;
+    operatorAlias[name] = [];
 
     var content = fs.readFileSync(path.join(opFolder, operator)).toString();
 
@@ -141,6 +143,12 @@ fs.readdirSync(opFolder)
       .map(function (line) { return line.indexOf('import') > -1 && line.indexOf('Static') > -1 ? '' : line; })
       .map(function (line) { return line.indexOf('tslint:disable') > -1 || line.indexOf('tslint:enable') > -1 ? '' : line; })
       .filter(function (line) { return line !== ''; })
+      .map(function (line) {
+        if (line.indexOf('@alias') > -1) {
+          operatorAlias[name].push(line.substring(line.indexOf('@alias') + '@alias'.length + 1).trim());
+        }
+        return line;
+      })
       .join('\n');
 
     content = content.replace(/this\:/g, 'source:');
@@ -178,35 +186,48 @@ fs.readdirSync(opFolder)
     content += body;
     content = '// Generated code ahead... there be dragons!\n// tslint:disable\nimport { ' + operatorNameMap[name] + ' as ' + name + 'Base } from \'../operator/' + name + '\';\n' + content;
 
-    var fpContent = content;
+    var prototypeContent = content;
     var pipeContent = content;
     pipeContent = pipeContent.replace(/source\: Observable<T>(?:[, |,])?/g, '');
-    fpContent = fpContent.replace('multicast<T>(SubjectFactory: () => Subject<T>', 'multicast<T>(source: Observable<T>, SubjectFactory: () => Subject<T>');
+    prototypeContent = prototypeContent.replace(/\(source\: Observable<T>([, |,])?/g, '(this: Observable<T>$1');
+    prototypeContent = prototypeContent.replace(/from '\.\.\//g, 'from \'../../');
+
+    var baseOperatorName = name + 'Base';
 
     // Handle the case of methods that inspect arguments
     if (shouldApply) {
-      fpContent = fpContent.replace('>(...args: any[]):', '>(source: Observable<T>, ...args: any[]):');
-      fpContent += '{\n  return ' + name + 'Base.apply(source, args);\n}\n';
-      pipeContent += '{\n  return (source: Observable<T>) => ' + name + 'Base.apply(source, args);\n}\n';
+      prototypeContent = prototypeContent.replace('>(...args: any[]):', '>(this: Observable<T>, ...args: any[]):');
+      prototypeContent += '{\n  return ' + baseOperatorName + '.call(undefined, this, ...args);\n}\n';
+      pipeContent += '{\n  return (source: Observable<T>) => ' + baseOperatorName + '.call(undefined, source, ...args);\n}\n';
     } else {
-      fpContent += '{\n  return ' + name + 'Base.call(' + argNames.join(', ') + ');\n}\n';
-      pipeContent += '{\n  return (source: Observable<T>) => ' + name + 'Base.call(' + argNames.join(', ') + ');\n}\n';
+      prototypeContent += '{\n  return ' + baseOperatorName + '.call(undefined, this, ' + argNames.slice(1).join(', ') + ');\n}\n';
+      pipeContent += '{\n  return (source: Observable<T>) => ' + baseOperatorName + '.call(undefined, ' + argNames.join(', ') + ');\n}\n';
     }
 
     // Ensure that we return a partial function
     pipeContent = pipeContent.replace(/\)\: (.+?)(\s?[\{|\;])/g, '): (source: Observable<T>) => $1$2');
 
+    prototypeContent += '\n';
+
+    prototypeContent += 'Observable.prototype.' + name + ' = ' + operatorNameMap[name] + ';\n';
+    for (var i = 0; i < operatorAlias[name].length; i++) {
+      prototypeContent += 'Observable.prototype.' + operatorAlias[name][i] + ' = ' + operatorNameMap[name] + ';\n';
+    }
+
+    prototypeContent += '\n';
+
+    prototypeContent += 'declare module \'../../Observable\' {\n  interface Observable<T> {\n';
+    prototypeContent += '    ' + name + ': typeof ' + operatorNameMap[name] + ';\n';
+    for (var i = 0; i < operatorAlias[name].length; i++) {
+      prototypeContent += '    ' + operatorAlias[name][i] + ': typeof ' + operatorNameMap[name] + ';\n';
+    }
+
+    prototypeContent += '  }\n}\n';
+
     // export function audit.*?\{([\s|\S]+)
-    fs.writeFileSync(path.join(fpFolder, operator), fpContent);
+    fs.writeFileSync(path.join(prototypeFolder, operator), prototypeContent);
     fs.writeFileSync(path.join(pipeFolder, operator), pipeContent);
   });
-
-var rxfp = '';
-operators.forEach(function (op) {
-  rxfp += 'export { ' + operatorNameMap[op] + ' } from \'./fp/' + op + '\';\n';
-});
-
-fs.writeFileSync(path.join(dest, `fp.ts`), rxfp);
 
 var rxpipe = '';
 operators.forEach(function (op) {

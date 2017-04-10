@@ -28,8 +28,8 @@ import { Observable } from '../Observable';
  * @method mapTo
  * @owner Observable
  */
-export function mapTo<T, R>(this: Observable<T>, value: R): Observable<R> {
-  return this.lift(new MapToOperator(value));
+export function mapTo<T, R>(source: Observable<T>, value: R): Observable<R> {
+  return source.lift(new MapToOperator(value));
 }
 
 class MapToOperator<T, R> implements Operator<T, R> {

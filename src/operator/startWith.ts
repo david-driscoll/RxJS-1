@@ -7,13 +7,13 @@ import { concatStatic } from './concat';
 import { isScheduler } from '../util/isScheduler';
 
 /* tslint:disable:max-line-length */
-export function startWith<T>(this: Observable<T>, v1: T, scheduler?: IScheduler): Observable<T>;
-export function startWith<T>(this: Observable<T>, v1: T, v2: T, scheduler?: IScheduler): Observable<T>;
-export function startWith<T>(this: Observable<T>, v1: T, v2: T, v3: T, scheduler?: IScheduler): Observable<T>;
-export function startWith<T>(this: Observable<T>, v1: T, v2: T, v3: T, v4: T, scheduler?: IScheduler): Observable<T>;
-export function startWith<T>(this: Observable<T>, v1: T, v2: T, v3: T, v4: T, v5: T, scheduler?: IScheduler): Observable<T>;
-export function startWith<T>(this: Observable<T>, v1: T, v2: T, v3: T, v4: T, v5: T, v6: T, scheduler?: IScheduler): Observable<T>;
-export function startWith<T>(this: Observable<T>, ...array: Array<T | IScheduler>): Observable<T>;
+export function startWith<T>(source: Observable<T>, v1: T, scheduler?: IScheduler): Observable<T>;
+export function startWith<T>(source: Observable<T>, v1: T, v2: T, scheduler?: IScheduler): Observable<T>;
+export function startWith<T>(source: Observable<T>, v1: T, v2: T, v3: T, scheduler?: IScheduler): Observable<T>;
+export function startWith<T>(source: Observable<T>, v1: T, v2: T, v3: T, v4: T, scheduler?: IScheduler): Observable<T>;
+export function startWith<T>(source: Observable<T>, v1: T, v2: T, v3: T, v4: T, v5: T, scheduler?: IScheduler): Observable<T>;
+export function startWith<T>(source: Observable<T>, v1: T, v2: T, v3: T, v4: T, v5: T, v6: T, scheduler?: IScheduler): Observable<T>;
+export function startWith<T>(source: Observable<T>, ...array: Array<T | IScheduler>): Observable<T>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -30,7 +30,7 @@ export function startWith<T>(this: Observable<T>, ...array: Array<T | IScheduler
  * @method startWith
  * @owner Observable
  */
-export function startWith<T>(this: Observable<T>, ...array: Array<T | IScheduler>): Observable<T> {
+export function startWith<T>(source: Observable<T>, ...array: Array<T | IScheduler>): Observable<T> {
   let scheduler = <IScheduler>array[array.length - 1];
   if (isScheduler(scheduler)) {
     array.pop();
@@ -40,10 +40,10 @@ export function startWith<T>(this: Observable<T>, ...array: Array<T | IScheduler
 
   const len = array.length;
   if (len === 1) {
-    return concatStatic(new ScalarObservable<T>(<T>array[0], scheduler), <Observable<T>>this);
+    return concatStatic(new ScalarObservable<T>(<T>array[0], scheduler), source);
   } else if (len > 1) {
-    return concatStatic(new ArrayObservable<T>(<T[]>array, scheduler), <Observable<T>>this);
+    return concatStatic(new ArrayObservable<T>(<T[]>array, scheduler), source);
   } else {
-    return concatStatic(new EmptyObservable<T>(scheduler), <Observable<T>>this);
+    return concatStatic(new EmptyObservable<T>(scheduler), source);
   }
 }

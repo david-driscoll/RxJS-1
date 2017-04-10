@@ -6,20 +6,20 @@ import { InnerSubscriber } from '../InnerSubscriber';
 import { subscribeToResult } from '../util/subscribeToResult';
 
 /* tslint:disable:max-line-length */
-export function withLatestFrom<T, R>(this: Observable<T>, project: (v1: T) => R): Observable<R>;
-export function withLatestFrom<T, T2, R>(this: Observable<T>, v2: ObservableInput<T2>, project: (v1: T, v2: T2) => R): Observable<R>;
-export function withLatestFrom<T, T2, T3, R>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, project: (v1: T, v2: T2, v3: T3) => R): Observable<R>;
-export function withLatestFrom<T, T2, T3, T4, R>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, project: (v1: T, v2: T2, v3: T3, v4: T4) => R): Observable<R>;
-export function withLatestFrom<T, T2, T3, T4, T5, R>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R): Observable<R>;
-export function withLatestFrom<T, T2, T3, T4, T5, T6, R>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R): Observable<R> ;
-export function withLatestFrom<T, T2>(this: Observable<T>, v2: ObservableInput<T2>): Observable<[T, T2]>;
-export function withLatestFrom<T, T2, T3>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>): Observable<[T, T2, T3]>;
-export function withLatestFrom<T, T2, T3, T4>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>): Observable<[T, T2, T3, T4]>;
-export function withLatestFrom<T, T2, T3, T4, T5>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>): Observable<[T, T2, T3, T4, T5]>;
-export function withLatestFrom<T, T2, T3, T4, T5, T6>(this: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>): Observable<[T, T2, T3, T4, T5, T6]> ;
-export function withLatestFrom<T, R>(this: Observable<T>, ...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): Observable<R>;
-export function withLatestFrom<T, R>(this: Observable<T>, array: ObservableInput<any>[]): Observable<R>;
-export function withLatestFrom<T, R>(this: Observable<T>, array: ObservableInput<any>[], project: (...values: Array<any>) => R): Observable<R>;
+export function withLatestFrom<T, R>(source: Observable<T>, project: (v1: T) => R): Observable<R>;
+export function withLatestFrom<T, T2, R>(source: Observable<T>, v2: ObservableInput<T2>, project: (v1: T, v2: T2) => R): Observable<R>;
+export function withLatestFrom<T, T2, T3, R>(source: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, project: (v1: T, v2: T2, v3: T3) => R): Observable<R>;
+export function withLatestFrom<T, T2, T3, T4, R>(source: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, project: (v1: T, v2: T2, v3: T3, v4: T4) => R): Observable<R>;
+export function withLatestFrom<T, T2, T3, T4, T5, R>(source: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5) => R): Observable<R>;
+export function withLatestFrom<T, T2, T3, T4, T5, T6, R>(source: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, project: (v1: T, v2: T2, v3: T3, v4: T4, v5: T5, v6: T6) => R): Observable<R> ;
+export function withLatestFrom<T, T2>(source: Observable<T>, v2: ObservableInput<T2>): Observable<[T, T2]>;
+export function withLatestFrom<T, T2, T3>(source: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>): Observable<[T, T2, T3]>;
+export function withLatestFrom<T, T2, T3, T4>(source: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>): Observable<[T, T2, T3, T4]>;
+export function withLatestFrom<T, T2, T3, T4, T5>(source: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>): Observable<[T, T2, T3, T4, T5]>;
+export function withLatestFrom<T, T2, T3, T4, T5, T6>(source: Observable<T>, v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>): Observable<[T, T2, T3, T4, T5, T6]> ;
+export function withLatestFrom<T, R>(source: Observable<T>, ...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): Observable<R>;
+export function withLatestFrom<T, R>(source: Observable<T>, array: ObservableInput<any>[]): Observable<R>;
+export function withLatestFrom<T, R>(source: Observable<T>, array: ObservableInput<any>[], project: (...values: Array<any>) => R): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -60,13 +60,13 @@ export function withLatestFrom<T, R>(this: Observable<T>, array: ObservableInput
  * @method withLatestFrom
  * @owner Observable
  */
-export function withLatestFrom<T, R>(this: Observable<T>, ...args: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): Observable<R> {
+export function withLatestFrom<T, R>(source: Observable<T>, ...args: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): Observable<R> {
   let project: any;
   if (typeof args[args.length - 1] === 'function') {
     project = args.pop();
   }
   const observables = <Observable<any>[]>args;
-  return this.lift(new WithLatestFromOperator(observables, project));
+  return source.lift(new WithLatestFromOperator(observables, project));
 }
 
 class WithLatestFromOperator<T, R> implements Operator<T, R> {

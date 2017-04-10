@@ -52,13 +52,13 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method delayWhen
  * @owner Observable
  */
-export function delayWhen<T>(this: Observable<T>, delayDurationSelector: (value: T) => Observable<any>,
+export function delayWhen<T>(source: Observable<T>, delayDurationSelector: (value: T) => Observable<any>,
                              subscriptionDelay?: Observable<any>): Observable<T> {
   if (subscriptionDelay) {
-    return new SubscriptionDelayObservable(this, subscriptionDelay)
+    return new SubscriptionDelayObservable(source, subscriptionDelay)
             .lift(new DelayWhenOperator(delayDurationSelector));
   }
-  return this.lift(new DelayWhenOperator(delayDurationSelector));
+  return source.lift(new DelayWhenOperator(delayDurationSelector));
 }
 
 class DelayWhenOperator<T> implements Operator<T, T> {

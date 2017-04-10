@@ -11,8 +11,8 @@ import { Observable } from '../Observable';
  * @method isEmpty
  * @owner Observable
  */
-export function isEmpty<T>(this: Observable<T>): Observable<boolean> {
-  return this.lift(new IsEmptyOperator());
+export function isEmpty<T>(source: Observable<T>): Observable<boolean> {
+  return source.lift(new IsEmptyOperator());
 }
 
 class IsEmptyOperator implements Operator<any, boolean> {

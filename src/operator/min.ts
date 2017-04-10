@@ -32,9 +32,9 @@ import { ReduceOperator } from './reduce';
  * @method min
  * @owner Observable
  */
-export function min<T>(this: Observable<T>, comparer?: (x: T, y: T) => number): Observable<T> {
+export function min<T>(source: Observable<T>, comparer?: (x: T, y: T) => number): Observable<T> {
   const min: (x: T, y: T) => T = (typeof comparer === 'function')
     ? (x, y) => comparer(x, y) < 0 ? x : y
     : (x, y) => x < y ? x : y;
-  return this.lift(new ReduceOperator(min));
+  return source.lift(new ReduceOperator(min));
 }

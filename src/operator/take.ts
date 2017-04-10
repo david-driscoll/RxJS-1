@@ -38,11 +38,11 @@ import { TeardownLogic } from '../Subscription';
  * @method take
  * @owner Observable
  */
-export function take<T>(this: Observable<T>, count: number): Observable<T> {
+export function take<T>(source: Observable<T>, count: number): Observable<T> {
   if (count === 0) {
     return new EmptyObservable<T>();
   } else {
-    return this.lift(new TakeOperator(count));
+    return source.lift(new TakeOperator(count));
   }
 }
 

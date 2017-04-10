@@ -7,6 +7,6 @@ import { Observable } from '../Observable';
  * @method zipAll
  * @owner Observable
  */
-export function zipAll<T, R>(this: Observable<T>, project?: (...values: Array<any>) => R): Observable<R> {
-  return this.lift(new ZipOperator(project));
+export function zipAll<T, R>(source: Observable<T>, project?: (...values: Array<any>) => R): Observable<R> {
+  return source.lift(new ZipOperator(project));
 }

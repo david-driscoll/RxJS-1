@@ -9,6 +9,6 @@ import { ConnectableObservable } from '../observable/ConnectableObservable';
  * @method publishBehavior
  * @owner Observable
  */
-export function publishBehavior<T>(this: Observable<T>, value: T): ConnectableObservable<T> {
-  return multicast.call(this, new BehaviorSubject<T>(value));
+export function publishBehavior<T>(source: Observable<T>, value: T): ConnectableObservable<T> {
+  return multicast(source, new BehaviorSubject<T>(value));
 }

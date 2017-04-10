@@ -3,8 +3,8 @@ import { Subscribable } from '../Observable';
 import { MergeAllOperator } from './mergeAll';
 
 /* tslint:disable:max-line-length */
-export function concatAll<T>(this: Observable<T>): T;
-export function concatAll<T, R>(this: Observable<T>): Subscribable<R>;
+export function concatAll<T>(source: Observable<T>): T;
+export function concatAll<T, R>(source: Observable<T>): Subscribable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -55,6 +55,6 @@ export function concatAll<T, R>(this: Observable<T>): Subscribable<R>;
  * @method concatAll
  * @owner Observable
  */
-export function concatAll<T>(this: Observable<T>): T {
-  return <any>this.lift<any>(new MergeAllOperator<T>(1));
+export function concatAll<T>(source: Observable<T>): T {
+  return <any>source.lift<any>(new MergeAllOperator<T>(1));
 }

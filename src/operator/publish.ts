@@ -6,8 +6,8 @@ import { ConnectableObservable } from '../observable/ConnectableObservable';
 export type selector<T> = (source: Observable<T>) => Observable<T>;
 
 /* tslint:disable:max-line-length */
-export function publish<T>(this: Observable<T>): ConnectableObservable<T>;
-export function publish<T>(this: Observable<T>, selector: selector<T>): Observable<T>;
+export function publish<T>(source: Observable<T>): ConnectableObservable<T>;
+export function publish<T>(source: Observable<T>, selector: selector<T>): Observable<T>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -23,7 +23,7 @@ export function publish<T>(this: Observable<T>, selector: selector<T>): Observab
  * @method publish
  * @owner Observable
  */
-export function publish<T>(this: Observable<T>, selector?: (source: Observable<T>) => Observable<T>): Observable<T> | ConnectableObservable<T> {
-  return selector ? multicast.call(this, () => new Subject<T>(), selector) :
-                    multicast.call(this, new Subject<T>());
+export function publish<T>(source: Observable<T>, selector?: (source: Observable<T>) => Observable<T>): Observable<T> | ConnectableObservable<T> {
+  return selector ? multicast(source, () => new Subject<T>(), selector) :
+                    multicast(source, new Subject<T>());
 }

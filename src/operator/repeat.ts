@@ -16,13 +16,13 @@ import { TeardownLogic } from '../Subscription';
  * @method repeat
  * @owner Observable
  */
-export function repeat<T>(this: Observable<T>, count: number = -1): Observable<T> {
+export function repeat<T>(source: Observable<T>, count: number = -1): Observable<T> {
   if (count === 0) {
     return new EmptyObservable<T>();
   } else if (count < 0) {
-    return this.lift(new RepeatOperator(-1, this));
+    return source.lift(new RepeatOperator(-1, source));
   } else {
-    return this.lift(new RepeatOperator(count - 1, this));
+    return source.lift(new RepeatOperator(count - 1, source));
   }
 }
 

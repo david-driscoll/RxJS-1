@@ -51,9 +51,9 @@ import { Subject } from '../Subject';
  * @method windowCount
  * @owner Observable
  */
-export function windowCount<T>(this: Observable<T>, windowSize: number,
+export function windowCount<T>(source: Observable<T>, windowSize: number,
                                startWindowEvery: number = 0): Observable<Observable<T>> {
-  return this.lift(new WindowCountOperator<T>(windowSize, startWindowEvery));
+  return source.lift(new WindowCountOperator<T>(windowSize, startWindowEvery));
 }
 
 class WindowCountOperator<T> implements Operator<T, Observable<T>> {

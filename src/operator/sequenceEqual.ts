@@ -57,9 +57,9 @@ import { errorObject } from '../util/errorObject';
  * @method sequenceEqual
  * @owner Observable
  */
-export function sequenceEqual<T>(this: Observable<T>, compareTo: Observable<T>,
+export function sequenceEqual<T>(source: Observable<T>, compareTo: Observable<T>,
                                  comparor?: (a: T, b: T) => boolean): Observable<boolean> {
-  return this.lift(new SequenceEqualOperator(compareTo, comparor));
+  return source.lift(new SequenceEqualOperator(compareTo, comparor));
 }
 
 export class SequenceEqualOperator<T> implements Operator<T, boolean> {

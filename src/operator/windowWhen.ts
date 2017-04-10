@@ -49,8 +49,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method windowWhen
  * @owner Observable
  */
-export function windowWhen<T>(this: Observable<T>, closingSelector: () => Observable<any>): Observable<Observable<T>> {
-  return this.lift(new WindowOperator<T>(closingSelector));
+export function windowWhen<T>(source: Observable<T>, closingSelector: () => Observable<any>): Observable<Observable<T>> {
+  return source.lift(new WindowOperator<T>(closingSelector));
 }
 
 class WindowOperator<T> implements Operator<T, Observable<T>> {

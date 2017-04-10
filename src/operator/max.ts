@@ -32,9 +32,9 @@ import { ReduceOperator } from './reduce';
  * @method max
  * @owner Observable
  */
-export function max<T>(this: Observable<T>, comparer?: (x: T, y: T) => number): Observable<T> {
+export function max<T>(source: Observable<T>, comparer?: (x: T, y: T) => number): Observable<T> {
   const max: (x: T, y: T) => T = (typeof comparer === 'function')
     ? (x, y) => comparer(x, y) > 0 ? x : y
     : (x, y) => x > y ? x : y;
-  return this.lift(new ReduceOperator(max));
+  return source.lift(new ReduceOperator(max));
 }

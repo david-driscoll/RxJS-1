@@ -40,8 +40,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method exhaust
  * @owner Observable
  */
-export function exhaust<T>(this: Observable<T>): Observable<T> {
-  return this.lift(new SwitchFirstOperator<T>());
+export function exhaust<T>(source: Observable<T>): Observable<T> {
+  return source.lift(new SwitchFirstOperator<T>());
 }
 
 class SwitchFirstOperator<T> implements Operator<T, T> {

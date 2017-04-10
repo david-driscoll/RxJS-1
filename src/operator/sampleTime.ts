@@ -42,8 +42,8 @@ import { TeardownLogic } from '../Subscription';
  * @method sampleTime
  * @owner Observable
  */
-export function sampleTime<T>(this: Observable<T>, period: number, scheduler: IScheduler = async): Observable<T> {
-  return this.lift(new SampleTimeOperator(period, scheduler));
+export function sampleTime<T>(source: Observable<T>, period: number, scheduler: IScheduler = async): Observable<T> {
+  return source.lift(new SampleTimeOperator(period, scheduler));
 }
 
 class SampleTimeOperator<T> implements Operator<T, T> {

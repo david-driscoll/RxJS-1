@@ -8,8 +8,8 @@ import { InnerSubscriber } from '../InnerSubscriber';
 import { subscribeToResult } from '../util/subscribeToResult';
 
 /* tslint:disable:max-line-length */
-export function mergeMapTo<T, R>(this: Observable<T>, observable: ObservableInput<R>, concurrent?: number): Observable<R>;
-export function mergeMapTo<T, I, R>(this: Observable<T>, observable: ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number): Observable<R>;
+export function mergeMapTo<T, R>(source: Observable<T>, observable: ObservableInput<R>, concurrent?: number): Observable<R>;
+export function mergeMapTo<T, I, R>(source: Observable<T>, observable: ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R, concurrent?: number): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -53,16 +53,17 @@ export function mergeMapTo<T, I, R>(this: Observable<T>, observable: ObservableI
  * `innerObservable` (and optionally transformed through `resultSelector`) every
  * time a value is emitted on the source Observable.
  * @method mergeMapTo
+ * @alias flatMapTo
  * @owner Observable
  */
-export function mergeMapTo<T, I, R>(this: Observable<T>, innerObservable: Observable<I>,
+export function mergeMapTo<T, I, R>(source: Observable<T>, innerObservable: Observable<I>,
                                     resultSelector?: ((outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R) | number,
                                     concurrent: number = Number.POSITIVE_INFINITY): Observable<R> {
   if (typeof resultSelector === 'number') {
     concurrent = <number>resultSelector;
     resultSelector = null;
   }
-  return this.lift(new MergeMapToOperator(innerObservable, <any>resultSelector, concurrent));
+  return source.lift(new MergeMapToOperator(innerObservable, <any>resultSelector, concurrent));
 }
 
 // TODO: Figure out correct signature here: an Operator<Observable<T>, R>

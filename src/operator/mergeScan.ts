@@ -39,11 +39,11 @@ import { InnerSubscriber } from '../InnerSubscriber';
  * @method mergeScan
  * @owner Observable
  */
-export function mergeScan<T, R>(this: Observable<T>,
+export function mergeScan<T, R>(source: Observable<T>,
                                 accumulator: (acc: R, value: T) => Observable<R>,
                                 seed: R,
                                 concurrent: number = Number.POSITIVE_INFINITY): Observable<R> {
-  return this.lift(new MergeScanOperator(accumulator, seed, concurrent));
+  return source.lift(new MergeScanOperator(accumulator, seed, concurrent));
 }
 
 export class MergeScanOperator<T, R> implements Operator<T, R> {

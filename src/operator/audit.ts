@@ -48,8 +48,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method audit
  * @owner Observable
  */
-export function audit<T>(this: Observable<T>, durationSelector: (value: T) => SubscribableOrPromise<any>): Observable<T> {
-  return this.lift(new AuditOperator(durationSelector));
+export function audit<T>(source: Observable<T>, durationSelector: (value: T) => SubscribableOrPromise<any>): Observable<T> {
+  return source.lift(new AuditOperator(durationSelector));
 }
 
 class AuditOperator<T> implements Operator<T, T> {

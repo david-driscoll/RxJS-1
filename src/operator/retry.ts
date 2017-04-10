@@ -19,8 +19,8 @@ import { TeardownLogic } from '../Subscription';
  * @method retry
  * @owner Observable
  */
-export function retry<T>(this: Observable<T>, count: number = -1): Observable<T> {
-  return this.lift(new RetryOperator(count, this));
+export function retry<T>(source: Observable<T>, count: number = -1): Observable<T> {
+  return source.lift(new RetryOperator(count, source));
 }
 
 class RetryOperator<T> implements Operator<T, T> {

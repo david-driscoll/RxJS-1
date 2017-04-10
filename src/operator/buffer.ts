@@ -38,8 +38,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method buffer
  * @owner Observable
  */
-export function buffer<T>(this: Observable<T>, closingNotifier: Observable<any>): Observable<T[]> {
-  return this.lift(new BufferOperator<T>(closingNotifier));
+export function buffer<T>(source: Observable<T>, closingNotifier: Observable<any>): Observable<T[]> {
+  return source.lift(new BufferOperator<T>(closingNotifier));
 }
 
 class BufferOperator<T> implements Operator<T, T[]> {

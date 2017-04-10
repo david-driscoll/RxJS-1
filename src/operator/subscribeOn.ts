@@ -16,8 +16,8 @@ import { SubscribeOnObservable } from '../observable/SubscribeOnObservable';
  * @method subscribeOn
  * @owner Observable
  */
-export function subscribeOn<T>(this: Observable<T>, scheduler: IScheduler, delay: number = 0): Observable<T> {
-  return this.lift(new SubscribeOnOperator<T>(scheduler, delay));
+export function subscribeOn<T>(source: Observable<T>, scheduler: IScheduler, delay: number = 0): Observable<T> {
+  return source.lift(new SubscribeOnOperator<T>(scheduler, delay));
 }
 
 class SubscribeOnOperator<T> implements Operator<T, T> {

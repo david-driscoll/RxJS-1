@@ -24,8 +24,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method retryWhen
  * @owner Observable
  */
-export function retryWhen<T>(this: Observable<T>, notifier: (errors: Observable<any>) => Observable<any>): Observable<T> {
-  return this.lift(new RetryWhenOperator(notifier, this));
+export function retryWhen<T>(source: Observable<T>, notifier: (errors: Observable<any>) => Observable<any>): Observable<T> {
+  return source.lift(new RetryWhenOperator(notifier, source));
 }
 
 class RetryWhenOperator<T> implements Operator<T, T> {

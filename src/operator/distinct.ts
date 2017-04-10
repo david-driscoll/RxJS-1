@@ -52,10 +52,10 @@ import { ISet, Set } from '../util/Set';
  * @method distinct
  * @owner Observable
  */
-export function distinct<T, K>(this: Observable<T>,
+export function distinct<T, K>(source: Observable<T>,
                                keySelector?: (value: T) => K,
                                flushes?: Observable<any>): Observable<T> {
-  return this.lift(new DistinctOperator(keySelector, flushes));
+  return source.lift(new DistinctOperator(keySelector, flushes));
 }
 
 class DistinctOperator<T, K> implements Operator<T, T> {

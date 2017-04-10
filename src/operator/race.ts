@@ -9,8 +9,8 @@ import { InnerSubscriber } from '../InnerSubscriber';
 import { subscribeToResult } from '../util/subscribeToResult';
 
 /* tslint:disable:max-line-length */
-export function race<T>(this: Observable<T>, ...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T>;
-export function race<T, R>(this: Observable<T>, ...observables: Array<Observable<any> | Array<Observable<T>>>): Observable<R>;
+export function race<T>(source: Observable<T>, ...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T>;
+export function race<T, R>(source: Observable<T>, ...observables: Array<Observable<any> | Array<Observable<T>>>): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -21,14 +21,14 @@ export function race<T, R>(this: Observable<T>, ...observables: Array<Observable
  * @method race
  * @owner Observable
  */
-export function race<T>(this: Observable<T>, ...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T> {
+export function race<T>(source: Observable<T>, ...observables: Array<Observable<T> | Array<Observable<T>>>): Observable<T> {
   // if the only argument is an array, it was most likely called with
   // `pair([obs1, obs2, ...])`
   if (observables.length === 1 && isArray(observables[0])) {
     observables = <Array<Observable<T>>>observables[0];
   }
 
-  return this.lift.call(raceStatic<T>(this, ...observables));
+  return source.lift.call(raceStatic<T>(source, ...observables));
 }
 
 /**

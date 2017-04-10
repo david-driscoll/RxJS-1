@@ -51,8 +51,8 @@ import { Subscriber } from '../Subscriber';
  * @method count
  * @owner Observable
  */
-export function count<T>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number> {
-  return this.lift(new CountOperator(predicate, this));
+export function count<T>(source: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<number> {
+  return source.lift(new CountOperator(predicate, source));
 }
 
 class CountOperator<T> implements Operator<T, number> {

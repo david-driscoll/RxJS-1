@@ -15,8 +15,8 @@ export interface ITimestamp<T> {
  * @method timestamp
  * @owner Observable
  */
-export function timestamp<T>(this: Observable<T>, scheduler: IScheduler = async): Observable<ITimestamp<T>> {
-  return this.lift(new TimestampOperator(scheduler));
+export function timestamp<T>(source: Observable<T>, scheduler: IScheduler = async): Observable<ITimestamp<T>> {
+  return source.lift(new TimestampOperator(scheduler));
 }
 
 export class Timestamp<T> implements ITimestamp<T> {

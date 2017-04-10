@@ -15,8 +15,8 @@ import { TeardownLogic } from '../Subscription';
  * @method skipWhile
  * @owner Observable
  */
-export function skipWhile<T>(this: Observable<T>, predicate: (value: T, index: number) => boolean): Observable<T> {
-  return this.lift(new SkipWhileOperator(predicate));
+export function skipWhile<T>(source: Observable<T>, predicate: (value: T, index: number) => boolean): Observable<T> {
+  return source.lift(new SkipWhileOperator(predicate));
 }
 
 class SkipWhileOperator<T> implements Operator<T, T> {

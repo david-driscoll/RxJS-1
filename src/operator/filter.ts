@@ -4,10 +4,10 @@ import { Observable } from '../Observable';
 import { TeardownLogic } from '../Subscription';
 
 /* tslint:disable:max-line-length */
-export function filter<T, S extends T>(this: Observable<T>,
+export function filter<T, S extends T>(source: Observable<T>,
                                        predicate: (value: T, index: number) => value is S,
                                        thisArg?: any): Observable<S>;
-export function filter<T>(this: Observable<T>,
+export function filter<T>(source: Observable<T>,
                           predicate: (value: T, index: number) => boolean,
                           thisArg?: any): Observable<T>;
 /* tslint:enable:max-line-length */
@@ -51,9 +51,9 @@ export function filter<T>(this: Observable<T>,
  * @method filter
  * @owner Observable
  */
-export function filter<T>(this: Observable<T>, predicate: (value: T, index: number) => boolean,
+export function filter<T>(source: Observable<T>, predicate: (value: T, index: number) => boolean,
                           thisArg?: any): Observable<T> {
-  return this.lift(new FilterOperator(predicate, thisArg));
+  return source.lift(new FilterOperator(predicate, thisArg));
 }
 
 class FilterOperator<T> implements Operator<T, T> {

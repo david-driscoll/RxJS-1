@@ -2,8 +2,8 @@ import { Observable, ObservableInput } from '../Observable';
 import { MergeMapToOperator } from './mergeMapTo';
 
 /* tslint:disable:max-line-length */
-export function concatMapTo<T, R>(this: Observable<T>, observable: ObservableInput<R>): Observable<R>;
-export function concatMapTo<T, I, R>(this: Observable<T>, observable: ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
+export function concatMapTo<T, R>(source: Observable<T>, observable: ObservableInput<R>): Observable<R>;
+export function concatMapTo<T, I, R>(source: Observable<T>, observable: ObservableInput<I>, resultSelector: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -62,7 +62,7 @@ export function concatMapTo<T, I, R>(this: Observable<T>, observable: Observable
  * @method concatMapTo
  * @owner Observable
  */
-export function concatMapTo<T, I, R>(this: Observable<T>, innerObservable: Observable<I>,
+export function concatMapTo<T, I, R>(source: Observable<T>, innerObservable: Observable<I>,
                                      resultSelector?: (outerValue: T, innerValue: I, outerIndex: number, innerIndex: number) => R): Observable<R> {
-  return this.lift(new MergeMapToOperator(innerObservable, resultSelector, 1));
+  return source.lift(new MergeMapToOperator(innerObservable, resultSelector, 1));
 }

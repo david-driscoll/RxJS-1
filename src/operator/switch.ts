@@ -48,8 +48,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @name switch
  * @owner Observable
  */
-export function _switch<T>(this: Observable<T>): T {
-  return <any>this.lift<any>(new SwitchOperator());
+export function _switch<T>(source: Observable<T>): T {
+  return <any>source.lift<any>(new SwitchOperator());
 }
 
 class SwitchOperator<T, R> implements Operator<T, R> {

@@ -15,12 +15,12 @@ import { TimeoutError } from '../util/TimeoutError';
  * @method timeout
  * @owner Observable
  */
-export function timeout<T>(this: Observable<T>,
+export function timeout<T>(source: Observable<T>,
                            due: number | Date,
                            scheduler: IScheduler = async): Observable<T> {
   const absoluteTimeout = isDate(due);
   const waitFor = absoluteTimeout ? (+due - scheduler.now()) : Math.abs(<number>due);
-  return this.lift(new TimeoutOperator(waitFor, absoluteTimeout, scheduler, new TimeoutError()));
+  return source.lift(new TimeoutOperator(waitFor, absoluteTimeout, scheduler, new TimeoutError()));
 }
 
 class TimeoutOperator<T> implements Operator<T, T> {

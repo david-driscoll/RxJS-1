@@ -4,22 +4,22 @@ import { Subscriber } from '../Subscriber';
 import { EmptyError } from '../util/EmptyError';
 
 /* tslint:disable:max-line-length */
-export function last<T, S extends T>(this: Observable<T>,
+export function last<T, S extends T>(source: Observable<T>,
                                      predicate: (value: T, index: number, source: Observable<T>) => value is S): Observable<S>;
-export function last<T, S extends T, R>(this: Observable<T>,
+export function last<T, S extends T, R>(source: Observable<T>,
                                         predicate: (value: T | S, index: number, source: Observable<T>) => value is S,
                                         resultSelector: (value: S, index: number) => R, defaultValue?: R): Observable<R>;
-export function last<T, S extends T>(this: Observable<T>,
+export function last<T, S extends T>(source: Observable<T>,
                                      predicate: (value: T, index: number, source: Observable<T>) => value is S,
                                      resultSelector: void,
                                      defaultValue?: S): Observable<S>;
-export function last<T>(this: Observable<T>,
+export function last<T>(source: Observable<T>,
                         predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T>;
-export function last<T, R>(this: Observable<T>,
+export function last<T, R>(source: Observable<T>,
                            predicate: (value: T, index: number, source: Observable<T>) => boolean,
                            resultSelector?: (value: T, index: number) => R,
                            defaultValue?: R): Observable<R>;
-export function last<T>(this: Observable<T>,
+export function last<T>(source: Observable<T>,
                         predicate: (value: T, index: number, source: Observable<T>) => boolean,
                         resultSelector: void,
                         defaultValue?: T): Observable<T>;
@@ -42,10 +42,10 @@ export function last<T>(this: Observable<T>,
  * @method last
  * @owner Observable
  */
-export function last<T, R>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean,
+export function last<T, R>(source: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean,
                            resultSelector?: ((value: T, index: number) => R) | void,
                            defaultValue?: R): Observable<T | R> {
-  return this.lift(new LastOperator(predicate, resultSelector, defaultValue, this));
+  return source.lift(new LastOperator(predicate, resultSelector, defaultValue, source));
 }
 
 class LastOperator<T, R> implements Operator<T, R> {

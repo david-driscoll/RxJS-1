@@ -43,8 +43,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method window
  * @owner Observable
  */
-export function window<T>(this: Observable<T>, windowBoundaries: Observable<any>): Observable<Observable<T>> {
-  return this.lift(new WindowOperator<T>(windowBoundaries));
+export function window<T>(source: Observable<T>, windowBoundaries: Observable<any>): Observable<Observable<T>> {
+  return source.lift(new WindowOperator<T>(windowBoundaries));
 }
 
 class WindowOperator<T> implements Operator<T, Observable<T>> {

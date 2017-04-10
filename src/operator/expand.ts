@@ -10,8 +10,8 @@ import { InnerSubscriber } from '../InnerSubscriber';
 import { subscribeToResult } from '../util/subscribeToResult';
 
 /* tslint:disable:max-line-length */
-export function expand<T>(this: Observable<T>, project: (value: T, index: number) => Observable<T>, concurrent?: number, scheduler?: IScheduler): Observable<T>;
-export function expand<T, R>(this: Observable<T>, project: (value: T, index: number) => Observable<R>, concurrent?: number, scheduler?: IScheduler): Observable<R>;
+export function expand<T>(source: Observable<T>, project: (value: T, index: number) => Observable<T>, concurrent?: number, scheduler?: IScheduler): Observable<T>;
+export function expand<T, R>(source: Observable<T>, project: (value: T, index: number) => Observable<R>, concurrent?: number, scheduler?: IScheduler): Observable<R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -59,12 +59,12 @@ export function expand<T, R>(this: Observable<T>, project: (value: T, index: num
  * @method expand
  * @owner Observable
  */
-export function expand<T, R>(this: Observable<T>, project: (value: T, index: number) => Observable<R>,
+export function expand<T, R>(source: Observable<T>, project: (value: T, index: number) => Observable<R>,
                              concurrent: number = Number.POSITIVE_INFINITY,
                              scheduler: IScheduler = undefined): Observable<R> {
   concurrent = (concurrent || 0) < 1 ? Number.POSITIVE_INFINITY : concurrent;
 
-  return this.lift(new ExpandOperator(project, concurrent, scheduler));
+  return source.lift(new ExpandOperator(project, concurrent, scheduler));
 }
 
 export class ExpandOperator<T, R> implements Operator<T, R> {

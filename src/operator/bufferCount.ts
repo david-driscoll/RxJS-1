@@ -44,8 +44,8 @@ import { TeardownLogic } from '../Subscription';
  * @method bufferCount
  * @owner Observable
  */
-export function bufferCount<T>(this: Observable<T>, bufferSize: number, startBufferEvery: number = null): Observable<T[]> {
-  return this.lift(new BufferCountOperator<T>(bufferSize, startBufferEvery));
+export function bufferCount<T>(source: Observable<T>, bufferSize: number, startBufferEvery: number = null): Observable<T[]> {
+  return source.lift(new BufferCountOperator<T>(bufferSize, startBufferEvery));
 }
 
 class BufferCountOperator<T> implements Operator<T, T[]> {

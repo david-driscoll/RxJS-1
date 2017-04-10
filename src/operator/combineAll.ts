@@ -41,6 +41,6 @@ import { Observable } from '../Observable';
  * @method combineAll
  * @owner Observable
  */
-export function combineAll<T, R>(this: Observable<T>, project?: (...values: Array<any>) => R): Observable<R> {
-  return this.lift(new CombineLatestOperator(project));
+export function combineAll<T, R>(source: Observable<T>, project?: (...values: Array<any>) => R): Observable<R> {
+  return source.lift(new CombineLatestOperator(project));
 }

@@ -39,8 +39,8 @@ import { TeardownLogic } from '../Subscription';
  * @method takeWhile
  * @owner Observable
  */
-export function takeWhile<T>(this: Observable<T>, predicate: (value: T, index: number) => boolean): Observable<T> {
-  return this.lift(new TakeWhileOperator(predicate));
+export function takeWhile<T>(source: Observable<T>, predicate: (value: T, index: number) => boolean): Observable<T> {
+  return source.lift(new TakeWhileOperator(predicate));
 }
 
 class TakeWhileOperator<T> implements Operator<T, T> {

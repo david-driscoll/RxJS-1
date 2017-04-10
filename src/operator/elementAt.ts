@@ -46,8 +46,8 @@ import { TeardownLogic } from '../Subscription';
  * @method elementAt
  * @owner Observable
  */
-export function elementAt<T>(this: Observable<T>, index: number, defaultValue?: T): Observable<T> {
-  return this.lift(new ElementAtOperator(index, defaultValue));
+export function elementAt<T>(source: Observable<T>, index: number, defaultValue?: T): Observable<T> {
+  return source.lift(new ElementAtOperator(index, defaultValue));
 }
 
 class ElementAtOperator<T> implements Operator<T, T> {

@@ -52,9 +52,9 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method windowToggle
  * @owner Observable
  */
-export function windowToggle<T, O>(this: Observable<T>, openings: Observable<O>,
+export function windowToggle<T, O>(source: Observable<T>, openings: Observable<O>,
                                    closingSelector: (openValue: O) => Observable<any>): Observable<Observable<T>> {
-  return this.lift(new WindowToggleOperator<T, O>(openings, closingSelector));
+  return source.lift(new WindowToggleOperator<T, O>(openings, closingSelector));
 }
 
 class WindowToggleOperator<T, O> implements Operator<T, Observable<T>> {

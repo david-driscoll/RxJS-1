@@ -8,6 +8,6 @@ import { ConnectableObservable } from '../observable/ConnectableObservable';
  * @method publishLast
  * @owner Observable
  */
-export function publishLast<T>(this: Observable<T>): ConnectableObservable<T> {
-  return multicast.call(this, new AsyncSubject<T>());
+export function publishLast<T>(source: Observable<T>): ConnectableObservable<T> {
+  return multicast(source, new AsyncSubject<T>());
 }

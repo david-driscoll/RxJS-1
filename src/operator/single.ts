@@ -21,8 +21,8 @@ import { TeardownLogic } from '../Subscription';
  * @method single
  * @owner Observable
  */
-export function single<T>(this: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T> {
-  return this.lift(new SingleOperator(predicate, this));
+export function single<T>(source: Observable<T>, predicate?: (value: T, index: number, source: Observable<T>) => boolean): Observable<T> {
+  return source.lift(new SingleOperator(predicate, source));
 }
 
 class SingleOperator<T> implements Operator<T, T> {

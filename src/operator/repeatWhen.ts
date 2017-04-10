@@ -24,8 +24,8 @@ import { subscribeToResult } from '../util/subscribeToResult';
  * @method repeatWhen
  * @owner Observable
  */
-export function repeatWhen<T>(this: Observable<T>, notifier: (notifications: Observable<any>) => Observable<any>): Observable<T> {
-  return this.lift(new RepeatWhenOperator(notifier));
+export function repeatWhen<T>(source: Observable<T>, notifier: (notifications: Observable<any>) => Observable<any>): Observable<T> {
+  return source.lift(new RepeatWhenOperator(notifier));
 }
 
 class RepeatWhenOperator<T> implements Operator<T, T> {

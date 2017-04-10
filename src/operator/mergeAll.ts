@@ -6,8 +6,8 @@ import { OuterSubscriber } from '../OuterSubscriber';
 import { Subscribable } from '../Observable';
 import { subscribeToResult } from '../util/subscribeToResult';
 
-export function mergeAll<T>(this: Observable<T>, concurrent?: number): T;
-export function mergeAll<T, R>(this: Observable<T>, concurrent?: number): Subscribable<R>;
+export function mergeAll<T>(source: Observable<T>, concurrent?: number): T;
+export function mergeAll<T, R>(source: Observable<T>, concurrent?: number): Subscribable<R>;
 
 /**
  * Converts a higher-order Observable into a first-order Observable which
@@ -53,8 +53,8 @@ export function mergeAll<T, R>(this: Observable<T>, concurrent?: number): Subscr
  * @method mergeAll
  * @owner Observable
  */
-export function mergeAll<T>(this: Observable<T>, concurrent: number = Number.POSITIVE_INFINITY): T {
-  return <any>this.lift<any>(new MergeAllOperator<T>(concurrent));
+export function mergeAll<T>(source: Observable<T>, concurrent: number = Number.POSITIVE_INFINITY): T {
+  return <any>source.lift<any>(new MergeAllOperator<T>(concurrent));
 }
 
 export class MergeAllOperator<T> implements Operator<Observable<T>, T> {
