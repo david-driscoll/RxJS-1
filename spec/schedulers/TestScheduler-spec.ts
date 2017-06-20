@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { time };
+declare const time: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -116,7 +116,7 @@ describe('TestScheduler', () => {
       const scheduler = new TestScheduler(null);
       const source = scheduler.createColdObservable('--a---b--|', { a: 'A', b: 'B' });
       expect(source instanceof Rx.Observable).to.be.true;
-      source.subscribe((x: string) => {
+      source.subscribe((x) => {
         expect(x).to.equal(expected.shift());
       });
       scheduler.flush();
@@ -130,7 +130,7 @@ describe('TestScheduler', () => {
       const scheduler = new TestScheduler(null);
       const source = scheduler.createHotObservable('--a---b--|', { a: 'A', b: 'B' });
       expect(source).to.be.an.instanceof(Rx.Subject);
-      source.subscribe((x: string) => {
+      source.subscribe((x) => {
         expect(x).to.equal(expected.shift());
       });
       scheduler.flush();
@@ -154,7 +154,7 @@ describe('TestScheduler', () => {
       it('should create a cold observable', () => {
         const expected = [1, 2];
         const source = cold('-a-b-|', { a: 1, b: 2 });
-        source.subscribe((x: number) => {
+        source.subscribe((x) => {
           expect(x).to.equal(expected.shift());
         }, null, () => {
           expect(expected.length).to.equal(0);

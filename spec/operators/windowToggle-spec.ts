@@ -2,7 +2,8 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram, time };
+declare const asDiagram: Function;
+declare const time: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -57,7 +58,7 @@ describe('Observable.prototype.windowToggle', () => {
     const z = cold(                                '---|');
     const values = { x: x, y: y, z: z };
 
-    const source = e1.windowToggle(e2, (value: string) => {
+    const source = e1.windowToggle(e2, (value) => {
       expect(value).to.equal('x');
       return e3;
     });
@@ -193,7 +194,7 @@ describe('Observable.prototype.windowToggle', () => {
 
     let i = 0;
     const result = e1
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .windowToggle(e2, () => close[i++])
       .mergeMap((x: Rx.Observable<string>) => Observable.of(x));
 
@@ -217,7 +218,7 @@ describe('Observable.prototype.windowToggle', () => {
     let window;
     const result = source
       .windowToggle(open, () => Observable.never())
-      .do((w: any) => { window = w; });
+      .do((w) => { window = w; });
 
     expectObservable(result, unsub).toBe(expected, values);
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);

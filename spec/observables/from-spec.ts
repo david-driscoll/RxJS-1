@@ -1,7 +1,10 @@
 import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 
-declare const {asDiagram, expectObservable, Symbol, type};
+declare const asDiagram: Function;
+declare const expectObservable: Function;
+declare const type: Function;
+declare const Symbol: any;
 declare const rxTestScheduler: Rx.TestScheduler;
 const Observable = Rx.Observable;
 
@@ -42,7 +45,7 @@ describe('Observable.from', () => {
     });
   });
 
-  const fakervable = (...values) => ({
+  const fakervable = (...values: string[]) => ({
     [<symbol>Symbol.observable]: () => ({
       subscribe: (observer: Rx.Observer<string>) => {
         for (const value of values) {
@@ -53,7 +56,7 @@ describe('Observable.from', () => {
     })
   });
 
-  const fakerator = (...values) => ({
+  const fakerator = (...values: string[]) => ({
     [<symbol>Symbol.iterator]: () => {
       const clone = [...values];
       return {
@@ -77,11 +80,11 @@ describe('Observable.from', () => {
   ];
 
   for (const source of sources) {
-    it(`should accept ${source.name}`, (done: MochaDone) => {
+    it(`should accept ${source.name}`, (done) => {
       let nextInvoked = false;
       Observable.from(source.value)
         .subscribe(
-          (x: string) => {
+          (x) => {
             nextInvoked = true;
             expect(x).to.equal('x');
           },
@@ -94,11 +97,11 @@ describe('Observable.from', () => {
           }
         );
     });
-    it(`should accept ${source.name} and scheduler`, (done: MochaDone) => {
+    it(`should accept ${source.name} and scheduler`, (done) => {
       let nextInvoked = false;
       Observable.from(source.value, Rx.Scheduler.async)
         .subscribe(
-          (x: string) => {
+          (x) => {
             nextInvoked = true;
             expect(x).to.equal('x');
           },

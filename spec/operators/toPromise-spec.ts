@@ -6,23 +6,23 @@ const Observable = Rx.Observable;
 
 /** @test {toPromise} */
 describe('Observable.prototype.toPromise', () => {
-  it('should convert an Observable to a promise of its last value', (done: MochaDone) => {
-    Observable.of(1, 2, 3).toPromise(Promise).then((x: number) => {
+  it('should convert an Observable to a promise of its last value', (done) => {
+    Observable.of(1, 2, 3).toPromise(Promise).then((x) => {
       expect(x).to.equal(3);
       done();
     });
   });
 
-  it('should handle errors properly', (done: MochaDone) => {
+  it('should handle errors properly', (done) => {
     Observable.throw('bad').toPromise(Promise).then(() => {
       done(new Error('should not be called'));
-    }, (err: any) => {
+    }, (err) => {
       expect(err).to.equal('bad');
       done();
     });
   });
 
-  it('should allow for global config via Rx.config.Promise', (done: MochaDone) => {
+  it('should allow for global config via Rx.config.Promise', (done) => {
     let wasCalled = false;
     __root__.Rx = {};
     __root__.Rx.config = {};
@@ -31,7 +31,7 @@ describe('Observable.prototype.toPromise', () => {
       return new Promise(callback);
     };
 
-    Observable.of(42).toPromise().then((x: number) => {
+    Observable.of(42).toPromise().then((x) => {
       expect(wasCalled).to.be.true;
       expect(x).to.equal(42);
 

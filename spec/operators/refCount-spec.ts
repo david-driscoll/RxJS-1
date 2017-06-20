@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscriptions;
@@ -41,7 +41,7 @@ describe('ConnectableObservable.prototype.refCount', () => {
     sub3.unsubscribe();
   });
 
-  it('should unsub from the source when all other subscriptions are unsubbed', (done: MochaDone) => {
+  it('should unsub from the source when all other subscriptions are unsubbed', (done) => {
     let unsubscribeCalled = false;
     const connectable = new Observable((observer: Rx.Observer<boolean>) => {
       observer.next(true);
@@ -57,7 +57,7 @@ describe('ConnectableObservable.prototype.refCount', () => {
     const sub2 = refCounted.subscribe(() => {
       //noop
     });
-    const sub3 = refCounted.subscribe((x: any) => {
+    const sub3 = refCounted.subscribe((x) => {
       expect((<any>connectable)._refCount).to.equal(1);
     });
 

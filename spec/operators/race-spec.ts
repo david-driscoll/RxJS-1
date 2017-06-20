@@ -120,9 +120,9 @@ describe('Observable.prototype.race', () => {
     const unsub =         '         !    ';
 
     const result = e1
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .race(e2)
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -169,7 +169,7 @@ describe('Observable.prototype.race', () => {
     expectSubscriptions(e2.subscriptions).toBe(e2subs);
   });
 
-  it('should allow observable emits immediately', (done: MochaDone) => {
+  it('should allow observable emits immediately', (done) => {
     const e1 = Observable.of(true);
     const e2 = Observable.timer(200).map(_ => false);
 

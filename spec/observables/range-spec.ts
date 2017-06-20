@@ -4,7 +4,7 @@ import * as Rx from '../../dist/cjs/Rx';
 import {RangeObservable} from '../../dist/cjs/observable/RangeObservable';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 
 declare const rxTestScheduler: Rx.TestScheduler;
@@ -34,14 +34,14 @@ describe('Observable.range', () => {
   });
 
   it('should synchronously create a range of values by default', () => {
-    const results = [];
+    const results: number[] = [];
     Observable.range(12, 4).subscribe(function (x) {
       results.push(x);
     });
     expect(results).to.deep.equal([12, 13, 14, 15]);
   });
 
-  it('should accept a scheduler', (done: MochaDone) => {
+  it('should accept a scheduler', (done) => {
     const expected = [12, 13, 14, 15];
     sinon.spy(asap, 'schedule');
 

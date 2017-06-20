@@ -2,7 +2,7 @@ import * as Rx from '../../dist/cjs/Rx';
 import { expect } from 'chai';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscriptions;
@@ -38,8 +38,8 @@ describe('Observable.prototype.bufferCount', () => {
   });
 
   it('should buffer properly (issue #2062)', () => {
-    const item$ = new Rx.Subject();
-    const results = [];
+    const item$ = new Rx.Subject<number>();
+    const results: number[][] = [];
     item$
       .bufferCount(3, 1)
       .subscribe(value => {
@@ -98,9 +98,9 @@ describe('Observable.prototype.bufferCount', () => {
     const unsub =    '                  !           ';
 
     const result = e1
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .bufferCount(3, 2)
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(subs);

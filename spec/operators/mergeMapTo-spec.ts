@@ -2,7 +2,8 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram, type };
+declare const asDiagram: Function;
+declare const type: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -46,15 +47,15 @@ describe('Observable.prototype.mergeMapTo', () => {
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
-  it('should map values to constant resolved promises and merge', (done: MochaDone) => {
+  it('should map values to constant resolved promises and merge', (done) => {
     const source = Rx.Observable.from([4, 3, 2, 1]);
 
     const results = [];
     source.mergeMapTo(Observable.from(Promise.resolve(42))).subscribe(
-      (x: any) => {
+      (x) => {
         results.push(x);
       },
-      (err: any) => {
+      (err) => {
         done(new Error('Subscriber error handler not supposed to be called.'));
       },
       () => {
@@ -63,14 +64,14 @@ describe('Observable.prototype.mergeMapTo', () => {
       });
   });
 
-  it('should map values to constant rejected promises and merge', (done: MochaDone) => {
+  it('should map values to constant rejected promises and merge', (done) => {
     const source = Rx.Observable.from([4, 3, 2, 1]);
 
     source.mergeMapTo(Observable.from(Promise.reject(42))).subscribe(
-      (x: any) => {
+      (x) => {
         done(new Error('Subscriber next handler not supposed to be called.'));
       },
-      (err: any) => {
+      (err) => {
         expect(err).to.equal(42);
         done();
       },
@@ -79,7 +80,7 @@ describe('Observable.prototype.mergeMapTo', () => {
       });
   });
 
-  it('should mergeMapTo values to resolved promises with resultSelector', (done: MochaDone) => {
+  it('should mergeMapTo values to resolved promises with resultSelector', (done) => {
     const source = Rx.Observable.from([4, 3, 2, 1]);
     const resultSelectorCalledWith = [];
     const inner = Observable.from(Promise.resolve(42));
@@ -96,10 +97,10 @@ describe('Observable.prototype.mergeMapTo', () => {
       [1, 42, 3, 0],
     ];
     source.mergeMapTo(inner, resultSelector).subscribe(
-      (x: any) => {
+      (x) => {
         results.push(x);
       },
-      (err: any) => {
+      (err) => {
         done(new Error('Subscriber error handler not supposed to be called.'));
       },
       () => {
@@ -109,7 +110,7 @@ describe('Observable.prototype.mergeMapTo', () => {
       });
   });
 
-  it('should mergeMapTo values to rejected promises with resultSelector', (done: MochaDone) => {
+  it('should mergeMapTo values to rejected promises with resultSelector', (done) => {
     const source = Rx.Observable.from([4, 3, 2, 1]);
     const inner = Observable.from(Promise.reject(42));
     const resultSelector = () => {
@@ -117,10 +118,10 @@ describe('Observable.prototype.mergeMapTo', () => {
     };
 
     source.mergeMapTo(inner, resultSelector).subscribe(
-      (x: any) => {
+      (x) => {
         done(new Error('Subscriber next handler not supposed to be called.'));
       },
-      (err: any) => {
+      (err) => {
         expect(err).to.equal(42);
         done();
       },
@@ -431,7 +432,7 @@ describe('Observable.prototype.mergeMapTo', () => {
     const expected = ['!', '!', '!', '!'];
     let completed = false;
 
-    source.subscribe((x: string) => {
+    source.subscribe((x) => {
       expect(x).to.equal(expected.shift());
     }, null, () => {
       expect(expected.length).to.equal(0);
@@ -447,7 +448,7 @@ describe('Observable.prototype.mergeMapTo', () => {
     const expected = ['!', '!', '!', '!'];
     let completed = false;
 
-    source.subscribe((x: string) => {
+    source.subscribe((x) => {
       expect(x).to.equal(expected.shift());
     }, null, () => {
       expect(expected.length).to.equal(0);

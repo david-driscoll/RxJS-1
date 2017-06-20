@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -93,7 +93,7 @@ describe('Observable.prototype.expand', () => {
     const e2shape =  '---(z|)      ';
     const expected = 'a--b--c--(d#)';
 
-    const result = e1.expand((x: number) => {
+    const result = e1.expand((x) => {
       if (x === 8) {
         return cold('#');
       }
@@ -117,7 +117,7 @@ describe('Observable.prototype.expand', () => {
     const e2shape =  '---(z|)      ';
     const expected = 'a--b--c--(d#)';
 
-    const result = e1.expand((x: number) => {
+    const result = e1.expand((x) => {
       if (x === 8) {
         throw 'error';
       }
@@ -168,14 +168,14 @@ describe('Observable.prototype.expand', () => {
     const unsub =    '       !  ';
 
     const result = (<any>e1)
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .expand((x: number): Rx.Observable<any> => {
         if (x === 16) {
           return Observable.empty();
         }
         return cold(e2shape, { z: x + x });
       })
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -318,7 +318,7 @@ describe('Observable.prototype.expand', () => {
     const e1subs =   '(^!)';
     const expected = '(abcde|)';
 
-    const result = e1.expand((x: number) => {
+    const result = e1.expand((x) => {
       if (x === 16) {
         return Observable.empty();
       }
@@ -329,7 +329,7 @@ describe('Observable.prototype.expand', () => {
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
-  it('should recursively flatten promises', (done: MochaDone) => {
+  it('should recursively flatten promises', (done) => {
     const expected = [1, 2, 4, 8, 16];
     Observable.of(1)
       .expand((x: number): any => {
@@ -338,7 +338,7 @@ describe('Observable.prototype.expand', () => {
         }
         return Promise.resolve(x + x);
       })
-      .subscribe((x: number) => {
+      .subscribe((x) => {
         expect(x).to.equal(expected.shift());
       }, null, () => {
         expect(expected.length).to.equal(0);
@@ -346,7 +346,7 @@ describe('Observable.prototype.expand', () => {
       });
   });
 
-  it('should recursively flatten Arrays', (done: MochaDone) => {
+  it('should recursively flatten Arrays', (done) => {
     const expected = [1, 2, 4, 8, 16];
     Observable.of(1)
       .expand((x: number): any => {
@@ -355,7 +355,7 @@ describe('Observable.prototype.expand', () => {
         }
         return [x + x];
       })
-      .subscribe((x: number) => {
+      .subscribe((x) => {
         expect(x).to.equal(expected.shift());
       }, null, () => {
         expect(expected.length).to.equal(0);
@@ -363,7 +363,7 @@ describe('Observable.prototype.expand', () => {
       });
   });
 
-  it('should recursively flatten lowercase-o observables', (done: MochaDone) => {
+  it('should recursively flatten lowercase-o observables', (done) => {
     const expected = [1, 2, 4, 8, 16];
     const project = (x: any, index: number) => {
       if (x === 16) {
@@ -385,7 +385,7 @@ describe('Observable.prototype.expand', () => {
 
     (<any>Observable.of(1))
       .expand(project)
-      .subscribe((x: number) => {
+      .subscribe((x) => {
         expect(x).to.equal(expected.shift());
       }, null, () => {
         expect(expected.length).to.equal(0);

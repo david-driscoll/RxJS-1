@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -21,11 +21,10 @@ describe('Observable.prototype.concat', () => {
     expectObservable(e1.concat(e2, rxTestScheduler)).toBe(expected);
   });
 
-  it('should work properly with scalar observables', (done: MochaDone) => {
-    const results = [];
+  it('should work properly with scalar observables', (done) => {
+    const results: string[] = [];
 
-    const s1 = Observable
-      .create((observer: Rx.Observer<number>) => {
+    const s1 = new Observable< number>((observer) => {
         setTimeout(() => {
           observer.next(1);
           observer.complete();
@@ -33,7 +32,7 @@ describe('Observable.prototype.concat', () => {
       })
       .concat(Observable.of(2));
 
-    s1.subscribe((x: number) => {
+    s1.subscribe((x) => {
           results.push('Next: ' + x);
         }, (x) => {
           done(new Error('should not be called'));
@@ -61,7 +60,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('--|');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '-';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -85,7 +84,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('-');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '-';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -109,7 +108,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('---#');
     const e1subs =    '^  !';
     const e2 =   cold('----|');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '---#';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -121,7 +120,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('---#');
     const e1subs =    '^  !';
     const e2 =   cold('------#');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '---#';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -170,7 +169,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('--a--|');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '-';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -212,9 +211,9 @@ describe('Observable.prototype.concat', () => {
     const unsub =     '                 !    ';
 
     const result = e1
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .concat(e2)
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -225,7 +224,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('--#');
     const e1subs =    '^ !';
     const e2 =   cold('----a--|');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '--#';
 
     expectObservable(e1.concat(e2)).toBe(expected);

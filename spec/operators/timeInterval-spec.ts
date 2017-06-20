@@ -1,7 +1,7 @@
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -19,7 +19,7 @@ describe('Observable.prototype.timeInterval', () => {
     const expectedValue = { w: 10, x: 20, y: 60, z: 30 };
 
     const result = (<any>e1).timeInterval(rxTestScheduler)
-      .map((x: any) => x.interval);
+      .map((x) => x.interval);
 
     expectObservable(result).toBe(expected, expectedValue);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -102,9 +102,9 @@ describe('Observable.prototype.timeInterval', () => {
     };
 
     const result = (<any>e1)
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .timeInterval(rxTestScheduler)
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected, expectedValue);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);

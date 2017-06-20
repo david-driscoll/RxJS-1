@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../dist/cjs/Rx';
 import marbleTestingSignature = require('./helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { time };
+declare const time: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 
@@ -11,11 +11,11 @@ const Observable = Rx.Observable;
 
 /** @test {Subject} */
 describe('Subject', () => {
-  it('should pump values right on through itself', (done: MochaDone) => {
+  it('should pump values right on through itself', (done) => {
     const subject = new Subject();
     const expected = ['foo', 'bar'];
 
-    subject.subscribe((x: string) => {
+    subject.subscribe((x) => {
       expect(x).to.equal(expected.shift());
     }, null, done);
 
@@ -24,7 +24,7 @@ describe('Subject', () => {
     subject.complete();
   });
 
-  it('should pump values to multiple subscribers', (done: MochaDone) => {
+  it('should pump values to multiple subscribers', (done) => {
     const subject = new Subject();
     const expected = ['foo', 'bar'];
 
@@ -275,7 +275,7 @@ describe('Subject', () => {
     expect(results3).to.deep.equal([]);
   });
 
-  it('should not allow values to be nexted after it is unsubscribed', (done: MochaDone) => {
+  it('should not allow values to be nexted after it is unsubscribed', (done) => {
     const subject = new Subject();
     const expected = ['foo'];
 
@@ -289,7 +289,7 @@ describe('Subject', () => {
     done();
   });
 
-  it('should clean out unsubscribed subscribers', (done: MochaDone) => {
+  it('should clean out unsubscribed subscribers', (done) => {
     const subject = new Subject();
 
     const sub1 = subject.subscribe(function (x) {
@@ -400,7 +400,7 @@ describe('Subject', () => {
     expect(outputComplete).to.be.true;
   });
 
-  it('should be an Observer which can be given to Observable.subscribe', (done: MochaDone) => {
+  it('should be an Observer which can be given to Observable.subscribe', (done) => {
     const source = Observable.of(1, 2, 3, 4, 5);
     const subject = new Subject();
     const expected = [1, 2, 3, 4, 5];
@@ -417,7 +417,7 @@ describe('Subject', () => {
     source.subscribe(subject);
   });
 
-  it('should be usable as an Observer of a finite delayed Observable', (done: MochaDone) => {
+  it('should be usable as an Observer of a finite delayed Observable', (done) => {
     const source = Rx.Observable.of(1, 2, 3).delay(50);
     const subject = new Rx.Subject();
 

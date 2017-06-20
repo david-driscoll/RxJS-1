@@ -2,7 +2,9 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram, Symbol, type };
+declare const asDiagram: Function;
+declare const type: Function;
+declare const Symbol: any;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -14,7 +16,7 @@ declare const rxTestScheduler: Rx.TestScheduler;
 
 /** @test {finally} */
 describe('Observable.prototype.finally', () => {
-  it('should call finally after complete', (done: MochaDone) => {
+  it('should call finally after complete', (done) => {
     let completed = false;
     Observable.of(1, 2, 3)
       .finally(() => {
@@ -26,7 +28,7 @@ describe('Observable.prototype.finally', () => {
       });
   });
 
-  it('should call finally after error', (done: MochaDone) => {
+  it('should call finally after error', (done) => {
     let thrown = false;
     Observable.of(1, 2, 3)
       .map(function (x) {
@@ -44,7 +46,7 @@ describe('Observable.prototype.finally', () => {
       });
   });
 
-  it('should call finally upon disposal', (done: MochaDone) => {
+  it('should call finally upon disposal', (done) => {
     let disposed = false;
     const subscription = Observable
       .timer(100)
@@ -57,7 +59,7 @@ describe('Observable.prototype.finally', () => {
   });
 
   it('should call finally when synchronously subscribing to and unsubscribing ' +
-  'from a shared Observable', (done: MochaDone) => {
+  'from a shared Observable', (done) => {
     Observable.interval(50)
       .finally(done)
       .share()
@@ -65,7 +67,7 @@ describe('Observable.prototype.finally', () => {
       .unsubscribe();
   });
 
-  it('should call two finally instances in succession on a shared Observable', (done: MochaDone) => {
+  it('should call two finally instances in succession on a shared Observable', (done) => {
     let invoked = 0;
     function checkFinally() {
       invoked += 1;

@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -53,7 +53,7 @@ describe('Observable.prototype.last', () => {
     const e1subs =    '^             !';
     const expected =  '--------------(b|)';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'b';
     };
 
@@ -78,9 +78,9 @@ describe('Observable.prototype.last', () => {
     const unsub =     '       !       ';
 
     const result = e1
-      .mergeMap((x: string) => Rx.Observable.of(x))
+      .mergeMap((x) => Rx.Observable.of(x))
       .last()
-      .mergeMap((x: string) => Rx.Observable.of(x));
+      .mergeMap((x) => Rx.Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -109,8 +109,8 @@ describe('Observable.prototype.last', () => {
     const e1subs =      '^                  !';
     const expected =    '-------------------(x|)';
 
-    const predicate = function (x) { return x === 'c'; };
-    const resultSelector = function (x, i) {
+    const predicate = function (x: string) { return x === 'c'; };
+    const resultSelector = function (x: string, i: number) {
       expect(i).to.equal(1);
       expect(x).to.equal('c');
       return 'x';
@@ -125,7 +125,7 @@ describe('Observable.prototype.last', () => {
     const e1subs =      '^       !           ';
     const expected =    '--------#           ';
 
-    const predicate = function (x) {
+    const predicate = function (x: string) {
       if (x === 'c') {
         throw 'error';
       } else {
@@ -142,8 +142,8 @@ describe('Observable.prototype.last', () => {
     const e1subs =      '^       !           ';
     const expected =    '--------#           ';
 
-    const predicate = function (x) { return x === 'c'; };
-    const resultSelector = function (x, i) {
+    const predicate = function (x: string) { return x === 'c'; };
+    const resultSelector = function (x: string, i: number) {
       throw 'error';
     };
 

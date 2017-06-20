@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -130,7 +130,7 @@ describe('Observable.prototype.publish', () => {
     const source =     cold('-1-2-3----4-|');
     const sourceSubs =      '^        !   ';
     const published = source
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .publish();
     const subscriber1 = hot('a|           ').mergeMapTo(published);
     const expected1   =     '-1-2-3----   ';
@@ -223,7 +223,7 @@ describe('Observable.prototype.publish', () => {
     });
   });
 
-  it('should emit completed when subscribed after completed', (done: MochaDone) => {
+  it('should emit completed when subscribed after completed', (done) => {
     const results1 = [];
     const results2 = [];
     let subscriptions = 0;
@@ -239,7 +239,7 @@ describe('Observable.prototype.publish', () => {
 
     const connectable = source.publish();
 
-    connectable.subscribe((x: any) => {
+    connectable.subscribe((x) => {
       results1.push(x);
     });
 
@@ -252,7 +252,7 @@ describe('Observable.prototype.publish', () => {
     expect(results2).to.deep.equal([]);
     expect(subscriptions).to.equal(1);
 
-    connectable.subscribe((x: any) => {
+    connectable.subscribe((x) => {
       results2.push(x);
     }, (x) => {
       done(new Error('should not be called'));
@@ -298,7 +298,7 @@ describe('Observable.prototype.publish', () => {
     published.connect();
   });
 
-  it('should multicast one observable to multiple observers', (done: MochaDone) => {
+  it('should multicast one observable to multiple observers', (done) => {
     const results1 = [];
     const results2 = [];
     let subscriptions = 0;
@@ -314,11 +314,11 @@ describe('Observable.prototype.publish', () => {
 
     const connectable = source.publish();
 
-    connectable.subscribe((x: any) => {
+    connectable.subscribe((x) => {
       results1.push(x);
     });
 
-    connectable.subscribe((x: any) => {
+    connectable.subscribe((x) => {
       results2.push(x);
     });
 

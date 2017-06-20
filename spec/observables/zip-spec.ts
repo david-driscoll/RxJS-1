@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { type };
+declare const type: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -28,14 +28,14 @@ describe('Observable.zip', () => {
     expectSubscriptions(b.subscriptions).toBe(bsubs);
   });
 
-  it('should zip the provided observables', (done: MochaDone) => {
+  it('should zip the provided observables', (done) => {
     const expected = ['a1', 'b2', 'c3'];
     let i = 0;
 
     Observable.zip(
       Observable.from(['a', 'b', 'c']),
       Observable.from([1, 2, 3]), (a: string, b: number) => a + b)
-        .subscribe((x: string) => {
+        .subscribe((x) => {
           expect(x).to.equal(expected[i++]);
         }, null, done);
   });
@@ -111,7 +111,7 @@ describe('Observable.zip', () => {
       let nextCalled = 0;
       const myIterator = <any>{
         count: 0,
-        next: () => {
+        next() {
           nextCalled++;
           return { value: this.count++, done: false };
         }
@@ -131,7 +131,7 @@ describe('Observable.zip', () => {
     it('should work with never observable and empty iterable', () => {
       const a = cold(  '-');
       const asubs =    '^';
-      const b = [];
+      const b: any[] = [];
       const expected = '-';
 
       expectObservable(Observable.zip(a, b)).toBe(expected);
@@ -141,7 +141,7 @@ describe('Observable.zip', () => {
     it('should work with empty observable and empty iterable', () => {
       const a = cold('|');
       const asubs = '(^!)';
-      const b = [];
+      const b: any[] = [];
       const expected = '|';
 
       expectObservable(Observable.zip(a, b)).toBe(expected);
@@ -161,7 +161,7 @@ describe('Observable.zip', () => {
     it('should work with non-empty observable and empty iterable', () => {
       const a = hot('---^----a--|');
       const asubs =    '^       !';
-      const b = [];
+      const b: any[] = [];
       const expected = '--------|';
 
       expectObservable(Observable.zip(a, b)).toBe(expected);
@@ -191,7 +191,7 @@ describe('Observable.zip', () => {
     it('should work with non-empty observable and empty iterable', () => {
       const a = hot('---^----#');
       const asubs =    '^    !';
-      const b = [];
+      const b: any[] = [];
       const expected = '-----#';
 
       expectObservable(Observable.zip(a, b)).toBe(expected);
@@ -571,7 +571,7 @@ describe('Observable.zip', () => {
     expectSubscriptions(b.subscriptions).toBe(bsubs);
   });
 
-  it('should combine an immediately-scheduled source with an immediately-scheduled second', (done: MochaDone) => {
+  it('should combine an immediately-scheduled source with an immediately-scheduled second', (done) => {
     const a = Observable.of<number>(1, 2, 3, queueScheduler);
     const b = Observable.of<number>(4, 5, 6, 7, 8, queueScheduler);
     const r = [[1, 4], [2, 5], [3, 6]];

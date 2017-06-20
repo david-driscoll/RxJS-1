@@ -12,7 +12,7 @@ describe('Subscriber', () => {
       const completeSpy = sinon.spy();
 
       const subscriber = Subscriber.create(
-        (value: any) => {
+        (value) => {
           if (value === 2) {
             throw 'error!';
           }

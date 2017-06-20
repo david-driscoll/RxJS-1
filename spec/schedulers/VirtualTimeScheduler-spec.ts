@@ -14,7 +14,7 @@ describe('VirtualTimeScheduler', () => {
   it('should schedule things in order when flushed if each this is scheduled synchrously', () => {
     const v = new VirtualTimeScheduler();
     const invoked = [];
-    const invoke = (state: number) => {
+    const invoke = (state) => {
       invoked.push(state);
     };
     v.schedule(invoke, 0, 1);
@@ -31,7 +31,7 @@ describe('VirtualTimeScheduler', () => {
   it('should schedule things in order when flushed if each this is scheduled at random', () => {
     const v = new VirtualTimeScheduler();
     const invoked = [];
-    const invoke = (state: number) => {
+    const invoke = (state) => {
       invoked.push(state);
     };
     v.schedule(invoke, 0, 1);
@@ -49,7 +49,7 @@ describe('VirtualTimeScheduler', () => {
   it('should schedule things in order when there are negative delays', () => {
     const v = new VirtualTimeScheduler();
     const invoked = [];
-    const invoke = (state: number) => {
+    const invoke = (state) => {
       invoked.push(state);
     };
     v.schedule(invoke, 0, 1);

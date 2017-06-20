@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -88,9 +88,9 @@ describe('Observable.prototype.audit', () => {
     const unsub =    '              !               ';
 
     const result = e1
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .audit(() => e2)
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -302,14 +302,14 @@ describe('Observable.prototype.audit', () => {
     expectSubscriptions(e1.subscriptions).toBe(subs);
   });
 
-  it('should audit by promise resolves', (done: MochaDone) => {
+  it('should audit by promise resolves', (done) => {
     const e1 = Observable.interval(10).take(5);
     const expected = [0, 1, 2, 3];
 
     e1.audit(() => {
-      return new Promise((resolve: any) => { resolve(42); });
+      return new Promise((resolve) => { resolve(42); });
     }).subscribe(
-      (x: number) => {
+      (x) => {
         expect(x).to.equal(expected.shift()); },
       () => {
         done(new Error('should not be called'));
@@ -321,21 +321,21 @@ describe('Observable.prototype.audit', () => {
     );
   });
 
-  it('should raise error when promise rejects', (done: MochaDone) => {
+  it('should raise error when promise rejects', (done) => {
     const e1 = Observable.interval(10).take(10);
     const expected = [0, 1, 2];
     const error = new Error('error');
 
-    e1.audit((x: number) => {
+    e1.audit((x) => {
       if (x === 3) {
         return new Promise((resolve: any, reject: any) => { reject(error); });
       } else {
-        return new Promise((resolve: any) => { resolve(42); });
+        return new Promise((resolve) => { resolve(42); });
       }
     }).subscribe(
-      (x: number) => {
+      (x) => {
         expect(x).to.equal(expected.shift()); },
-      (err: any) => {
+      (err) => {
         expect(err).to.be.an('error', 'error');
         expect(expected.length).to.equal(0);
         done();

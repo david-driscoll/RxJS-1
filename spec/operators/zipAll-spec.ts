@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -38,7 +38,7 @@ describe('Observable.prototype.zipAll', () => {
     expectSubscriptions(b.subscriptions).toBe(bsubs);
   });
 
-  it('should take all observables from the source and zip them', (done: MochaDone) => {
+  it('should take all observables from the source and zip them', (done) => {
     const expected = ['a1', 'b2', 'c3'];
     let i = 0;
     Observable.of<any>(
@@ -46,7 +46,7 @@ describe('Observable.prototype.zipAll', () => {
       Observable.of<any>(1, 2, 3)
     )
     .zipAll((a: any, b: any) => a + b)
-    .subscribe((x: any) => {
+    .subscribe((x) => {
       expect(x).to.equal(expected[i++]);
     }, null, done);
   });
@@ -373,7 +373,7 @@ describe('Observable.prototype.zipAll', () => {
     expectSubscriptions(b.subscriptions).toBe(bsubs);
   });
 
-  it('should zip until one child terminates', (done: MochaDone) => {
+  it('should zip until one child terminates', (done) => {
     const expected = ['a1', 'b2'];
     let i = 0;
     Observable.of<any>(
@@ -381,7 +381,7 @@ describe('Observable.prototype.zipAll', () => {
       Observable.of<any>(1, 2)
     )
     .zipAll((a: any, b: any) => a + b)
-    .subscribe((x: any) => {
+    .subscribe((x) => {
       expect(x).to.equal(expected[i++]);
     }, null, done);
   });
@@ -679,7 +679,7 @@ describe('Observable.prototype.zipAll', () => {
     expectSubscriptions(b.subscriptions).toBe(bsubs);
   });
 
-  it('should combine two immediately-scheduled observables', (done: MochaDone) => {
+  it('should combine two immediately-scheduled observables', (done) => {
     const a = Observable.of<any>(1, 2, 3, queueScheduler);
     const b = Observable.of<any>(4, 5, 6, 7, 8, queueScheduler);
     const r = [[1, 4], [2, 5], [3, 6]];
@@ -687,12 +687,12 @@ describe('Observable.prototype.zipAll', () => {
 
     const result = Observable.of<any>(a, b, queueScheduler).zipAll();
 
-    result.subscribe((vals: any) => {
+    result.subscribe((vals) => {
       expect(vals).to.deep.equal(r[i++]);
     }, null, done);
   });
 
-  it('should combine a source with an immediately-scheduled source', (done: MochaDone) => {
+  it('should combine a source with an immediately-scheduled source', (done) => {
     const a = Observable.of<any>(1, 2, 3, queueScheduler);
     const b = Observable.of<any>(4, 5, 6, 7, 8);
     const r = [[1, 4], [2, 5], [3, 6]];
@@ -700,7 +700,7 @@ describe('Observable.prototype.zipAll', () => {
 
     const result = Observable.of<any>(a, b, queueScheduler).zipAll();
 
-    result.subscribe((vals: any) => {
+    result.subscribe((vals) => {
       expect(vals).to.deep.equal(r[i++]);
     }, null, done);
   });
@@ -715,9 +715,9 @@ describe('Observable.prototype.zipAll', () => {
     const values = { x: ['1', '4'], y: ['2', '5']};
 
     const r = Observable.of<any>(a, b)
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .zipAll()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(r, unsub).toBe(expected, values);
     expectSubscriptions(a.subscriptions).toBe(asubs);

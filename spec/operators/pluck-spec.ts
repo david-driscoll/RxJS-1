@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscriptions;
@@ -21,7 +21,7 @@ describe('Observable.prototype.pluck', () => {
     const e1 =  cold('--a--b--c--|', values);
     const expected = '--x--y--z--|';
 
-    const result = e1.map((x: string) => ({v: x.charAt(3)})).pluck('v');
+    const result = e1.map((x) => ({v: x.charAt(3)})).pluck('v');
 
     expectObservable(result).toBe(expected, {x: '1', y: '2', z: '3'});
   });
@@ -165,9 +165,9 @@ describe('Observable.prototype.pluck', () => {
     const expected = '--1--2-     ';
 
     const r = a
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .pluck('prop')
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(r, unsub).toBe(expected);
     expectSubscriptions(a.subscriptions).toBe(asubs);

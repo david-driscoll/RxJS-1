@@ -1,7 +1,7 @@
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -23,7 +23,7 @@ describe('Observable.prototype.dematerialize', () => {
     const e1 =   hot('--a--b--c--d-|', values);
     const expected = '--x--y--z--|';
 
-    const result = e1.map((x: string) => {
+    const result = e1.map((x) => {
       if (x === '|') {
         return Notification.createComplete();
       } else {
@@ -141,9 +141,9 @@ describe('Observable.prototype.dematerialize', () => {
     const unsub =    '       !       ';
 
     const result = e1
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .dematerialize()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);

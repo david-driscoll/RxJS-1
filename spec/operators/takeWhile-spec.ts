@@ -3,7 +3,7 @@ import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 import { doNotUnsubscribe } from '../helpers/doNotUnsubscribe';
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -17,7 +17,7 @@ describe('Observable.prototype.takeWhile', () => {
     const sourceSubs =    '^      !         ';
     const expected =      '-2--3--|         ';
 
-    const result = source.takeWhile((v: any) => +v < 4);
+    const result = source.takeWhile((v) => +v < 4);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);
@@ -199,9 +199,9 @@ describe('Observable.prototype.takeWhile', () => {
     }
 
     const result = e1
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .takeWhile(predicate)
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);

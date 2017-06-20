@@ -127,7 +127,7 @@ describe('Observable.prototype.mergeScan', () => {
     };
 
     const source = (<any>e1)
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .mergeScan((acc: any, x: string) =>
         Observable.of(acc.concat(x)).delay(50, rxTestScheduler), [])
       .mergeMap(function (x) { return Observable.of(x); });

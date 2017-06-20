@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -109,14 +109,14 @@ describe('Observable.prototype.onErrorResumeNext', () => {
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
-  it('should work with promise', (done: MochaDone) => {
+  it('should work with promise', (done) => {
     const expected = [1, 2];
     const source = Observable.concat(Observable.of(1), Observable.throw('meh'));
 
     source.onErrorResumeNext(Promise.resolve(2))
       .subscribe(x => {
         expect(expected.shift()).to.equal(x);
-      }, (err: any) => {
+      }, (err) => {
         done(new Error('should not be called'));
       }, () => {
         expect(expected).to.be.empty;

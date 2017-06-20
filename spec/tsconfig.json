@@ -18,6 +18,7 @@
             "dom"
         ]
     },
+    "extends": "../tsconfig.json",
     "formatCodeOptions": {
         "indentSize": 2,
         "tabSize": 2

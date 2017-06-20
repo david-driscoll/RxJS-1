@@ -3,7 +3,7 @@ import * as Rx from '../../dist/cjs/Rx';
 import {ErrorObservable} from '../../dist/cjs/observable/ErrorObservable';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const rxTestScheduler: Rx.TestScheduler;
 const Observable = Rx.Observable;
@@ -16,11 +16,11 @@ describe('Observable.throw', () => {
     expectObservable(e1).toBe(expected);
   });
 
-  it('should emit one value', (done: MochaDone) => {
+  it('should emit one value', (done) => {
     let calls = 0;
     Observable.throw('bad').subscribe(() => {
       done(new Error('should not be called'));
-    }, (err: any) => {
+    }, (err) => {
       expect(++calls).to.equal(1);
       expect(err).to.equal('bad');
       done();

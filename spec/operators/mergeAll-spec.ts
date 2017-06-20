@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -151,9 +151,9 @@ describe('Observable.prototype.mergeAll', () => {
     const unsub =     '            !     ';
 
     const result = (<any>e1)
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .mergeAll()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(x.subscriptions).toBe(xsubs);
@@ -377,38 +377,38 @@ describe('Observable.prototype.mergeAll', () => {
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
-  it('should merge all promises in an observable', (done: MochaDone) => {
+  it('should merge all promises in an observable', (done) => {
     const e1 = Rx.Observable.from([
-      new Promise((res: any) => { res('a'); }),
-      new Promise((res: any) => { res('b'); }),
-      new Promise((res: any) => { res('c'); }),
-      new Promise((res: any) => { res('d'); }),
+      new Promise((res) => { res('a'); }),
+      new Promise((res) => { res('b'); }),
+      new Promise((res) => { res('c'); }),
+      new Promise((res) => { res('d'); }),
     ]);
     const expected = ['a', 'b', 'c', 'd'];
 
     const res = [];
     (<any>e1.mergeAll()).subscribe(
-      (x: any) => { res.push(x); },
-      (err: any) => { done(new Error('should not be called')); },
+      (x) => { res.push(x); },
+      (err) => { done(new Error('should not be called')); },
       () => {
         expect(res).to.deep.equal(expected);
         done();
       });
   });
 
-  it('should raise error when promise rejects', (done: MochaDone) => {
+  it('should raise error when promise rejects', (done) => {
     const error = 'error';
     const e1 = Rx.Observable.from([
-      new Promise((res: any) => { res('a'); }),
+      new Promise((res) => { res('a'); }),
       new Promise((res: any, rej: any) => { rej(error); }),
-      new Promise((res: any) => { res('c'); }),
-      new Promise((res: any) => { res('d'); }),
+      new Promise((res) => { res('c'); }),
+      new Promise((res) => { res('d'); }),
     ]);
 
     const res = [];
     (<any>e1.mergeAll()).subscribe(
-      (x: any) => { res.push(x); },
-      (err: any) => {
+      (x) => { res.push(x); },
+      (err) => {
         expect(res.length).to.equal(1);
         expect(err).to.equal('error');
         done();

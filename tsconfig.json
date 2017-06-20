@@ -10,8 +10,9 @@
     "noImplicitThis": true,
     "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "node",
-    "target": "es6",
-    "outDir": "dist/es6",
+    "module": "commonjs",
+    "target": "es5",
+    "outDir": "dist/cjs",
     "lib": [
       "es5",
       "es2015.iterable",
@@ -24,7 +25,8 @@
     "indentSize": 2,
     "tabSize": 2
   },
-  "files": [
-    "src/Rx.ts"
+  "include": [
+    "src",
+    "spec"
   ]
 }

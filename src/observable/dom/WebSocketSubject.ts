@@ -120,9 +120,9 @@ export class WebSocketSubject<T> extends AnonymousSubject<T> {
   }
 
   // TODO: factor this out to be a proper Operator/Subscriber implementation and eliminate closures
-  multiplex(subMsg: () => any, unsubMsg: () => any, messageFilter: (value: T) => boolean) {
+  multiplex(subMsg: () => any, unsubMsg: () => any, messageFilter: (value: T) => boolean): Observable<T> {
     const self = this;
-    return new Observable((observer: Observer<any>) => {
+    return new Observable<T>((observer: Observer<T>) => {
       const result = tryCatch(subMsg)();
       if (result === errorObject) {
         observer.error(errorObject.e);

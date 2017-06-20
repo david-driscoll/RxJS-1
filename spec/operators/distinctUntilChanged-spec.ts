@@ -1,7 +1,7 @@
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -134,9 +134,9 @@ describe('Observable.prototype.distinctUntilChanged', () => {
     const unsub =    '          !          ';
 
     const result = e1
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .distinctUntilChanged()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -199,7 +199,7 @@ describe('Observable.prototype.distinctUntilChanged', () => {
     const e1subs =   '^                   !';
     const expected = '--a--b-----d-----f--|';
     const comparator = (x: number, y: number) => y % 2 === 1;
-    const keySelector = (x: number) => x % 2;
+    const keySelector = (x) => x % 2;
 
     expectObservable(e1.distinctUntilChanged(comparator, keySelector)).toBe(expected, {a: 1, b: 2, d: 4, f: 6});
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -209,7 +209,7 @@ describe('Observable.prototype.distinctUntilChanged', () => {
     const e1 =   hot('--a--b--c--d--e--f--|');
     const e1subs =   '^          !         ';
     const expected = '--a--b--c--#         ';
-    const keySelector = (x: string) => {
+    const keySelector = (x) => {
       if (x === 'd') {
         throw 'error';
       }

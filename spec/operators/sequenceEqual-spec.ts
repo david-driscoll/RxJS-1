@@ -1,7 +1,10 @@
 import * as _ from 'lodash';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram, rxTestScheduler, time, type };
+declare const asDiagram: Function;
+declare const time: Function;
+declare const rxTestScheduler: Function;
+declare const type: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;

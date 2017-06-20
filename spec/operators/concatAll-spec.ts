@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -27,16 +27,16 @@ describe('Observable.prototype.concatAll', () => {
   it('should concat sources from promise', function (done: MochaDone) {
     this.timeout(2000);
     const sources = Rx.Observable.from([
-      new Promise((res: any) => { res(0); }),
-      new Promise((res: any) => { res(1); }),
-      new Promise((res: any) => { res(2); }),
-      new Promise((res: any) => { res(3); }),
+      new Promise((res) => { res(0); }),
+      new Promise((res) => { res(1); }),
+      new Promise((res) => { res(2); }),
+      new Promise((res) => { res(3); }),
     ]).take(10);
 
-    const res = [];
+    const res: number[] = [];
     (<any>sources.concatAll()).subscribe(
-      (x: number) => { res.push(x); },
-      (err: any) => { done(new Error('should not be called')); },
+      (x) => { res.push(x); },
+      (err) => { done(new Error('should not be called')); },
       () => {
         expect(res).to.deep.equal([0, 1, 2, 3]);
         done();
@@ -47,16 +47,16 @@ describe('Observable.prototype.concatAll', () => {
     this.timeout(2000);
 
     const sources = Rx.Observable.from([
-      new Promise((res: any) => { res(0); }),
-      new Promise((res: any, rej: any) => { rej(1); }),
-      new Promise((res: any) => { res(2); }),
-      new Promise((res: any) => { res(3); }),
+      new Promise((res) => { res(0); }),
+      new Promise((res, rej) => { rej(1); }),
+      new Promise((res) => { res(2); }),
+      new Promise((res) => { res(3); }),
     ]).take(10);
 
-    const res = [];
+    const res: number[] = [];
     (<any>sources.concatAll()).subscribe(
-      (x: number) => { res.push(x); },
-      (err: any) => {
+      (x) => { res.push(x); },
+      (err) => {
         expect(res.length).to.equal(1);
         expect(err).to.equal(1);
         done();
@@ -140,7 +140,7 @@ describe('Observable.prototype.concatAll', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('--|');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '-';
 
     const result = Observable.of(e1, e2).concatAll();
@@ -168,7 +168,7 @@ describe('Observable.prototype.concatAll', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('-');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '-';
 
     const result = Observable.of(e1, e2).concatAll();
@@ -196,7 +196,7 @@ describe('Observable.prototype.concatAll', () => {
     const e1 =   cold('---#');
     const e1subs =    '^  !';
     const e2 =   cold('----|');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '---#';
 
     const result = Observable.of(e1, e2).concatAll();
@@ -210,7 +210,7 @@ describe('Observable.prototype.concatAll', () => {
     const e1 =   cold('---#');
     const e1subs =    '^  !';
     const e2 =   cold('------#');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '---#';
 
     const result = Observable.of(e1, e2).concatAll();
@@ -267,7 +267,7 @@ describe('Observable.prototype.concatAll', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('--a--|');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '-';
 
     const result = Observable.of(e1, e2).concatAll();
@@ -315,9 +315,9 @@ describe('Observable.prototype.concatAll', () => {
     const unsub =     '                 !    ';
 
     const result = Observable.of(e1, e2)
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .concatAll()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -328,7 +328,7 @@ describe('Observable.prototype.concatAll', () => {
     const e1 =   cold('--#');
     const e1subs =    '^ !';
     const e2 =   cold('----a--|');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected =  '--#';
 
     const result = Observable.of(e1, e2).concatAll();

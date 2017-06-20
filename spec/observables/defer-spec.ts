@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -41,13 +41,13 @@ describe('Observable.defer', () => {
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);
   });
 
-  it('should accept factory returns promise resolves', (done: MochaDone) => {
+  it('should accept factory returns promise resolves', (done) => {
     const expected = 42;
     const e1 = Observable.defer(() => {
-      return new Promise((resolve: any) => { resolve(expected); });
+      return new Promise((resolve) => { resolve(expected); });
     });
 
-    e1.subscribe((x: number) => {
+    e1.subscribe((x) => {
       expect(x).to.equal(expected);
       done();
     }, x => {
@@ -55,13 +55,13 @@ describe('Observable.defer', () => {
     });
   });
 
-  it('should accept factory returns promise rejects', (done: MochaDone) => {
+  it('should accept factory returns promise rejects', (done) => {
     const expected = 42;
     const e1 = Observable.defer(() => {
       return new Promise((resolve: any, reject: any) => { reject(expected); });
     });
 
-    e1.subscribe((x: number) => {
+    e1.subscribe((x) => {
       done(new Error('should not be called'));
     }, x => {
       expect(x).to.equal(expected);
@@ -109,8 +109,8 @@ describe('Observable.defer', () => {
     const expected =   '--a--b-     ';
     const unsub =      '      !     ';
 
-    const e1 = Observable.defer(() => source.mergeMap((x: string) => Observable.of(x)))
-      .mergeMap((x: string) => Observable.of(x));
+    const e1 = Observable.defer(() => source.mergeMap((x) => Observable.of(x)))
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(e1, unsub).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);

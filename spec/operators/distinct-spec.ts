@@ -125,9 +125,9 @@ describe('Observable.prototype.distinct', () => {
     const unsub =    '          !          ';
 
     const result = (<any>e1
-      .mergeMap((x: any) => Observable.of(x)))
+      .mergeMap((x) => Observable.of(x)))
       .distinct()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -147,7 +147,7 @@ describe('Observable.prototype.distinct', () => {
     const e1 =   hot('--a--b--c--d--e--f--|', values);
     const e1subs =   '^                   !';
     const expected = '--a--b--c-----------|';
-    const selector = (value: number) => value % 3;
+    const selector = (value) => value % 3;
 
     expectObservable((<any>e1).distinct(selector)).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -157,7 +157,7 @@ describe('Observable.prototype.distinct', () => {
     const e1 =   hot('--a--b--c--d--e--f--|');
     const e1subs =   '^          !         ';
     const expected = '--a--b--c--#         ';
-    const selector = (value: string) => {
+    const selector = (value) => {
       if (value === 'd') {
         throw new Error('d is for dumb');
       }

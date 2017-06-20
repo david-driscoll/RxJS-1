@@ -2,7 +2,9 @@ import * as Rx from '../../dist/cjs/Rx';
 import '../../dist/cjs/add/observable/generate';
 import {TestScheduler} from '../../dist/cjs/testing/TestScheduler';
 import {expect} from 'chai';
-declare const {asDiagram, expectObservable};
+
+declare const asDiagram: Function;
+declare const expectObservable: Function;
 declare const rxTestScheduler: TestScheduler;
 
 const Observable = Rx.Observable;

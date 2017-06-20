@@ -2,7 +2,8 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram, type };
+declare const asDiagram: Function;
+declare const type: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -72,7 +73,7 @@ describe('Observable.prototype.reduce', () => {
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
-  it('should reduce with index without seed', (done: MochaDone) => {
+  it('should reduce with index without seed', (done) => {
     const idx = [1, 2, 3, 4, 5];
 
     Observable.range(0, 6).reduce((acc, value, index) => {
@@ -84,7 +85,7 @@ describe('Observable.prototype.reduce', () => {
     });
   });
 
-  it('should reduce with index with seed', (done: MochaDone) => {
+  it('should reduce with index with seed', (done) => {
     const idx = [0, 1, 2, 3, 4, 5];
 
     Observable.range(0, 6).reduce((acc, value, index) => {
@@ -150,9 +151,9 @@ describe('Observable.prototype.reduce', () => {
     };
 
     const result = e1
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .reduce(reduceFunction)
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);

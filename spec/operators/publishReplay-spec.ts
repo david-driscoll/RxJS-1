@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -130,7 +130,7 @@ describe('Observable.prototype.publishReplay', () => {
     const source =     cold('-1-2-3----4-|');
     const sourceSubs =      '^        !   ';
     const published = source
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .publishReplay(1);
     const subscriber1 = hot('a|           ').mergeMapTo(published);
     const expected1   =     '-1-2-3----   ';
@@ -223,7 +223,7 @@ describe('Observable.prototype.publishReplay', () => {
     });
   });
 
-  it('should multicast one observable to multiple observers', (done: MochaDone) => {
+  it('should multicast one observable to multiple observers', (done) => {
     const results1 = [];
     const results2 = [];
     let subscriptions = 0;
@@ -239,10 +239,10 @@ describe('Observable.prototype.publishReplay', () => {
 
     const connectable = source.publishReplay();
 
-    connectable.subscribe((x: number) => {
+    connectable.subscribe((x) => {
       results1.push(x);
     });
-    connectable.subscribe((x: number) => {
+    connectable.subscribe((x) => {
       results2.push(x);
     });
 
@@ -257,7 +257,7 @@ describe('Observable.prototype.publishReplay', () => {
     done();
   });
 
-  it('should replay as many events as specified by the bufferSize', (done: MochaDone) => {
+  it('should replay as many events as specified by the bufferSize', (done) => {
     const results1 = [];
     const results2 = [];
     let subscriptions = 0;
@@ -273,7 +273,7 @@ describe('Observable.prototype.publishReplay', () => {
 
     const connectable = source.publishReplay(2);
 
-    connectable.subscribe((x: number) => {
+    connectable.subscribe((x) => {
       results1.push(x);
     });
 
@@ -282,7 +282,7 @@ describe('Observable.prototype.publishReplay', () => {
 
     connectable.connect();
 
-    connectable.subscribe((x: number) => {
+    connectable.subscribe((x) => {
       results2.push(x);
     });
 
@@ -308,7 +308,7 @@ describe('Observable.prototype.publishReplay', () => {
     });
 
     const connectable = source.publishReplay(2);
-    const subscription1 = connectable.subscribe((x: number) => {
+    const subscription1 = connectable.subscribe((x) => {
       results1.push(x);
     });
 
@@ -322,7 +322,7 @@ describe('Observable.prototype.publishReplay', () => {
     expect(results2).to.deep.equal([]);
     expect(subscriptions).to.equal(1);
 
-    const subscription2 = connectable.subscribe((x: number) => {
+    const subscription2 = connectable.subscribe((x) => {
       results2.push(x);
     });
 
@@ -334,7 +334,7 @@ describe('Observable.prototype.publishReplay', () => {
     expect(subscriptions).to.equal(2);
   });
 
-  it('should emit replayed values plus completed when subscribed after completed', (done: MochaDone) => {
+  it('should emit replayed values plus completed when subscribed after completed', (done) => {
     const results1 = [];
     const results2 = [];
     let subscriptions = 0;
@@ -350,7 +350,7 @@ describe('Observable.prototype.publishReplay', () => {
 
     const connectable = source.publishReplay(2);
 
-    connectable.subscribe((x: number) => {
+    connectable.subscribe((x) => {
       results1.push(x);
     });
 
@@ -363,7 +363,7 @@ describe('Observable.prototype.publishReplay', () => {
     expect(results2).to.deep.equal([]);
     expect(subscriptions).to.equal(1);
 
-    connectable.subscribe((x: number) => {
+    connectable.subscribe((x) => {
       results2.push(x);
     }, (x) => {
       done(new Error('should not be called'));

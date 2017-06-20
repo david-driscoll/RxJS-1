@@ -3,7 +3,7 @@ import * as Rx from '../../dist/cjs/Rx';
 import {lowerCaseO} from '../helpers/test-helper';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const {type};
+declare const type: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscriptions;
@@ -36,7 +36,7 @@ describe('Observable.forkJoin', () => {
   });
 
   it('should join the last values of the provided observables with selector', () => {
-    function selector(x, y, z) {
+    function selector(x: string, y: string, z: string) {
       return x + y + z;
     }
 
@@ -70,7 +70,7 @@ describe('Observable.forkJoin', () => {
   });
 
   it('should accept single observable with selector', () => {
-    function selector(x) {
+    function selector(x: string) {
       return x + x;
     }
 
@@ -84,7 +84,7 @@ describe('Observable.forkJoin', () => {
   });
 
   it('should accept array of observable contains single with selector', () => {
-    function selector(x) {
+    function selector(x: string) {
       return x + x;
     }
 
@@ -119,7 +119,7 @@ describe('Observable.forkJoin', () => {
     expectObservable(e1).toBe(expected);
   });
 
-  it('should accept promise', (done: MochaDone) => {
+  it('should accept promise', (done) => {
     const e1 = Observable.forkJoin(
                Observable.of(1),
                Promise.resolve(2)
@@ -128,7 +128,7 @@ describe('Observable.forkJoin', () => {
     e1.subscribe((x: Array<number>) => {
       expect(x).to.deep.equal([1, 2]);
     },
-    (err: any) => {
+    (err) => {
       done(new Error('should not be called'));
     }, () => {
       done();
@@ -147,7 +147,7 @@ describe('Observable.forkJoin', () => {
   });
 
   it('should accept array of observables with selector', () => {
-    function selector(x, y, z) {
+    function selector(x: string, y: string, z: string) {
       return x + y + z;
     }
 
@@ -238,7 +238,7 @@ describe('Observable.forkJoin', () => {
   });
 
   it('should complete when any of source is empty with selector', () => {
-    function selector(x, y) {
+    function selector(x: string, y: string) {
       return x + y;
     }
 
@@ -252,7 +252,7 @@ describe('Observable.forkJoin', () => {
   });
 
   it('should emit results by resultselector', () => {
-    function selector(x, y) {
+    function selector(x: string, y: string) {
       return x + y;
     }
 
@@ -284,7 +284,7 @@ describe('Observable.forkJoin', () => {
   });
 
   it('should raise error when any of source raises error with selector with empty observable', () => {
-    function selector(x, y) {
+    function selector(x: string, y: string) {
       return x + y;
     }
 
@@ -307,7 +307,7 @@ describe('Observable.forkJoin', () => {
   });
 
   it('should raise error when source raises error with selector', () => {
-    function selector(x, y) {
+    function selector(x: string, y: string) {
       return x + y;
     }
 
@@ -367,8 +367,8 @@ describe('Observable.forkJoin', () => {
       let a: Rx.Observable<number>;
       let b: Rx.Observable<string>;
       let c: Rx.Observable<boolean>;
-      let o1: Rx.Observable<[number, string, boolean]> = Observable.forkJoin(a, b, c);
-      let o2: Rx.Observable<boolean> = Observable.forkJoin(a, b, c, (aa, bb, cc) => !!aa && !!bb && cc);
+      let o1: Rx.Observable<[number, string, boolean]> = Rx.Observable.forkJoin(a, b, c);
+      let o2: Rx.Observable<boolean> = Rx.Observable.forkJoin(a, b, c, (aa, bb, cc) => !!aa && !!bb && cc);
       /* tslint:enable:no-unused-variable */
     });
   });
@@ -380,8 +380,8 @@ describe('Observable.forkJoin', () => {
       let b: Rx.Observable<string>;
       let c: Promise<boolean>;
       let d: Rx.Observable<string[]>;
-      let o1: Rx.Observable<[number, string, boolean, string[]]> = Observable.forkJoin(a, b, c, d);
-      let o2: Rx.Observable<boolean> = Observable.forkJoin(a, b, c, d, (aa, bb, cc, dd) => !!aa && !!bb && cc && !!dd.length);
+      let o1: Rx.Observable<[number, string, boolean, string[]]> = Rx.Observable.forkJoin(a, b, c, d);
+      let o2: Rx.Observable<boolean> = Rx.Observable.forkJoin(a, b, c, d, (aa, bb, cc, dd) => !!aa && !!bb && cc && !!dd.length);
       /* tslint:enable:no-unused-variable */
     });
   });

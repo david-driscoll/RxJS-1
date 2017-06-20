@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -75,9 +75,9 @@ describe('Observable.prototype.min', () => {
     expectSubscriptions(e1.subscriptions).toBe(subs);
   });
 
-  it('should min a range() source observable', (done: MochaDone) => {
+  it('should min a range() source observable', (done) => {
     (<any>Rx.Observable.range(1, 10000)).min().subscribe(
-      (value: number) => {
+      (value) => {
         expect(value).to.equal(1);
       }, (x) => {
         done(new Error('should not be called'));
@@ -86,9 +86,9 @@ describe('Observable.prototype.min', () => {
       });
   });
 
-  it('should min a range().skip(1) source observable', (done: MochaDone) => {
+  it('should min a range().skip(1) source observable', (done) => {
     (<any>Rx.Observable.range(1, 10)).skip(1).min().subscribe(
-      (value: number) => {
+      (value) => {
         expect(value).to.equal(2);
       }, (x) => {
         done(new Error('should not be called'));
@@ -97,9 +97,9 @@ describe('Observable.prototype.min', () => {
       });
   });
 
-  it('should min a range().take(1) source observable', (done: MochaDone) => {
+  it('should min a range().take(1) source observable', (done) => {
     (<any>Rx.Observable.range(1, 10)).take(1).min().subscribe(
-      (value: number) => {
+      (value) => {
         expect(value).to.equal(1);
       }, (x) => {
         done(new Error('should not be called'));
@@ -190,9 +190,9 @@ describe('Observable.prototype.min', () => {
     };
 
     const result = (<any>e1)
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .min(predicate)
-      .mergeMap((x: number) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);

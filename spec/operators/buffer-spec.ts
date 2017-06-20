@@ -1,7 +1,7 @@
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscriptions;
@@ -101,7 +101,7 @@ describe('Observable.prototype.buffer', () => {
       a: ['3'],
       b: ['4', '5'],
       c: ['6'],
-      d: [],
+      d: <string[]>[],
       e: ['7', '8', '9'],
       f: ['0']
     };
@@ -118,7 +118,7 @@ describe('Observable.prototype.buffer', () => {
       a: ['3'],
       b: ['4', '5'],
       c: ['6'],
-      d: []
+      d: <string[]>[]
     };
     expectObservable(a.buffer(b)).toBe(expected, expectedValues);
     expectSubscriptions(a.subscriptions).toBe(subs);
@@ -150,9 +150,9 @@ describe('Observable.prototype.buffer', () => {
     };
 
     const result = a
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .buffer(b)
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected, expectedValues);
     expectSubscriptions(a.subscriptions).toBe(subs);
@@ -166,7 +166,7 @@ describe('Observable.prototype.buffer', () => {
     const expected =      '---a--b--#';
     const expectedValues = {
       a: [3],
-      b: []
+      b: <string[]>[]
     };
     expectObservable(a.buffer(b)).toBe(expected, expectedValues, new Error('too bad'));
     expectSubscriptions(a.subscriptions).toBe(subs);

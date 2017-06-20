@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -12,11 +12,11 @@ const Observable = Rx.Observable;
 
 /** @test {filter} */
 describe('Observable.prototype.filter', () => {
-  function oddFilter(x) {
+  function oddFilter(x: number) {
     return (+x) % 2 === 1;
   }
 
-  function isPrime(i) {
+  function isPrime(i: number) {
     if (+i <= 1) { return false; }
     const max = Math.floor(Math.sqrt(+i));
     for (let j = 2; j <= max; ++j) {
@@ -114,7 +114,7 @@ describe('Observable.prototype.filter', () => {
     const expected =          '--3---5----7-------|';
 
     let invoked = 0;
-    const predicate = (x: any) => {
+    const predicate = (x) => {
       invoked++;
       return isPrime(x);
     };
@@ -178,8 +178,8 @@ describe('Observable.prototype.filter', () => {
 
     expectObservable(
       source
-        .filter((x: number) => x % 2 === 0)
-        .filter((x: number) => x % 3 === 0)
+        .filter((x) => x % 2 === 0)
+        .filter((x) => x % 3 === 0)
     ).toBe(expected);
   });
 
@@ -187,9 +187,9 @@ describe('Observable.prototype.filter', () => {
     const source = hot('-1--2--^-3-4-5-6--7-8--9--|');
     const expected =          '--------6----------|';
 
-    function Filterer() {
-      this.filter1 = (x: number) => x % 2 === 0;
-      this.filter2 = (x: number) => x % 3 === 0;
+    class Filterer {
+      filter1 = (x) => x % 2 === 0;
+      filter2 = (x) => x % 3 === 0;
     }
 
     const filterer = new Filterer();
@@ -209,8 +209,8 @@ describe('Observable.prototype.filter', () => {
 
     expectObservable(
       source
-        .filter((x: number) => x % 2 === 0)
-        .map((x: number) => x * x)
+        .filter((x) => x % 2 === 0)
+        .map((x) => x * x)
     ).toBe(expected, values);
   });
 
@@ -250,13 +250,13 @@ describe('Observable.prototype.filter', () => {
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
-  it('should send errors down the error path', (done: MochaDone) => {
+  it('should send errors down the error path', (done) => {
     Observable.of(42).filter(<any>((x: number, index: number) => {
       throw 'bad';
     }))
-      .subscribe((x: number) => {
+      .subscribe((x) => {
         done(new Error('should not be called'));
-      }, (err: any) => {
+      }, (err) => {
         expect(err).to.equal('bad');
         done();
       }, () => {
@@ -271,9 +271,9 @@ describe('Observable.prototype.filter', () => {
     const expected =          '--3---5----7-       ';
 
     const r = source
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .filter(isPrime)
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(r, unsub).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);

@@ -3,7 +3,7 @@ import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 import { doNotUnsubscribe } from '../helpers/doNotUnsubscribe';
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -13,7 +13,7 @@ const Observable = Rx.Observable;
 
 /** @test {find} */
 describe('Observable.prototype.find', () => {
-  function truePredicate(x) {
+  function truePredicate(x: never) {
     return true;
   }
 
@@ -23,7 +23,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^        !       ';
     const expected =   '---------(c|)    ';
 
-    const predicate = function (x) { return x % 5 === 0; };
+    const predicate = function (x: number) { return x % 5 === 0; };
 
     expectObservable((<any>source).find(predicate)).toBe(expected, values);
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -60,7 +60,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^ !';
     const expected =   '--(a|)';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'a';
     };
 
@@ -73,7 +73,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^    !';
     const expected =   '-----(b|)';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'b';
     };
 
@@ -89,7 +89,7 @@ describe('Observable.prototype.find', () => {
     const finder = {
       target: 'b'
     };
-    const predicate = function (value) {
+    const predicate = function (this: typeof finder, value: string) {
       return value === this.target;
     };
 
@@ -114,7 +114,7 @@ describe('Observable.prototype.find', () => {
     const expected =   '-------     ';
     const unsub =      '      !     ';
 
-    const result = (<any>source).find((value: string) => value === 'z');
+    const result = (<any>source).find((value) => value === 'z');
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -127,9 +127,9 @@ describe('Observable.prototype.find', () => {
     const unsub =      '      !     ';
 
     const result = (<any>source)
-      .mergeMap((x: string) => Observable.of(x))
-      .find((value: string) => value === 'z')
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x))
+      .find((value) => value === 'z')
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -140,7 +140,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^       !';
     const expected =   '--------#';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'z';
     };
 
@@ -153,7 +153,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^ !';
     const expected =   '--#';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       throw 'error';
     };
 
@@ -167,7 +167,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^        !       ';
     const expected =   '---------(c|)    ';
 
-    const predicate = function (x) { return x % 5 === 0; };
+    const predicate = function (x: number) { return x % 5 === 0; };
 
     expectObservable((<any>source).find(predicate).let(doNotUnsubscribe)).toBe(expected, values);
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -180,7 +180,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^ !';
     const expected =   '--#';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       throw 'error';
     };
 

@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -196,9 +196,9 @@ describe('Observable.prototype.share', () => {
     const source =     cold(   '-1-2-3----4-|');
     const sourceSubs =      '   ^        !   ';
     const shared = source
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .share()
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
     const subscriber1 = hot('   a|           ').mergeMapTo(shared);
     const unsub1 =          '          !     ';
     const expected1   =     '   -1-2-3--     ';

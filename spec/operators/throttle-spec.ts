@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -84,9 +84,9 @@ describe('Observable.prototype.throttle', () =>  {
     const unsub =    '              !               ';
 
     const result = e1
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .throttle(() =>  e2)
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -286,7 +286,7 @@ describe('Observable.prototype.throttle', () =>  {
     expectSubscriptions(e1.subscriptions).toBe(subs);
   });
 
-  it('should throttle by promise resolves', (done: MochaDone) => {
+  it('should throttle by promise resolves', (done) => {
     const e1 = Observable.concat(Observable.of(1),
       Observable.timer(10).mapTo(2),
       Observable.timer(10).mapTo(3),
@@ -295,9 +295,9 @@ describe('Observable.prototype.throttle', () =>  {
     const expected = [1, 2, 3, 4];
 
     e1.throttle(() =>  {
-      return new Promise((resolve: any) => { resolve(42); });
+      return new Promise((resolve) => { resolve(42); });
     }).subscribe(
-      (x: number) => {
+      (x) => {
         expect(x).to.equal(expected.shift()); },
       () =>  {
         done(new Error('should not be called'));
@@ -309,7 +309,7 @@ describe('Observable.prototype.throttle', () =>  {
     );
   });
 
-  it('should raise error when promise rejects', (done: MochaDone) => {
+  it('should raise error when promise rejects', (done) => {
     const e1 = Observable.concat(Observable.of(1),
       Observable.timer(10).mapTo(2),
       Observable.timer(10).mapTo(3),
@@ -318,16 +318,16 @@ describe('Observable.prototype.throttle', () =>  {
     const expected = [1, 2, 3];
     const error = new Error('error');
 
-    e1.throttle((x: number) => {
+    e1.throttle((x) => {
       if (x === 3) {
         return new Promise((resolve: any, reject: any) => { reject(error); });
       } else {
-        return new Promise((resolve: any) => { resolve(42); });
+        return new Promise((resolve) => { resolve(42); });
       }
     }).subscribe(
-      (x: number) => {
+      (x) => {
         expect(x).to.equal(expected.shift()); },
-      (err: any) => {
+      (err) => {
         expect(err).to.be.an('error', 'error');
         expect(expected.length).to.equal(0);
         done();

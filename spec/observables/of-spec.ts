@@ -5,7 +5,7 @@ import {ScalarObservable} from '../../dist/cjs/observable/ScalarObservable';
 import {EmptyObservable} from '../../dist/cjs/observable/EmptyObservable';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const rxTestScheduler: Rx.TestScheduler;
 const Observable = Rx.Observable;
@@ -20,13 +20,13 @@ describe('Observable.of', () => {
     expectObservable(e1).toBe(expected, {x: 1, y: 2, z: 3});
   });
 
-  it('should create an observable from the provided values', (done: MochaDone) => {
+  it('should create an observable from the provided values', (done) => {
     const x = { foo: 'bar' };
     const expected = [1, 'a', x];
     let i = 0;
 
     Observable.of<any>(1, 'a', x)
-      .subscribe((y: any) => {
+      .subscribe((y) => {
         expect(y).to.equal(expected[i++]);
       }, (x) => {
         done(new Error('should not be called'));
@@ -60,13 +60,13 @@ describe('Observable.of', () => {
     expect(obs instanceof EmptyObservable).to.be.true;
   });
 
-  it('should emit one value', (done: MochaDone) => {
+  it('should emit one value', (done) => {
     let calls = 0;
 
-    Observable.of(42).subscribe((x: number) => {
+    Observable.of(42).subscribe((x) => {
       expect(++calls).to.equal(1);
       expect(x).to.equal(42);
-    }, (err: any) => {
+    }, (err) => {
       done(new Error('should not be called'));
     }, () => {
       done();

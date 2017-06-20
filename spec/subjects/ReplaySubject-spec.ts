@@ -33,26 +33,26 @@ describe('ReplaySubject', () => {
     expect(results).to.deep.equal([1, 2, 3]);
   });
 
-  it('should replay values upon subscription', (done: MochaDone) => {
+  it('should replay values upon subscription', (done) => {
     const subject = new ReplaySubject();
     const expects = [1, 2, 3];
     let i = 0;
     subject.next(1);
     subject.next(2);
     subject.next(3);
-    subject.subscribe((x: number) => {
+    subject.subscribe((x) => {
       expect(x).to.equal(expects[i++]);
       if (i === 3) {
         subject.complete();
       }
-    }, (err: any) => {
+    }, (err) => {
       done(new Error('should not be called'));
     }, () => {
       done();
     });
   });
 
-  it('should replay values and complete', (done: MochaDone) => {
+  it('should replay values and complete', (done) => {
     const subject = new ReplaySubject();
     const expects = [1, 2, 3];
     let i = 0;
@@ -60,12 +60,12 @@ describe('ReplaySubject', () => {
     subject.next(2);
     subject.next(3);
     subject.complete();
-    subject.subscribe((x: number) => {
+    subject.subscribe((x) => {
       expect(x).to.equal(expects[i++]);
     }, null, done);
   });
 
-  it('should replay values and error', (done: MochaDone) => {
+  it('should replay values and error', (done) => {
     const subject = new ReplaySubject();
     const expects = [1, 2, 3];
     let i = 0;
@@ -73,27 +73,27 @@ describe('ReplaySubject', () => {
     subject.next(2);
     subject.next(3);
     subject.error('fooey');
-    subject.subscribe((x: number) => {
+    subject.subscribe((x) => {
       expect(x).to.equal(expects[i++]);
-    }, (err: any) => {
+    }, (err) => {
       expect(err).to.equal('fooey');
       done();
     });
   });
 
-  it('should only replay values within its buffer size', (done: MochaDone) => {
+  it('should only replay values within its buffer size', (done) => {
     const subject = new ReplaySubject(2);
     const expects = [2, 3];
     let i = 0;
     subject.next(1);
     subject.next(2);
     subject.next(3);
-    subject.subscribe((x: number) => {
+    subject.subscribe((x) => {
       expect(x).to.equal(expects[i++]);
       if (i === 2) {
         subject.complete();
       }
-    }, (err: any) => {
+    }, (err) => {
       done(new Error('should not be called'));
     }, () => {
       done();
@@ -154,16 +154,16 @@ describe('ReplaySubject', () => {
       subject.next(4);
 
       const subscription1 = subject.subscribe(
-        (x: number) => { results1.push(x); },
-        (err: any) => { results1.push('E'); },
+        (x) => { results1.push(x); },
+        (err) => { results1.push('E'); },
         () => { results1.push('C'); }
       );
 
       subject.next(5);
 
       const subscription2 = subject.subscribe(
-        (x: number) => { results2.push(x); },
-        (err: any) => { results2.push('E'); },
+        (x) => { results2.push(x); },
+        (err) => { results2.push('E'); },
         () => { results2.push('C'); }
       );
 
@@ -180,8 +180,8 @@ describe('ReplaySubject', () => {
       subject.next(10);
 
       const subscription3 = subject.subscribe(
-        (x: number) => { results3.push(x); },
-        (err: any) => { results3.push('E'); },
+        (x) => { results3.push(x); },
+        (err) => { results3.push('E'); },
         () => { results3.push('C'); }
       );
 

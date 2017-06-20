@@ -12,7 +12,7 @@ import * as marble from './marble-testing';
 //setup sinon-chai
 chai.use(sinonChai);
 
-declare const module, global, Suite, Test: any;
+declare const module: any, global: any, Suite: any, Test: any;
 
 if (global && !(typeof window !== 'undefined')) {
   global.mocha = require('mocha'); // tslint:disable-line:no-require-imports no-var-requires
@@ -28,10 +28,10 @@ const diagramFunction = global.asDiagram;
 
 //mocha creates own global context per each test suite, simple patching to global won't deliver its context into test cases.
 //this custom interface is just mimic of existing one amending test scheduler behavior previously test-helper does via global patching.
-module.exports = function(suite) {
+module.exports = function(suite: any) {
   const suites = [suite];
 
-  suite.on('pre-require', function(context, file, mocha) {
+  suite.on('pre-require', function(context: any, file: any, mocha: any) {
     const common = (<any>commonInterface)(suites, context);
 
     context.before = common.before;
@@ -56,7 +56,7 @@ module.exports = function(suite) {
      * and/or tests.
      */
 
-    context.describe = context.context = function(title, fn) {
+    context.describe = context.context = function(title: string, fn: Function) {
       const suite = (<any>Suite).create(suites[0], title);
       suite.file = file;
       suites.unshift(suite);
@@ -69,7 +69,7 @@ module.exports = function(suite) {
      * Pending describe.
      */
 
-    context.xdescribe = context.xcontext = context.describe.skip = function(title, fn) {
+    context.xdescribe = context.xcontext = context.describe.skip = function(title: string, fn: Function) {
       const suite = (<any>Suite).create(suites[0], title);
       suite.pending = true;
       suites.unshift(suite);
@@ -81,7 +81,7 @@ module.exports = function(suite) {
      * Exclusive suite.
      */
 
-    context.describe.only = function(title, fn) {
+    context.describe.only = function(title: string, fn: Function) {
       const suite = context.describe(title, fn);
       mocha.grep(suite.fullTitle());
       return suite;
@@ -93,12 +93,12 @@ module.exports = function(suite) {
      * exceptional type definition won't be used in test cases.
      */
 
-    context.type = function (title, fn) {
+    context.type = function (title: string, fn: Function) {
       //intentionally does not execute to avoid unexpected side effect occurs by subscription,
       //or infinite source. Suffecient to check build time only.
     };
 
-    function stringify(x): string {
+    function stringify(x: any): string {
       return JSON.stringify(x, function (key, value) {
         if (Array.isArray(value)) {
           return '[' + value
@@ -113,7 +113,7 @@ module.exports = function(suite) {
       .replace(/\\n/g, '\n');
     }
 
-    function deleteErrorNotificationStack(marble) {
+    function deleteErrorNotificationStack(marble: any) {
       const { notification } = marble;
       if (notification) {
         const { kind, error } = notification;
@@ -128,7 +128,7 @@ module.exports = function(suite) {
      * custom assertion formatter for expectObservable test
      */
 
-    function observableMatcher(actual, expected) {
+    function observableMatcher(actual: any[], expected: any[]) {
       if (Array.isArray(actual) && Array.isArray(expected)) {
         actual = actual.map(deleteErrorNotificationStack);
         expected = expected.map(deleteErrorNotificationStack);
@@ -155,7 +155,7 @@ module.exports = function(suite) {
      * acting as a thunk.
      */
 
-    const it = context.it = context.specify = function(title, fn) {
+    const it = context.it = context.specify = function(title: string, fn: Function) {
       context.rxTestScheduler = null;
       let modified = fn;
 
@@ -187,7 +187,7 @@ module.exports = function(suite) {
      * to be represented as marble diagram png.
      * It will still serve as normal test cases as well.
      */
-    context.asDiagram = function (label) {
+    context.asDiagram = function (label: string) {
       if (diagramFunction) {
         return diagramFunction(label, it);
       }
@@ -198,7 +198,7 @@ module.exports = function(suite) {
      * Exclusive test-case.
      */
 
-    context.it.only = function(title, fn) {
+    context.it.only = function(title: string, fn: Function) {
       const test = it(title, fn);
       const reString = '^' + (<any>escapeRe)(test.fullTitle()) + '$';
       mocha.grep(new RegExp(reString));
@@ -209,14 +209,14 @@ module.exports = function(suite) {
      * Pending test case.
      */
 
-    context.xit = context.xspecify = context.it.skip = function(title) {
+    context.xit = context.xspecify = context.it.skip = function(title: string) {
       context.it(title);
     };
 
     /**
      * Number of attempts to retry.
      */
-    context.it.retries = function(n) {
+    context.it.retries = function(n: number) {
       context.retries(n);
     };
   });
@@ -234,7 +234,7 @@ Object.defineProperty(Error.prototype, 'toJSON', {
   value: function () {
     const alt = {};
 
-    Object.getOwnPropertyNames(this).forEach(function (key) {
+    Object.getOwnPropertyNames(this).forEach(function (this: object, key) {
       if (key !== 'stack') {
         alt[key] = this[key];
       }

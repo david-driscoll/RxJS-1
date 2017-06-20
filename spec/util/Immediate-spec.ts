@@ -687,10 +687,10 @@ describe('ImmediateDefinition', () => {
   });
 
   describe('integration test', () => {
-    it('should work', (done: MochaDone) => {
+    it('should work', (done) => {
       const results = [];
       Rx.Observable.from([1, 2, 3], Rx.Scheduler.asap)
-        .subscribe((x: number) => {
+        .subscribe((x) => {
           results.push(x);
         }, () => {
           done(new Error('should not be called'));

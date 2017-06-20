@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { time };
+declare const time: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 
@@ -64,12 +64,12 @@ describe('BehaviorSubject', () => {
     expect(subject.value).to.equal('bunny');
   });
 
-  it('should start with an initialization value', (done: MochaDone) => {
+  it('should start with an initialization value', (done) => {
     const subject = new BehaviorSubject('foo');
     const expected = ['foo', 'bar'];
     let i = 0;
 
-    subject.subscribe((x: string) => {
+    subject.subscribe((x) => {
       expect(x).to.equal(expected[i++]);
     }, null, done);
 
@@ -77,17 +77,17 @@ describe('BehaviorSubject', () => {
     subject.complete();
   });
 
-  it('should pump values to multiple subscribers', (done: MochaDone) => {
+  it('should pump values to multiple subscribers', (done) => {
     const subject = new BehaviorSubject('init');
     const expected = ['init', 'foo', 'bar'];
     let i = 0;
     let j = 0;
 
-    subject.subscribe((x: string) => {
+    subject.subscribe((x) => {
       expect(x).to.equal(expected[i++]);
     });
 
-    subject.subscribe((x: string) => {
+    subject.subscribe((x) => {
       expect(x).to.equal(expected[j++]);
     }, null, done);
 
@@ -101,7 +101,7 @@ describe('BehaviorSubject', () => {
     const subject = new BehaviorSubject('init');
     const results = [];
 
-    subject.subscribe((x: string) => {
+    subject.subscribe((x) => {
       results.push(x);
     });
     expect(results).to.deep.equal(['init']);
@@ -116,14 +116,14 @@ describe('BehaviorSubject', () => {
     expect(results).to.deep.equal(['init', 'foo']);
   });
 
-  it('should clean out unsubscribed subscribers', (done: MochaDone) => {
+  it('should clean out unsubscribed subscribers', (done) => {
     const subject = new BehaviorSubject('init');
 
-    const sub1 = subject.subscribe((x: string) => {
+    const sub1 = subject.subscribe((x) => {
       expect(x).to.equal('init');
     });
 
-    const sub2 = subject.subscribe((x: string) => {
+    const sub2 = subject.subscribe((x) => {
       expect(x).to.equal('init');
     });
 
@@ -175,13 +175,13 @@ describe('BehaviorSubject', () => {
     expectObservable(subscriber1).toBe(expected1);
   });
 
-  it('should be an Observer which can be given to Observable.subscribe', (done: MochaDone) => {
+  it('should be an Observer which can be given to Observable.subscribe', (done) => {
     const source = Observable.of(1, 2, 3, 4, 5);
     const subject = new BehaviorSubject(0);
     const expected = [0, 1, 2, 3, 4, 5];
 
     subject.subscribe(
-      (x: number) => {
+      (x) => {
         expect(x).to.equal(expected.shift());
       }, (x) => {
         done(new Error('should not be called'));

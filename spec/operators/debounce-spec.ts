@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -12,7 +12,7 @@ const Observable = Rx.Observable;
 
 /** @test {debounce} */
 describe('Observable.prototype.debounce', () => {
-  function getTimerSelector(x) {
+  function getTimerSelector(x: number) {
     return () => Observable.timer(x, rxTestScheduler);
   }
 
@@ -99,9 +99,9 @@ describe('Observable.prototype.debounce', () => {
     const unsub =    '       !       ';
 
     const result = e1
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .debounce(getTimerSelector(20))
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -274,7 +274,7 @@ describe('Observable.prototype.debounce', () => {
                   ['        ^!                            ',
                    '                 ^ !                  '];
 
-    function selectorFunction(x) {
+    function selectorFunction(x: string) {
       if (x !== 'c') {
         return selector.shift();
       } else {
@@ -294,7 +294,7 @@ describe('Observable.prototype.debounce', () => {
     const e1subs =   '^                                   !';
     const expected = '--------a-x-yz---bxy---z--c--x--y--z|';
 
-    function selectorFunction(x) { return Observable.empty<number>(); }
+    function selectorFunction(x: string) { return Observable.empty<number>(); }
 
     expectObservable(e1.debounce(selectorFunction)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -305,7 +305,7 @@ describe('Observable.prototype.debounce', () => {
     const e1subs =   '^                                   !';
     const expected = '------------------------------------(z|)';
 
-    function selectorFunction(x) { return Observable.never<number>(); }
+    function selectorFunction(x: string) { return Observable.never<number>(); }
 
     expectObservable(e1.debounce(selectorFunction)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -353,7 +353,7 @@ describe('Observable.prototype.debounce', () => {
     }
   });
 
-  it('should delay by promise resolves', (done: MochaDone) => {
+  it('should delay by promise resolves', (done) => {
     const e1 = Observable.concat(Observable.of(1),
       Observable.timer(10).mapTo(2),
       Observable.timer(10).mapTo(3),
@@ -362,8 +362,8 @@ describe('Observable.prototype.debounce', () => {
     const expected = [1, 2, 3, 4];
 
     e1.debounce(() => {
-      return new Promise((resolve: any) => { resolve(42); });
-    }).subscribe((x: number) => {
+      return new Promise((resolve) => { resolve(42); });
+    }).subscribe((x) => {
       expect(x).to.equal(expected.shift()); },
       (x) => {
         done(new Error('should not be called'));
@@ -374,7 +374,7 @@ describe('Observable.prototype.debounce', () => {
       });
   });
 
-  it('should raises error when promise rejects', (done: MochaDone) => {
+  it('should raises error when promise rejects', (done) => {
     const e1 = Observable.concat(Observable.of(1),
       Observable.timer(10).mapTo(2),
       Observable.timer(10).mapTo(3),
@@ -383,15 +383,15 @@ describe('Observable.prototype.debounce', () => {
     const expected = [1, 2];
     const error = new Error('error');
 
-    e1.debounce((x: number) => {
+    e1.debounce((x) => {
       if (x === 3) {
         return new Promise((resolve: any, reject: any) => { reject(error); });
       } else {
-        return new Promise((resolve: any) => { resolve(42); });
+        return new Promise((resolve) => { resolve(42); });
       }
-    }).subscribe((x: number) => {
+    }).subscribe((x) => {
       expect(x).to.equal(expected.shift()); },
-      (err: any) => {
+      (err) => {
         expect(err).to.be.an('error', 'error');
         expect(expected.length).to.equal(0);
         done();

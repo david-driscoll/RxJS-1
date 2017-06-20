@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -176,9 +176,9 @@ describe('Observable.prototype.combineAll', () => {
     const values = { x: 'bf', y: 'cf', z: 'cg' };
 
     const result = Observable.of(e1, e2)
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .combineAll((x: any, y: any) => x + y)
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -454,11 +454,11 @@ describe('Observable.prototype.combineAll', () => {
     expectSubscriptions(e2.subscriptions).toBe(e2subs);
   });
 
-  it('should combine two observables', (done: MochaDone) => {
+  it('should combine two observables', (done) => {
     const a = Observable.of(1, 2, 3);
     const b = Observable.of(4, 5, 6, 7, 8);
     const expected = [[3, 4], [3, 5], [3, 6], [3, 7], [3, 8]];
-    Observable.of(a, b).combineAll().subscribe((vals: any) => {
+    Observable.of(a, b).combineAll().subscribe((vals) => {
       expect(vals).to.deep.equal(expected.shift());
     }, null, () => {
       expect(expected.length).to.equal(0);
@@ -466,13 +466,13 @@ describe('Observable.prototype.combineAll', () => {
     });
   });
 
-  it('should combine two immediately-scheduled observables', (done: MochaDone) => {
+  it('should combine two immediately-scheduled observables', (done) => {
     const a = Observable.of<number>(1, 2, 3, queueScheduler);
     const b = Observable.of<number>(4, 5, 6, 7, 8, queueScheduler);
     const r = [[1, 4], [2, 4], [2, 5], [3, 5], [3, 6], [3, 7], [3, 8]];
 
     Observable.of<Rx.Observable<number>>(a, b, queueScheduler).combineAll()
-      .subscribe((vals: any) => {
+      .subscribe((vals) => {
         expect(vals).to.deep.equal(r.shift());
     }, null, () => {
       expect(r.length).to.equal(0);

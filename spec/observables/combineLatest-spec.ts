@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { type };
+declare const type: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -24,13 +24,13 @@ describe('Observable.combineLatest', () => {
     expectObservable(combined).toBe(expected, {u: 'ad', v: 'ae', w: 'af', x: 'bf', y: 'bg', z: 'cg'});
   });
 
-  it('should combine an immediately-scheduled source with an immediately-scheduled second', (done: MochaDone) => {
+  it('should combine an immediately-scheduled source with an immediately-scheduled second', (done) => {
     const a = Observable.of<number>(1, 2, 3, queueScheduler);
     const b = Observable.of<number>(4, 5, 6, 7, 8, queueScheduler);
     const r = [[1, 4], [2, 4], [2, 5], [3, 5], [3, 6], [3, 7], [3, 8]];
 
     //type definition need to be updated
-    Observable.combineLatest(a, b, queueScheduler).subscribe((vals: any) => {
+    Observable.combineLatest(a, b, queueScheduler).subscribe((vals) => {
       expect(vals).to.deep.equal(r.shift());
     }, (x) => {
       done(new Error('should not be called'));
@@ -470,10 +470,10 @@ describe('Observable.combineLatest', () => {
     const values = { x: 'bf', y: 'cf', z: 'cg' };
 
     const result = Observable.combineLatest(
-        e1.mergeMap((x: string) => Observable.of(x)),
-        e2.mergeMap((x: string) => Observable.of(x)),
+        e1.mergeMap((x) => Observable.of(x)),
+        e2.mergeMap((x) => Observable.of(x)),
         (x: any, y: any) => x + y
-    ).mergeMap((x: any) => Observable.of(x));
+    ).mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -523,7 +523,7 @@ describe('Observable.combineLatest', () => {
       let a: Promise<number>[];
       let o1: Rx.Observable<number[]> = Observable.combineLatest(a);
       let o2: Rx.Observable<number[]> = Observable.combineLatest(...a);
-      let o3: Rx.Observable<number> = Observable.combineLatest(a, (...x) => x.length);
+      let o3: Rx.Observable<number> = Observable.combineLatest(a, (...x: any[]) => x.length);
       /* tslint:enable:no-unused-variable */
     });
   });
@@ -534,7 +534,7 @@ describe('Observable.combineLatest', () => {
       let a: Rx.Observable<number>[];
       let o1: Rx.Observable<number[]> = Observable.combineLatest(a);
       let o2: Rx.Observable<number[]> = Observable.combineLatest(...a);
-      let o3: Rx.Observable<number> = Observable.combineLatest(a, (...x) => x.length);
+      let o3: Rx.Observable<number> = Observable.combineLatest(a, (...x: any[]) => x.length);
       /* tslint:enable:no-unused-variable */
     });
   });

@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -92,17 +92,17 @@ describe('Observable.prototype.max', () => {
     const unsub =      '      !     ';
 
     const result = (<any>source)
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .max()
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected, { x: 42 });
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
-  it('should max a range() source observable', (done: MochaDone) => {
+  it('should max a range() source observable', (done) => {
     (<any>Rx.Observable.range(1, 10000)).max().subscribe(
-      (value: number) => {
+      (value) => {
         expect(value).to.equal(10000);
       }, (x) => {
         done(new Error('should not be called'));
@@ -111,9 +111,9 @@ describe('Observable.prototype.max', () => {
       });
   });
 
-  it('should max a range().skip(1) source observable', (done: MochaDone) => {
+  it('should max a range().skip(1) source observable', (done) => {
     (<any>Rx.Observable.range(1, 10)).skip(1).max().subscribe(
-      (value: number) => {
+      (value) => {
         expect(value).to.equal(10);
       }, (x) => {
         done(new Error('should not be called'));
@@ -122,9 +122,9 @@ describe('Observable.prototype.max', () => {
       });
   });
 
-  it('should max a range().take(1) source observable', (done: MochaDone) => {
+  it('should max a range().take(1) source observable', (done) => {
     (<any>Rx.Observable.range(1, 10)).take(1).max().subscribe(
-      (value: number) => {
+      (value) => {
         expect(value).to.equal(1);
       }, (x) => {
         done(new Error('should not be called'));

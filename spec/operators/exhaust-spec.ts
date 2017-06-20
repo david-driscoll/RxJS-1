@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -26,7 +26,7 @@ describe('Observable.prototype.exhaust', () => {
     const e1 = cold( '(ab|)');
     const e1subs =   '(^!)';
     const e2 = cold( '(cd|)');
-    const e2subs = [];
+    const e2subs = <string[]>[];
     const expected = '(ab|)';
 
     expectObservable((<any>Observable.of(e1, e2)).exhaust()).toBe(expected);
@@ -65,7 +65,7 @@ describe('Observable.prototype.exhaust', () => {
     const x = cold(        '--a---b---c--|               ');
     const xsubs =    '      ^            !               ';
     const y = cold(                '---d--e---f---|      ');
-    const ysubs = [];
+    const ysubs = <string[]>[];
     const z = cold(                      '---g--h---i---|');
     const zsubs =    '                    ^             !';
     const e1 = hot(  '------x-------y-----z-------------|', { x: x, y: y, z: z });
@@ -81,7 +81,7 @@ describe('Observable.prototype.exhaust', () => {
     const x = cold(        '--a---b---c--|         ');
     const xsubs =    '      ^         !           ';
     const y = cold(                '---d--e---f---|');
-    const ysubs = [];
+    const ysubs = <string[]>[];
     const e1 = hot(  '------x-------y------|       ', { x: x, y: y });
     const unsub =    '                !            ';
     const expected = '--------a---b---             ';
@@ -95,15 +95,15 @@ describe('Observable.prototype.exhaust', () => {
     const x = cold(        '--a---b---c--|         ');
     const xsubs =    '      ^         !           ';
     const y = cold(                '---d--e---f---|');
-    const ysubs = [];
+    const ysubs = <string[]>[];
     const e1 = hot(  '------x-------y------|       ', { x: x, y: y });
     const unsub =    '                !            ';
     const expected = '--------a---b----            ';
 
     const result = (<any>e1)
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .exhaust()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(x.subscriptions).toBe(xsubs);
@@ -114,7 +114,7 @@ describe('Observable.prototype.exhaust', () => {
     const x = cold(     '--a---b--|              ');
     const xsubs =    '   ^        !              ';
     const y = cold(          '-d---e-            ');
-    const ysubs = [];
+    const ysubs = <string[]>[];
     const z = cold(                '---f--g---h--');
     const zsubs =    '              ^            ';
     const e1 = hot(  '---x---y------z----------| ', { x: x, y: y, z: z });
@@ -130,7 +130,7 @@ describe('Observable.prototype.exhaust', () => {
     const x = cold(        '--a---b---c--|   ');
     const xsubs =    '      ^            !   ';
     const y = cold(        '---d--e---f---|  ');
-    const ysubs = [];
+    const ysubs = <string[]>[];
     const e1 = hot(  '------(xy)------------|', { x: x, y: y });
     const expected = '--------a---b---c-----|';
 
@@ -143,7 +143,7 @@ describe('Observable.prototype.exhaust', () => {
     const x = cold(        '--a---#                ');
     const xsubs =    '      ^     !                ';
     const y = cold(                '---d--e---f---|');
-    const ysubs = [];
+    const ysubs = <string[]>[];
     const e1 = hot(  '------x-------y------|       ', { x: x, y: y });
     const expected = '--------a---#                ';
 
@@ -156,7 +156,7 @@ describe('Observable.prototype.exhaust', () => {
     const x = cold(        '--a---b---c--|         ');
     const xsubs =    '      ^            !         ';
     const y = cold(                '---d--e---f---|');
-    const ysubs = [];
+    const ysubs = <string[]>[];
     const e1 = hot(  '------x-------y-------#      ', { x: x, y: y });
     const expected = '--------a---b---c-----#      ';
 
@@ -193,12 +193,12 @@ describe('Observable.prototype.exhaust', () => {
     expectSubscriptions(x.subscriptions).toBe(xsubs);
   });
 
-  it('should handle an observable of promises', (done: MochaDone) => {
+  it('should handle an observable of promises', (done) => {
     const expected = [1];
 
     (<any>Observable.of(Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)))
       .exhaust()
-      .subscribe((x: number) => {
+      .subscribe((x) => {
         expect(x).to.equal(expected.shift());
       }, null, () => {
         expect(expected.length).to.equal(0);
@@ -206,12 +206,12 @@ describe('Observable.prototype.exhaust', () => {
       });
   });
 
-  it('should handle an observable of promises, where one rejects', (done: MochaDone) => {
+  it('should handle an observable of promises, where one rejects', (done) => {
     (<any>Observable.of<any>(Promise.reject(2), Promise.resolve(1)))
       .exhaust()
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         done(new Error('should not be called'));
-      }, (err: any) => {
+      }, (err) => {
         expect(err).to.equal(2);
         done();
       }, () => {

@@ -3,7 +3,7 @@ import * as Rx from '../../dist/cjs/Rx';
 import {lowerCaseO} from '../helpers/test-helper';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -110,9 +110,9 @@ describe('Observable.prototype.withLatestFrom', () => {
     const project = function (a, b, c) { return a + b + c; };
 
     const result = e1
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .withLatestFrom(e2, e3, project)
-      .mergeMap((x: string) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -246,23 +246,23 @@ describe('Observable.prototype.withLatestFrom', () => {
     expectSubscriptions(e3.subscriptions).toBe(e3subs);
   });
 
-  it('should handle promises', (done: MochaDone) => {
+  it('should handle promises', (done) => {
     Observable.of(1).delay(1).withLatestFrom(Promise.resolve(2), Promise.resolve(3))
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         expect(x).to.deep.equal([1, 2, 3]);
       }, null, done);
   });
 
   it('should handle arrays', () => {
     Observable.of(1).delay(1).withLatestFrom([2, 3, 4], [4, 5, 6])
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         expect(x).to.deep.equal([1, 4, 6]);
       });
   });
 
   it('should handle lowercase-o observables', () => {
     Observable.of(1).delay(1).withLatestFrom(lowerCaseO(2, 3, 4), lowerCaseO(4, 5, 6))
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         expect(x).to.deep.equal([1, 4, 6]);
       });
   });

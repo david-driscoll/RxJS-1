@@ -2,7 +2,7 @@ import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 import { expect } from 'chai';
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -23,7 +23,7 @@ describe('Observable.prototype.delayWhen', () => {
                           '           ^!     '];
 
     let idx = 0;
-    function durationSelector(x) {
+    function durationSelector(x: never) {
       return selector[idx++];
     }
 
@@ -44,7 +44,7 @@ describe('Observable.prototype.delayWhen', () => {
     const selectorSubs = ['  ^!     ',
                         '     ^!  '];
 
-    const result = e1.delayWhen((x: any) => selector);
+    const result = e1.delayWhen((x) => selector);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -58,7 +58,7 @@ describe('Observable.prototype.delayWhen', () => {
     const selector = cold(  '-x--|');
     const selectorSubs =  '  ^!     ';
 
-    const result = e1.delayWhen((x: any) => selector);
+    const result = e1.delayWhen((x) => selector);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -72,7 +72,7 @@ describe('Observable.prototype.delayWhen', () => {
     const selector = cold(  '-#');
     const selectorSubs =  '  ^!     ';
 
-    const result = e1.delayWhen((x: any) => selector);
+    const result = e1.delayWhen((x) => selector);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -87,7 +87,7 @@ describe('Observable.prototype.delayWhen', () => {
     const selectorSubs = ['  ^      !',
                         '     ^      !'];
 
-    const result = e1.delayWhen((x: any) => selector);
+    const result = e1.delayWhen((x) => selector);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -102,7 +102,7 @@ describe('Observable.prototype.delayWhen', () => {
     const selectorSubs = ['  ^   !',
                         '     ^   !'];
 
-    const result = e1.delayWhen((x: any) => selector);
+    const result = e1.delayWhen((x) => selector);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -117,7 +117,7 @@ describe('Observable.prototype.delayWhen', () => {
     const selectorSubs = ['  ^       ',
                         '     ^    '];
 
-    const result = e1.delayWhen((x: any) => selector);
+    const result = e1.delayWhen((x) => selector);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -132,7 +132,7 @@ describe('Observable.prototype.delayWhen', () => {
     const selectorSubs = ['  ^   !',
                         '     ^   !'];
 
-    const result = e1.delayWhen((x: any) => selector);
+    const result = e1.delayWhen((x) => selector);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -147,7 +147,7 @@ describe('Observable.prototype.delayWhen', () => {
     const selectorSubs = ['  ^   !',
                         '     ^   !'];
 
-    const result = e1.delayWhen((x: any) => selector);
+    const result = e1.delayWhen((x) => selector);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -160,7 +160,7 @@ describe('Observable.prototype.delayWhen', () => {
     const subs =          '^ !';
 
     const err = new Error('error');
-    const result = e1.delayWhen(<any>((x: any) => { throw err; }));
+    const result = e1.delayWhen(<any>((x) => { throw err; }));
 
     expectObservable(result).toBe(expected, null, err);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -176,7 +176,7 @@ describe('Observable.prototype.delayWhen', () => {
     const subDelay = cold('--x--|');
     const subDelaySub =   '^ !';
 
-    const result = e1.delayWhen((x: any) => selector, subDelay);
+    const result = e1.delayWhen((x) => selector, subDelay);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -194,7 +194,7 @@ describe('Observable.prototype.delayWhen', () => {
     const subDelay = cold('--|');
     const subDelaySub =   '^ !';
 
-    const result = e1.delayWhen((x: any) => selector, subDelay);
+    const result = e1.delayWhen((x) => selector, subDelay);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(subs);
@@ -209,7 +209,7 @@ describe('Observable.prototype.delayWhen', () => {
     const subDelay = cold('---#');
     const subDelaySub =   '^  !';
 
-    const result = e1.delayWhen((x: any) => selector, subDelay);
+    const result = e1.delayWhen((x) => selector, subDelay);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe([]);

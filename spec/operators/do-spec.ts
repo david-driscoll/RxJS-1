@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram };
+declare const asDiagram: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -47,16 +47,16 @@ describe('Observable.prototype.do', () => {
     expect(err).to.equal('bad');
   });
 
-  it('should handle everything with an observer', (done: MochaDone) => {
+  it('should handle everything with an observer', (done) => {
     const expected = [1, 2, 3];
-    const results = [];
+    const results: number[] = [];
 
     Observable.of(1, 2, 3)
       .do(<Rx.Observer<number>>{
-        next: (x: number) => {
+        next: (x) => {
           results.push(x);
         },
-        error: (err: any) => {
+        error: (err) => {
           done(new Error('should not be called'));
         },
         complete: () => {
@@ -66,16 +66,16 @@ describe('Observable.prototype.do', () => {
       }).subscribe();
   });
 
-  it('should handle everything with a Subject', (done: MochaDone) => {
+  it('should handle everything with a Subject', (done) => {
     const expected = [1, 2, 3];
-    const results = [];
-    const subject = new Subject();
+    const results: number[] = [];
+    const subject = new Subject<number>();
 
     subject.subscribe({
-      next: (x: any) => {
+      next: (x) => {
         results.push(x);
       },
-      error: (err: any) => {
+      error: (err) => {
         done(new Error('should not be called'));
       },
       complete: () => {
@@ -91,10 +91,10 @@ describe('Observable.prototype.do', () => {
 
   it('should handle an error with a callback', () => {
     let errored = false;
-    Observable.throw('bad').do(null, (err: any) => {
+    Observable.throw('bad').do(null, (err) => {
       expect(err).to.equal('bad');
     })
-    .subscribe(null, (err: any) => {
+    .subscribe(null, (err) => {
       errored = true;
       expect(err).to.equal('bad');
     });
@@ -104,7 +104,7 @@ describe('Observable.prototype.do', () => {
 
   it('should handle an error with observer', () => {
     let errored = false;
-    Observable.throw('bad').do(<any>{ error: function (err) {
+    Observable.throw('bad').do(<any>{ error: function (err: any) {
       expect(err).to.equal('bad');
     } })
     .subscribe(null, function (err) {
@@ -130,8 +130,8 @@ describe('Observable.prototype.do', () => {
   it('should handle next with observer', () => {
     let value = null;
 
-    Observable.of('hi').do(<any>{
-      next: (x: string) => {
+    Observable.of('hi').do({
+      next: (x) => {
         value = x;
       }
     }).subscribe();
@@ -140,21 +140,21 @@ describe('Observable.prototype.do', () => {
   });
 
   it('should raise error if next handler raises error', () => {
-    Observable.of('hi').do(<any>{
-      next: (x: string) => {
+    Observable.of('hi').do({
+      next: (x) => {
         throw new Error('bad');
       }
-    }).subscribe(null, (err: any) => {
+    }).subscribe(null, (err) => {
       expect(err.message).to.equal('bad');
     });
   });
 
   it('should raise error if error handler raises error', () => {
     Observable.throw('ops').do(<any>{
-      error: (x: any) => {
+      error: (x) => {
         throw new Error('bad');
       }
-    }).subscribe(null, (err: any) => {
+    }).subscribe(null, (err) => {
       expect(err.message).to.equal('bad');
     });
   });
@@ -164,7 +164,7 @@ describe('Observable.prototype.do', () => {
       complete: () => {
         throw new Error('bad');
       }
-    }).subscribe(null, (err: any) => {
+    }).subscribe(null, (err) => {
       expect(err.message).to.equal('bad');
     });
   });
@@ -189,11 +189,11 @@ describe('Observable.prototype.do', () => {
     const unsub =    '       !    ';
 
     const result = e1
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .do(() => {
         //noop
       })
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);

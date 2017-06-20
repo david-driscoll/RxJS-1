@@ -1,7 +1,8 @@
 import * as Rx from '../../dist/cjs/Rx';
 import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
-declare const { asDiagram, time };
+declare const asDiagram: Function;
+declare const time: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -211,7 +212,7 @@ describe('Observable.prototype.window', () => {
     const expectedValues = { a: a, b: b };
 
     const result = source
-      .mergeMap((x: string) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .window(closings)
       .mergeMap((x: Rx.Observable<string>) => Observable.of(x));
 

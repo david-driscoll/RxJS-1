@@ -38,9 +38,9 @@ describe('Observable.if', () => {
     expectObservable(e1).toBe(expected);
   });
 
-  it('should accept resolved promise as thenSource', (done: MochaDone) => {
+  it('should accept resolved promise as thenSource', (done) => {
     const expected = 42;
-    const e1 = Observable.if(() => true, new Promise((resolve: any) => { resolve(expected); }));
+    const e1 = Observable.if(() => true, new Promise((resolve) => { resolve(expected); }));
 
     e1.subscribe(x => {
       expect(x).to.equal(expected);
@@ -51,11 +51,11 @@ describe('Observable.if', () => {
     });
   });
 
-  it('should accept resolved promise as elseSource', (done: MochaDone) => {
+  it('should accept resolved promise as elseSource', (done) => {
     const expected = 42;
     const e1 = Observable.if(() => false,
       Observable.of('a'),
-      new Promise((resolve: any) => { resolve(expected); }));
+      new Promise((resolve) => { resolve(expected); }));
 
     e1.subscribe(x => {
       expect(x).to.equal(expected);
@@ -66,7 +66,7 @@ describe('Observable.if', () => {
     });
   });
 
-  it('should accept rejected promise as elseSource', (done: MochaDone) => {
+  it('should accept rejected promise as elseSource', (done) => {
     const expected = 42;
     const e1 = Observable.if(() => false,
       Observable.of('a'),
@@ -82,7 +82,7 @@ describe('Observable.if', () => {
     });
   });
 
-  it('should accept rejected promise as thenSource', (done: MochaDone) => {
+  it('should accept rejected promise as thenSource', (done) => {
     const expected = 42;
     const e1 = Observable.if(() => true, new Promise((resolve: any, reject: any) => { reject(expected); }));
 

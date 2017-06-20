@@ -165,9 +165,9 @@ describe('Observable.ajax', () => {
     };
 
     Rx.Observable.ajax(<any>obj)
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         throw 'should not next';
-      }, (err: any) => {
+      }, (err) => {
         error = err;
       }, () => {
         throw 'should not complete';
@@ -176,7 +176,7 @@ describe('Observable.ajax', () => {
     expect(error).to.be.an('error', 'wokka wokka');
   });
 
-  it('should error if send request throws', (done: MochaDone) => {
+  it('should error if send request throws', (done) => {
     const expected = new Error('xhr send failure');
 
     const obj = {
@@ -195,7 +195,7 @@ describe('Observable.ajax', () => {
     Rx.Observable.ajax(obj)
       .subscribe(() => {
         done(new Error('should not be called'));
-      }, (e: Error) => {
+      }, (e) => {
         expect(e).to.be.equal(expected);
         done();
       }, () => {
@@ -205,7 +205,7 @@ describe('Observable.ajax', () => {
 
   it('should succeed on 200', () => {
     const expected = { foo: 'bar' };
-    let result;
+    let result: Rx.AjaxResponse = null;
     let complete = false;
     const obj = {
       url: '/flibbertyJibbet',
@@ -214,7 +214,7 @@ describe('Observable.ajax', () => {
     };
 
     Rx.Observable.ajax(obj)
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         result = x;
       }, null, () => {
         complete = true;
@@ -234,7 +234,7 @@ describe('Observable.ajax', () => {
   });
 
   it('should fail on 404', () => {
-    let error;
+    let error: any = null;
     const obj = {
       url: '/flibbertyJibbet',
       normalizeError: (e: any, xhr: any, type: any) => {
@@ -245,9 +245,9 @@ describe('Observable.ajax', () => {
     };
 
     Rx.Observable.ajax(obj)
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         throw 'should not next';
-      }, (err: any) => {
+      }, (err) => {
         error = err;
       }, () => {
         throw 'should not complete';
@@ -269,7 +269,7 @@ describe('Observable.ajax', () => {
   });
 
   it('should fail on 404', () => {
-    let error;
+    let error: any = null;
     const obj = {
       url: '/flibbertyJibbet',
       normalizeError: (e: any, xhr: any, type: any) => {
@@ -281,7 +281,7 @@ describe('Observable.ajax', () => {
 
     Rx.Observable.ajax(obj).subscribe(x => {
       throw 'should not next';
-    }, (err: any) => {
+    }, (err) => {
       error = err;
     }, () => {
       throw 'should not complete';
@@ -304,7 +304,7 @@ describe('Observable.ajax', () => {
     const expected = JSON.stringify({ foo: 'bar' });
 
     Rx.Observable.ajax('/flibbertyJibbet')
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         expect(x.status).to.equal(200);
         expect(x.xhr.method).to.equal('GET');
         expect(x.xhr.responseText).to.equal(expected);
@@ -326,7 +326,7 @@ describe('Observable.ajax', () => {
     Rx.Observable.ajax('/flibbertyJibbet')
       .subscribe(() => {
         throw 'should not have been called';
-      }, (x: any) => {
+      }, (x) => {
         expect(x.status).to.equal(500);
         expect(x.xhr.method).to.equal('GET');
         expect(x.xhr.responseText).to.equal(expected);
@@ -350,7 +350,7 @@ describe('Observable.ajax', () => {
     };
 
     Rx.Observable.ajax(obj)
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         expect(x.status).to.equal(200);
         expect(x.xhr.method).to.equal('GET');
         expect(x.xhr.async).to.equal(true);
@@ -380,7 +380,7 @@ describe('Observable.ajax', () => {
     };
 
     Rx.Observable.ajax(obj)
-      .subscribe((x: any) => {
+      .subscribe((x) => {
         expect(x.status).to.equal(200);
         expect(x.xhr.method).to.equal('GET');
         expect(x.xhr.async).to.equal(false);
@@ -498,7 +498,7 @@ describe('Observable.ajax', () => {
       expect(MockXMLHttpRequest.mostRecent.data).to.equal('{"🌟":"🚀"}');
     });
 
-    it('should error if send request throws', (done: MochaDone) => {
+    it('should error if send request throws', (done) => {
       const expected = new Error('xhr send failure');
 
       const obj = {
@@ -518,7 +518,7 @@ describe('Observable.ajax', () => {
       Rx.Observable.ajax(obj)
         .subscribe(() => {
           done(new Error('should not be called'));
-        }, (e: Error) => {
+        }, (e) => {
           expect(e).to.be.equal(expected);
           done();
         }, () => {
@@ -556,7 +556,7 @@ describe('Observable.ajax', () => {
     });
 
     it('should succeed on 204 No Content', () => {
-      const expected = null;
+      const expected: any = null;
       let result;
       let complete = false;
 
@@ -646,7 +646,7 @@ describe('Observable.ajax', () => {
     });
 
     it('should succeed on 204 No Content', () => {
-      const expected = null;
+      const expected: any = null;
       let result: Rx.AjaxResponse;
       let complete = false;
 
@@ -679,7 +679,7 @@ describe('Observable.ajax', () => {
     });
 
     it('should succeed in IE on 204 No Content', () => {
-      const expected = null;
+      const expected: any = null;
       let result: Rx.AjaxResponse;
       let complete = false;
 
@@ -777,8 +777,8 @@ describe('Observable.ajax', () => {
 
   it('should work fine when XMLHttpRequest onreadystatechange property is monkey patched', function() {
     Object.defineProperty(root.XMLHttpRequest.prototype, 'onreadystatechange', {
-      set: function (fn: (e: ProgressEvent) => any) {
-        const wrapFn = (ev: ProgressEvent) => {
+      set: function (fn: (e) => any) {
+        const wrapFn = (ev) => {
           const result = fn.call(this, ev);
           if (result === false) {
             ev.preventDefault();
@@ -807,8 +807,8 @@ describe('Observable.ajax', () => {
 
   it('should work fine when XMLHttpRequest ontimeout property is monkey patched', function() {
     Object.defineProperty(root.XMLHttpRequest.prototype, 'ontimeout', {
-      set: function (fn: (e: ProgressEvent) => any) {
-        const wrapFn = (ev: ProgressEvent) => {
+      set: function (fn: (e) => any) {
+        const wrapFn = (ev) => {
           const result = fn.call(this, ev);
           if (result === false) {
             ev.preventDefault();
@@ -840,8 +840,8 @@ describe('Observable.ajax', () => {
 
   it('should work fine when XMLHttpRequest onprogress property is monkey patched', function() {
     Object.defineProperty(root.XMLHttpRequest.prototype, 'onprogress', {
-      set: function (fn: (e: ProgressEvent) => any) {
-        const wrapFn = (ev: ProgressEvent) => {
+      set: function (fn: (e) => any) {
+        const wrapFn = (ev) => {
           const result = fn.call(this, ev);
           if (result === false) {
             ev.preventDefault();
@@ -883,8 +883,8 @@ describe('Observable.ajax', () => {
 
   it('should work fine when XMLHttpRequest onerror property is monkey patched', function() {
     Object.defineProperty(root.XMLHttpRequest.prototype, 'onerror', {
-      set: function (fn: (e: ProgressEvent) => any) {
-        const wrapFn = (ev: ProgressEvent) => {
+      set: function (fn: (e) => any) {
+        const wrapFn = (ev) => {
           const result = fn.call(this, ev);
           if (result === false) {
             ev.preventDefault();
@@ -970,10 +970,10 @@ class MockXMLHttpRequest {
   requestHeaders: any = {};
   withCredentials: boolean = false;
 
-  onreadystatechange: (e: ProgressEvent) => any;
-  onerror: (e: ErrorEvent) => any;
-  onprogress: (e: ProgressEvent) => any;
-  ontimeout: (e: ProgressEvent) => any;
+  onreadystatechange: (e) => any;
+  onerror: (e) => any;
+  onprogress: (e) => any;
+  ontimeout: (e) => any;
   upload: XMLHttpRequestUpload = <any>{ };
 
   constructor() {
@@ -1077,7 +1077,7 @@ class MockXMLHttpRequest {
       this['on' + name](e);
     }
 
-    this.eventHandlers.forEach(function (eh) {
+    this.eventHandlers.forEach(function (this: any, eh) {
       if (eh.name === name) {
         eh.handler.call(this, e);
       }
