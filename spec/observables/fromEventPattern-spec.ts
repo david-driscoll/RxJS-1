@@ -14,7 +14,7 @@ const Observable = Rx.Observable;
 describe('Observable.fromEventPattern', () => {
   asDiagram('fromEventPattern(addHandler, removeHandler)')
   ('should create an observable from the handler API', () => {
-    function addHandler(h: (value) => void) {
+    function addHandler(h: (value: string) => void) {
       Observable.timer(50, 20, rxTestScheduler)
         .mapTo('ev')
         .take(2)
@@ -46,7 +46,7 @@ describe('Observable.fromEventPattern', () => {
   });
 
   it('should work without optional removeHandler', () => {
-    const addHandler: (h) => any = sinon.spy();
+    const addHandler: (h: any) => any = sinon.spy();
     Observable.fromEventPattern(addHandler).subscribe(noop);
 
     expect(addHandler).calledOnce;
@@ -81,10 +81,10 @@ describe('Observable.fromEventPattern', () => {
       }
     };
 
-    const addHandler = (handler) => {
+    const addHandler = (handler: Function) => {
       target = handler;
     };
-    const removeHandler = (handler) => {
+    const removeHandler = (handler: Function) => {
       target = null;
     };
     const selector = (a: any, b: any) => {
@@ -105,19 +105,19 @@ describe('Observable.fromEventPattern', () => {
 
   it('should send errors in the selector down the error path', (done) => {
     let target: Function;
-    const trigger = (value) => {
+    const trigger = (value: string) => {
       if (target) {
         target(value);
       }
     };
 
-    const addHandler = (handler) => {
+    const addHandler = (handler: Function) => {
       target = handler;
     };
-    const removeHandler = (handler) => {
+    const removeHandler = (handler: Function) => {
       target = null;
     };
-    const selector = (x) => {
+    const selector = (x: never) => {
       throw 'bad';
     };
 
