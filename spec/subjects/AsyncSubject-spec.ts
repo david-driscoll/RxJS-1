@@ -4,7 +4,7 @@ import * as Rx from '../../dist/cjs/Rx';
 const AsyncSubject = Rx.AsyncSubject;
 
 class TestObserver implements Rx.Observer<number> {
-  results = [];
+  results: (number | string)[] = [];
 
   next(value: number): void {
     this.results.push(value);

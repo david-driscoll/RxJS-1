@@ -92,8 +92,8 @@ describe('ConnectableObservable.prototype.refCount', () => {
   it('should not unsubscribe when a subscriber synchronously unsubscribes if ' +
   'other subscribers are present and the source is a Subject', () => {
 
-    const arr = [];
-    const subject = new Rx.Subject();
+    const arr: string[] = [];
+    const subject = new Rx.Subject<string>();
     const connectable = subject.publishReplay(1);
     const refCounted = connectable.refCount();
 

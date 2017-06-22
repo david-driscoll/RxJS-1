@@ -17,7 +17,7 @@ describe('Observable.prototype.concatAll', () => {
     const x = cold(    '----a------b------|                 ');
     const y = cold(                      '---c-d---|        ');
     const z = cold(                               '---e--f-|');
-    const outer = hot('-x---y----z------|              ', { x: x, y: y, z: z });
+    const outer = hot('-x---y----z------|              ', { x, y, z });
     const expected =  '-----a------b---------c-d------e--f-|';
 
     const result = outer.concatAll();

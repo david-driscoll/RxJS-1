@@ -50,7 +50,7 @@ describe('Observable.prototype.mergeMapTo', () => {
   it('should map values to constant resolved promises and merge', (done) => {
     const source = Rx.Observable.from([4, 3, 2, 1]);
 
-    const results = [];
+    const results: number[] = [];
     source.mergeMapTo(Observable.from(Promise.resolve(42))).subscribe(
       (x) => {
         results.push(x);
@@ -82,14 +82,14 @@ describe('Observable.prototype.mergeMapTo', () => {
 
   it('should mergeMapTo values to resolved promises with resultSelector', (done) => {
     const source = Rx.Observable.from([4, 3, 2, 1]);
-    const resultSelectorCalledWith = [];
+    const resultSelectorCalledWith: number[] = [];
     const inner = Observable.from(Promise.resolve(42));
-    const resultSelector = function (outerVal, innerVal, outerIndex, innerIndex) {
+    const resultSelector = function (outerVal: number, innerVal: number, outerIndex: number, innerIndex: number) {
       resultSelectorCalledWith.push([].slice.call(arguments));
       return 8;
     };
 
-    const results = [];
+    const results: number[] = [];
     const expectedCalls = [
       [4, 42, 0, 0],
       [3, 42, 1, 0],
@@ -279,7 +279,7 @@ describe('Observable.prototype.mergeMapTo', () => {
                      '                                         ^                   !'];
     const expected =   '-----i---j---k---l-------i---j---k---l-------i---j---k---l---|';
 
-    function resultSelector(oV, iV, oI, iI) { return iV; }
+    function resultSelector(oV: string, iV: string, oI: number, iI: number) { return iV; }
     const result = e1.mergeMapTo(inner, resultSelector, 1);
 
     expectObservable(result).toBe(expected, values);
@@ -297,7 +297,7 @@ describe('Observable.prototype.mergeMapTo', () => {
                      '                     ^                   !'];
     const expected =   '-----i---j---(ki)(lj)k---(li)j---k---l---|';
 
-    function resultSelector(oV, iV, oI, iI) { return iV; }
+    function resultSelector(oV: string, iV: string, oI: number, iI: number) { return iV; }
     const result = e1.mergeMapTo(inner, resultSelector, 2);
 
     expectObservable(result).toBe(expected, values);

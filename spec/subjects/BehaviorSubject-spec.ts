@@ -98,8 +98,8 @@ describe('BehaviorSubject', () => {
   });
 
   it('should not pass values nexted after a complete', () => {
-    const subject = new BehaviorSubject('init');
-    const results = [];
+    const subject = new BehaviorSubject<string>('init');
+    const results: string[] = [];
 
     subject.subscribe((x) => {
       results.push(x);
@@ -137,8 +137,8 @@ describe('BehaviorSubject', () => {
 
   it('should replay the previous value when subscribed', () => {
     const behaviorSubject = new BehaviorSubject('0');
-    function feedNextIntoSubject(x) { behaviorSubject.next(x); }
-    function feedErrorIntoSubject(err) { behaviorSubject.error(err); }
+    function feedNextIntoSubject(x: string) { behaviorSubject.next(x); }
+    function feedErrorIntoSubject(err: any) { behaviorSubject.error(err); }
     function feedCompleteIntoSubject() { behaviorSubject.complete(); }
 
     const sourceTemplate =  '-1-2-3----4------5-6---7--8----9--|';
@@ -161,8 +161,8 @@ describe('BehaviorSubject', () => {
 
   it('should emit complete when subscribed after completed', () => {
     const behaviorSubject = new BehaviorSubject('0');
-    function feedNextIntoSubject(x) { behaviorSubject.next(x); }
-    function feedErrorIntoSubject(err) { behaviorSubject.error(err); }
+    function feedNextIntoSubject(x: string) { behaviorSubject.next(x); }
+    function feedErrorIntoSubject(err: any) { behaviorSubject.error(err); }
     function feedCompleteIntoSubject() { behaviorSubject.complete(); }
 
     const sourceTemplate =  '-1-2-3--4--|';

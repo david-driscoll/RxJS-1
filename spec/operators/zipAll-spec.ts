@@ -9,7 +9,7 @@ declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscriptions;
 
-declare const Symbol;
+declare const Symbol: any;
 const Observable = Rx.Observable;
 const queueScheduler = Rx.Scheduler.queue;
 
@@ -18,7 +18,7 @@ describe('Observable.prototype.zipAll', () => {
   asDiagram('zipAll')('should combine paired events from two observables', () => {
     const x =    cold(               '-a-----b-|');
     const y =    cold(               '--1-2-----');
-    const outer = hot('-x----y--------|         ', { x: x, y: y });
+    const outer = hot('-x----y--------|         ', { x, y });
     const expected =  '-----------------A----B-|';
 
     const result = outer.zipAll((a, b) => a + b);
@@ -140,7 +140,7 @@ describe('Observable.prototype.zipAll', () => {
     it('should work with never observable and empty iterable', () => {
       const a = cold(  '-');
       const asubs =    '^';
-      const b = '';
+      const b = <string[]>[];
       const expected = '-';
 
       expectObservable(Observable.of<Rx.Observable<string> | string[]>(a, b).zipAll()).toBe(expected);
@@ -150,7 +150,7 @@ describe('Observable.prototype.zipAll', () => {
     it('should work with empty observable and empty iterable', () => {
       const a = cold('|');
       const asubs = '(^!)';
-      const b = '';
+      const b = <string[]>[];
       const expected = '|';
 
       expectObservable(Observable.of<Rx.Observable<string> | string[]>(a, b).zipAll()).toBe(expected);
@@ -170,7 +170,7 @@ describe('Observable.prototype.zipAll', () => {
     it('should work with non-empty observable and empty iterable', () => {
       const a = hot('---^----a--|');
       const asubs =    '^       !';
-      const b = '';
+      const b = <string[]>[];
       const expected = '--------|';
 
       expectObservable(Observable.of<Rx.Observable<string> | string[]>(a, b).zipAll()).toBe(expected);
@@ -200,7 +200,7 @@ describe('Observable.prototype.zipAll', () => {
     it('should work with non-empty observable and empty iterable', () => {
       const a = hot('---^----#');
       const asubs =    '^    !';
-      const b = '';
+      const b = <string[]>[];
       const expected = '-----#';
 
       expectObservable(Observable.of<Rx.Observable<string> | string[]>(a, b).zipAll()).toBe(expected);
@@ -234,7 +234,7 @@ describe('Observable.prototype.zipAll', () => {
       const b = [4, 5, 6];
       const expected = '---x--#';
 
-      const selector = function (x, y) {
+      const selector = function (x: string, y: number) {
         if (y === 5) {
           throw new Error('too bad');
         } else {
@@ -349,7 +349,7 @@ describe('Observable.prototype.zipAll', () => {
     const bsubs =      '^       !     ';
     const expected =   '---x----#     ';
 
-    const selector = function (x, y) {
+    const selector = function (x: string, y: string) {
       if (y === '5') {
         throw new Error('too bad');
       } else {
@@ -392,7 +392,7 @@ describe('Observable.prototype.zipAll', () => {
     const xsubs =     '        ^           !';
     const y = cold(        'd---e---f---|   ');
     const ysubs =     '        ^           !';
-    const e1 =    hot('--x--y--|            ', { x: x, y: y });
+    const e1 =    hot('--x--y--|            ', { x, y });
     const e1subs =    '^                   !';
     const expected =  '--------u---v---w---|';
     const values = {
@@ -414,7 +414,7 @@ describe('Observable.prototype.zipAll', () => {
     const ysubs =    '                           ^       !    ';
     const z = cold(                    'g-h-i-j-k-|           ');
     const zsubs =    '                           ^         !  ';
-    const e1 =   hot('--x------y--------z--------|            ', { x: x, y: y, z: z });
+    const e1 =   hot('--x------y--------z--------|            ', { x, y, z });
     const e1subs =   '^                                      !';
     const expected = '---------------------------u-v---------|';
     const values = {
@@ -436,7 +436,7 @@ describe('Observable.prototype.zipAll', () => {
     const ysubs =    '                              ^       !';
     const z = cold(                          'g-h-i-j-k-|    ');
     const zsubs =    '                              ^       !';
-    const e1 =   hot('--x---------y--------z--------|', { x: x, y: y, z: z });
+    const e1 =   hot('--x---------y--------z--------|', { x, y, z });
     const e1subs =   '^                                     !';
     const expected = '------------------------------u-v-----#';
 
@@ -455,7 +455,7 @@ describe('Observable.prototype.zipAll', () => {
   it('should raise error if outer observable raises error', () => {
     const y = cold(       'a-b---------|');
     const z = cold(                 'c-d-e-f-|');
-    const e1 =   hot('--y---------z---#', { y: y, z: z });
+    const e1 =   hot('--y---------z---#', { y, z });
     const e1subs =   '^               !';
     const expected = '----------------#';
 

@@ -26,7 +26,7 @@ describe('Observable.prototype.toPromise', () => {
     let wasCalled = false;
     __root__.Rx = {};
     __root__.Rx.config = {};
-    __root__.Rx.config.Promise = function MyPromise(callback) {
+    __root__.Rx.config.Promise = function MyPromise(callback: (value: any) => any) {
       wasCalled = true;
       return new Promise(callback);
     };

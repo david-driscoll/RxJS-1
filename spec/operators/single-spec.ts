@@ -77,7 +77,7 @@ describe('Observable.prototype.single', () => {
     const e1subs =          '^  !';
     const expected =        '---#';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'c';
     };
 
@@ -90,7 +90,7 @@ describe('Observable.prototype.single', () => {
     const e1subs =    '^          !   ';
     const expected =  '-----------#   ';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       if (value !== 'd') {
         return false;
       }
@@ -106,7 +106,7 @@ describe('Observable.prototype.single', () => {
     const e1subs =    '^          !';
     const expected =  '-----------(b|)';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'b';
     };
 
@@ -119,7 +119,7 @@ describe('Observable.prototype.single', () => {
     const e1subs =    '^          !      ';
     const expected =  '-----------#      ';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'b';
     };
 
@@ -132,7 +132,7 @@ describe('Observable.prototype.single', () => {
     const e1subs =      '^  !';
     const expected =    '---#';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'a';
     };
 
@@ -145,7 +145,7 @@ describe('Observable.prototype.single', () => {
     const e1subs =    '^          !';
     const expected =  '-----------(z|)';
 
-    const predicate = function (value) {
+    const predicate = function (value: string) {
       return value === 'x';
     };
 
@@ -158,8 +158,8 @@ describe('Observable.prototype.single', () => {
     const e1subs =    '^          !';
     const expected =  '-----------(b|)';
 
-    let indices = [];
-    const predicate = function(value, index) {
+    let indices: number[] = [];
+    const predicate = function(value: string, index: number) {
       indices.push(index);
       return value === 'b';
     };

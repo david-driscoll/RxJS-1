@@ -306,7 +306,7 @@ describe('Observable.ajax', () => {
     Rx.Observable.ajax('/flibbertyJibbet')
       .subscribe((x) => {
         expect(x.status).to.equal(200);
-        expect(x.xhr.method).to.equal('GET');
+        expect((<any>x.xhr).method).to.equal('GET');
         expect(x.xhr.responseText).to.equal(expected);
       }, () => {
         throw 'should not have been called';
@@ -328,7 +328,7 @@ describe('Observable.ajax', () => {
         throw 'should not have been called';
       }, (x) => {
         expect(x.status).to.equal(500);
-        expect(x.xhr.method).to.equal('GET');
+        expect((<any>x.xhr).method).to.equal('GET');
         expect(x.xhr.responseText).to.equal(expected);
       }, () => {
         throw 'should not have been called';
@@ -352,8 +352,8 @@ describe('Observable.ajax', () => {
     Rx.Observable.ajax(obj)
       .subscribe((x) => {
         expect(x.status).to.equal(200);
-        expect(x.xhr.method).to.equal('GET');
-        expect(x.xhr.async).to.equal(true);
+        expect((<any>x.xhr).method).to.equal('GET');
+        expect((<any>x.xhr).async).to.equal(true);
         expect(x.xhr.timeout).to.equal(10);
         expect(x.xhr.responseType).to.equal('text');
       }, () => {
@@ -382,8 +382,8 @@ describe('Observable.ajax', () => {
     Rx.Observable.ajax(obj)
       .subscribe((x) => {
         expect(x.status).to.equal(200);
-        expect(x.xhr.method).to.equal('GET');
-        expect(x.xhr.async).to.equal(false);
+        expect((<any>x.xhr).method).to.equal('GET');
+        expect((<any>x.xhr).async).to.equal(false);
         expect(x.xhr.timeout).to.be.undefined;
         expect(x.xhr.responseType).to.equal('');
       }, () => {
@@ -777,8 +777,8 @@ describe('Observable.ajax', () => {
 
   it('should work fine when XMLHttpRequest onreadystatechange property is monkey patched', function() {
     Object.defineProperty(root.XMLHttpRequest.prototype, 'onreadystatechange', {
-      set: function (fn: (e) => any) {
-        const wrapFn = (ev) => {
+      set: function (fn: (e: any) => any) {
+        const wrapFn = (ev: any) => {
           const result = fn.call(this, ev);
           if (result === false) {
             ev.preventDefault();
@@ -807,8 +807,8 @@ describe('Observable.ajax', () => {
 
   it('should work fine when XMLHttpRequest ontimeout property is monkey patched', function() {
     Object.defineProperty(root.XMLHttpRequest.prototype, 'ontimeout', {
-      set: function (fn: (e) => any) {
-        const wrapFn = (ev) => {
+      set: function (fn: (e: any) => any) {
+        const wrapFn = (ev: any) => {
           const result = fn.call(this, ev);
           if (result === false) {
             ev.preventDefault();
@@ -840,8 +840,8 @@ describe('Observable.ajax', () => {
 
   it('should work fine when XMLHttpRequest onprogress property is monkey patched', function() {
     Object.defineProperty(root.XMLHttpRequest.prototype, 'onprogress', {
-      set: function (fn: (e) => any) {
-        const wrapFn = (ev) => {
+      set: function (fn: (e: any) => any) {
+        const wrapFn = (ev: any) => {
           const result = fn.call(this, ev);
           if (result === false) {
             ev.preventDefault();
@@ -883,8 +883,8 @@ describe('Observable.ajax', () => {
 
   it('should work fine when XMLHttpRequest onerror property is monkey patched', function() {
     Object.defineProperty(root.XMLHttpRequest.prototype, 'onerror', {
-      set: function (fn: (e) => any) {
-        const wrapFn = (ev) => {
+      set: function (fn: (e: any) => any) {
+        const wrapFn = (ev: any) => {
           const result = fn.call(this, ev);
           if (result === false) {
             ev.preventDefault();
@@ -970,10 +970,10 @@ class MockXMLHttpRequest {
   requestHeaders: any = {};
   withCredentials: boolean = false;
 
-  onreadystatechange: (e) => any;
-  onerror: (e) => any;
-  onprogress: (e) => any;
-  ontimeout: (e) => any;
+  onreadystatechange: (e: any) => any;
+  onerror: (e: any) => any;
+  onprogress: (e: any) => any;
+  ontimeout: (e: any) => any;
   upload: XMLHttpRequestUpload = <any>{ };
 
   constructor() {

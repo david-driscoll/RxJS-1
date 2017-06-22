@@ -5,7 +5,7 @@ import {TeardownLogic} from '../dist/cjs/Subscription';
 import marbleTestingSignature = require('./helpers/marble-testing'); // tslint:disable-line:no-require-imports
 
 declare const asDiagram: never;
-declare const rxTestScheduler: never;
+declare const rxTestScheduler: typeof marbleTestingSignature.rxTestScheduler;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
 declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscriptions;

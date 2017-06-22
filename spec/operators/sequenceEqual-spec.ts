@@ -3,7 +3,7 @@ import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:
 
 declare const asDiagram: Function;
 declare const time: Function;
-declare const rxTestScheduler: Function;
+declare const rxTestScheduler: typeof marbleTestingSignature.rxTestScheduler;
 declare const type: Function;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
@@ -194,7 +194,7 @@ describe('Observable.prototype.sequenceEqual', () => {
     });
 
     const values = {
-      a: null,
+      a: <{ value: string; }>null,
       b: { value: 'bees knees' },
       c: { value: 'carpy dumb' },
       d: { value: 'derp' },
@@ -218,7 +218,7 @@ describe('Observable.prototype.sequenceEqual', () => {
     const source = s1.sequenceEqual(s2, (a: any, b: any) => a.value === b.value);
 
     const values = {
-      a: null,
+      a: <{ value: string; }>null,
       b: { value: 'bees knees' },
       c: { value: 'carpy dumb' },
       d: { value: 'derp' },

@@ -17,7 +17,7 @@ describe('Observable.prototype.combineAll', () => {
   asDiagram('combineAll')('should combine events from two observables', () => {
     const x =    cold(               '-a-----b---|');
     const y =    cold(               '--1-2-|     ');
-    const outer = hot('-x----y--------|           ', { x: x, y: y });
+    const outer = hot('-x----y--------|           ', { x, y });
     const expected =  '-----------------A-B--C---|';
 
     const result = outer.combineAll((a, b) => String(a) + String(b));

@@ -36,7 +36,7 @@ describe('Observable.prototype.mergeMap', () => {
     const e1subs =   '^                                   !   ';
     const expected = '----a---(ab)(ab)(ab)c---c---(cd)c---(c|)';
 
-    const observableLookup = { a: a, b: b, c: c, d: d };
+    const observableLookup = { a, b, c, d };
     const source = e1.mergeMap((value) => observableLookup[value]);
 
     expectObservable(source).toBe(expected);
@@ -467,7 +467,7 @@ describe('Observable.prototype.mergeMap', () => {
     const e1subs =         '^                                             !';
     const expected =       '---2--3--4--5---1--2--3--2--3--6--4--5---1-2--|';
 
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.mergeMap((value) => observableLookup[value]);
 
@@ -487,7 +487,7 @@ describe('Observable.prototype.mergeMap', () => {
     const e1subs =         '^                                               ';
     const expected =       '---2--3--4--5---1--2--3--2--3--6--4--5---1-2----';
 
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.mergeMap((value) => observableLookup[value]);
 
@@ -507,7 +507,7 @@ describe('Observable.prototype.mergeMap', () => {
     const e1subs =         '^                                               ';
     const expected =       '---2--3--4--5---1--2--3--2--3--6--4--5---1-2----';
 
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.mergeMap((value) => observableLookup[value]);
 
@@ -527,7 +527,7 @@ describe('Observable.prototype.mergeMap', () => {
     const e1subs =         '^                                      !       ';
     const expected =       '---2--3--4--5---1--2--3--2--3--6--4--5-#       ';
 
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.mergeMap((value) => observableLookup[value]);
 
@@ -547,7 +547,7 @@ describe('Observable.prototype.mergeMap', () => {
     const e1subs =         '^                                !             ';
     const expected =       '---2--3--4--5---1--2--3--2--3--6-#             ';
 
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.mergeMap((value) => observableLookup[value]);
 
@@ -568,7 +568,7 @@ describe('Observable.prototype.mergeMap', () => {
     const e1subs =         '^                             !                ';
     const expected =       '---2--3--4--5---1--2--3--2--3--                ';
 
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
     const source = e1.mergeMap((value) => observableLookup[value]);
 
     expectObservable(source, unsub).toBe(expected);
@@ -587,7 +587,7 @@ describe('Observable.prototype.mergeMap', () => {
     const e1subs =         '^              !                               ';
     const expected =       '---2--3--4--5--#                               ';
 
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
     let invoked = 0;
     const source = e1.mergeMap((value) => {
       invoked++;

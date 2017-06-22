@@ -12,7 +12,7 @@ const Observable = Rx.Observable;
 /** @test {Subject} */
 describe('Subject', () => {
   it('should pump values right on through itself', (done) => {
-    const subject = new Subject();
+    const subject = new Subject<(number | string)>();
     const expected = ['foo', 'bar'];
 
     subject.subscribe((x) => {
@@ -25,7 +25,7 @@ describe('Subject', () => {
   });
 
   it('should pump values to multiple subscribers', (done) => {
-    const subject = new Subject();
+    const subject = new Subject<string>();
     const expected = ['foo', 'bar'];
 
     let i = 0;
@@ -47,10 +47,10 @@ describe('Subject', () => {
 
   it('should handle subscribers that arrive and leave at different times, ' +
   'subject does not complete', () => {
-    const subject = new Subject();
-    const results1 = [];
-    const results2 = [];
-    const results3 = [];
+    const subject = new Subject<number>();
+    const results1: (number | string)[] = [];
+    const results2: (number | string)[] = [];
+    const results3: (number | string)[] = [];
 
     subject.next(1);
     subject.next(2);
@@ -100,10 +100,10 @@ describe('Subject', () => {
 
   it('should handle subscribers that arrive and leave at different times, ' +
   'subject completes', () => {
-    const subject = new Subject();
-    const results1 = [];
-    const results2 = [];
-    const results3 = [];
+    const subject = new Subject<number>();
+    const results1: (number | string)[] = [];
+    const results2: (number | string)[] = [];
+    const results3: (number | string)[] = [];
 
     subject.next(1);
     subject.next(2);
@@ -148,10 +148,10 @@ describe('Subject', () => {
 
   it('should handle subscribers that arrive and leave at different times, ' +
   'subject terminates with an error', () => {
-    const subject = new Subject();
-    const results1 = [];
-    const results2 = [];
-    const results3 = [];
+    const subject = new Subject<number>();
+    const results1: (number | string)[] = [];
+    const results2: (number | string)[] = [];
+    const results3: (number | string)[] = [];
 
     subject.next(1);
     subject.next(2);
@@ -196,10 +196,10 @@ describe('Subject', () => {
 
   it('should handle subscribers that arrive and leave at different times, ' +
   'subject completes before nexting any value', () => {
-    const subject = new Subject();
-    const results1 = [];
-    const results2 = [];
-    const results3 = [];
+    const subject = new Subject<number>();
+    const results1: (number | string)[] = [];
+    const results2: (number | string)[] = [];
+    const results3: (number | string)[] = [];
 
     const subscription1 = subject.subscribe(
       function (x) { results1.push(x); },
@@ -233,10 +233,10 @@ describe('Subject', () => {
   });
 
   it('should disallow new subscriber once subject has been disposed', () => {
-    const subject = new Subject();
-    const results1 = [];
-    const results2 = [];
-    const results3 = [];
+    const subject = new Subject<number>();
+    const results1: (number | string)[] = [];
+    const results2: (number | string)[] = [];
+    const results3: (number | string)[] = [];
 
     const subscription1 = subject.subscribe(
       function (x) { results1.push(x); },
@@ -276,7 +276,7 @@ describe('Subject', () => {
   });
 
   it('should not allow values to be nexted after it is unsubscribed', (done) => {
-    const subject = new Subject();
+    const subject = new Subject<string>();
     const expected = ['foo'];
 
     subject.subscribe(function (x) {
@@ -290,7 +290,7 @@ describe('Subject', () => {
   });
 
   it('should clean out unsubscribed subscribers', (done) => {
-    const subject = new Subject();
+    const subject = new Subject<number>();
 
     const sub1 = subject.subscribe(function (x) {
       //noop
@@ -311,8 +311,8 @@ describe('Subject', () => {
   it('should have a static create function that works', () => {
     expect(Subject.create).to.be.a('function');
     const source = Observable.of(1, 2, 3, 4, 5);
-    const nexts = [];
-    const output = [];
+    const nexts: number[] = [];
+    const output: string[] = [];
 
     let error: any;
     let complete = false;
@@ -320,20 +320,20 @@ describe('Subject', () => {
 
     const destination = {
       closed: false,
-      next: function (x) {
+      next: function (x: number) {
         nexts.push(x);
       },
-      error: function (err) {
+      error: function (err: any) {
         error = err;
         this.closed = true;
       },
-      complete: () => {
+      complete() {
         complete = true;
         this.closed = true;
       }
     };
 
-    const sub = Subject.create(destination, source);
+    const sub: Rx.Subject<string> = Subject.create(destination, source);
 
     sub.subscribe(function (x) {
       output.push(x);
@@ -357,8 +357,8 @@ describe('Subject', () => {
   it('should have a static create function that works also to raise errors', () => {
     expect(Subject.create).to.be.a('function');
     const source = Observable.of(1, 2, 3, 4, 5);
-    const nexts = [];
-    const output = [];
+    const nexts: number[] = [];
+    const output: string[] = [];
 
     let error: any;
     let complete = false;
@@ -366,20 +366,20 @@ describe('Subject', () => {
 
     const destination = {
       closed: false,
-      next: function (x) {
+      next: function (x: number) {
         nexts.push(x);
       },
-      error: function (err) {
+      error: function (err: any) {
         error = err;
         this.closed = true;
       },
-      complete: () => {
+      complete() {
         complete = true;
         this.closed = true;
       }
     };
 
-    const sub = Subject.create(destination, source);
+    const sub: Rx.Subject<string> = Subject.create(destination, source);
 
     sub.subscribe(function (x) {
       output.push(x);
@@ -402,7 +402,7 @@ describe('Subject', () => {
 
   it('should be an Observer which can be given to Observable.subscribe', (done) => {
     const source = Observable.of(1, 2, 3, 4, 5);
-    const subject = new Subject();
+    const subject = new Subject<number>();
     const expected = [1, 2, 3, 4, 5];
 
     subject.subscribe(
@@ -419,7 +419,7 @@ describe('Subject', () => {
 
   it('should be usable as an Observer of a finite delayed Observable', (done) => {
     const source = Rx.Observable.of(1, 2, 3).delay(50);
-    const subject = new Rx.Subject();
+    const subject = new Rx.Subject<number>();
 
     const expected = [1, 2, 3];
 
@@ -436,7 +436,7 @@ describe('Subject', () => {
   });
 
   it('should throw ObjectUnsubscribedError when emit after unsubscribed', () => {
-    const subject = new Rx.Subject();
+    const subject = new Rx.Subject<string>();
     subject.unsubscribe();
 
     expect(() => {
@@ -453,8 +453,8 @@ describe('Subject', () => {
   });
 
   it('should not next after completed', () => {
-    const subject = new Rx.Subject();
-    const results = [];
+    const subject = new Rx.Subject<string>();
+    const results: string[] = [];
     subject.subscribe(x => results.push(x), null, () => results.push('C'));
     subject.next('a');
     subject.complete();
@@ -464,8 +464,8 @@ describe('Subject', () => {
 
   it('should not next after error', () => {
     const error = new Error('wut?');
-    const subject = new Rx.Subject();
-    const results = [];
+    const subject = new Rx.Subject<string>();
+    const results: string[] = [];
     subject.subscribe(x => results.push(x), (err) => results.push(err));
     subject.next('a');
     subject.error(error);
@@ -475,7 +475,7 @@ describe('Subject', () => {
 
   describe('asObservable', () => {
     it('should hide subject', () => {
-      const subject = new Rx.Subject();
+      const subject = new Rx.Subject<number>();
       const observable = subject.asObservable();
 
       expect(subject).not.to.equal(observable);
@@ -512,8 +512,8 @@ describe('Subject', () => {
     });
 
     it('should work with inherited subject', () => {
-      const results = [];
-      const subject = new Rx.AsyncSubject();
+      const results: (number | string)[] = [];
+      const subject = new Rx.AsyncSubject<number>();
 
       subject.next(42);
       subject.complete();

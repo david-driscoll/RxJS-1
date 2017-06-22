@@ -51,7 +51,7 @@ describe('Scheduler.queue', () => {
   });
 
   it('should be reusable after an error is thrown during execution', (done) => {
-    const results = [];
+    const results: number[] = [];
 
     expect(() => {
       Scheduler.queue.schedule(() => {

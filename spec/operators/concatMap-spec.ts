@@ -38,7 +38,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1subs =   '^                                   !   ';
     const expected = '--a-a-a-a---b--b--b-------c-c-c-----(d|)';
 
-    const observableLookup = { a: a, b: b, c: c, d: d };
+    const observableLookup = { a, b, c, d };
     const source = e1.concatMap((value) => observableLookup[value]);
 
     expectObservable(source).toBe(expected);
@@ -268,7 +268,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1 =   hot('-a-b--^-c-----d------e----------------f-----g|               ');
     const e1subs =         '^                                                     !';
     const expected =       '---2--3--4--5----6-----2--3-1------2--3-4-5--------1-2|';
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.concatMap((value) => observableLookup[value]);
 
@@ -301,7 +301,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1 =   hot('-a-b--^-c-----d------e----------------f-----g|               ');
     const e1subs =         '^                                                      ';
     const expected =       '---2--3--4--5----6-----2--3----------------------------';
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.concatMap((value) => observableLookup[value]);
 
@@ -334,7 +334,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1 =   hot('-a-b--^-c-----d------e----------------f-----g---             ');
     const e1subs =         '^                                                      ';
     const expected =       '---2--3--4--5----6-----2--3-1------2--3-4-5--------1-2-';
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.concatMap((value) => observableLookup[value]);
 
@@ -367,7 +367,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1 =   hot('-a-b--^-c-----d------e----------------f-----g#               ');
     const e1subs =         '^                                      !               ';
     const expected =       '---2--3--4--5----6-----2--3-1------2--3#               ';
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.concatMap((value) => observableLookup[value]);
 
@@ -400,7 +400,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1 =   hot('-a-b--^-c-----d------e----------------f-----g|               ');
     const e1subs =         '^                  !                                   ';
     const expected =       '---2--3--4--5----6-#                                   ';
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.concatMap((value) => observableLookup[value]);
 
@@ -434,7 +434,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1subs =         '^                             !                        ';
     const unsub =          '                              !                        ';
     const expected =       '---2--3--4--5----6-----2--3-1--                        ';
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.concatMap((value) => observableLookup[value]);
 
@@ -468,7 +468,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1subs =         '^                             !                        ';
     const unsub =          '                              !                        ';
     const expected =       '---2--3--4--5----6-----2--3-1--                        ';
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1
       .mergeMap((x) => Observable.of(x))
@@ -504,7 +504,7 @@ describe('Observable.prototype.concatMap', () => {
     const e1 =   hot('-a-b--^-c-----d------e----------------f-----g|               ');
     const e1subs =         '^                          !                           ';
     const expected =       '---2--3--4--5----6-----2--3#                           ';
-    const observableLookup = { a: a, b: b, c: c, d: d, e: e, f: f, g: g };
+    const observableLookup = { a, b, c, d, e, f, g };
 
     const result = e1.concatMap((value) => {
       if (value === 'e') { throw 'error'; }

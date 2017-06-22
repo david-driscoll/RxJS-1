@@ -21,7 +21,7 @@ describe('Observable.prototype.windowCount', () => {
     const y = cold(                 '----d---e---(f|)             ');
     const z = cold(                             '----g---h---(i|) ');
     const w = cold(                                         '----|');
-    const expectedValues = { x: x, y: y, z: z, w: w };
+    const expectedValues = { x, y, z, w };
 
     const result = source.windowCount(3);
 
@@ -38,7 +38,7 @@ describe('Observable.prototype.windowCount', () => {
     const x = cold(         '---c--(d|)');
     const y = cold(            '---d--|');
     const z = cold(               '---|');
-    const values = { u: u, v: v, x: x, y: y, z: z };
+    const values = { u: u, v: v, x, y, z };
 
     const result = source.windowCount(2, 1);
 
@@ -54,7 +54,7 @@ describe('Observable.prototype.windowCount', () => {
     const y = cold(         '---c--(d|)      ');
     const z = cold(               '---e--(f|)');
     const w = cold(                     '---|');
-    const values = { x: x, y: y, z: z, w: w };
+    const values = { x, y, z, w };
 
     const result = source.windowCount(2);
 
@@ -67,7 +67,7 @@ describe('Observable.prototype.windowCount', () => {
     const subs =        '(^!)';
     const expected =    '(w|)';
     const w =      cold('|');
-    const values = { w: w };
+    const values = { w };
 
     const result = source.windowCount(2, 1);
 
@@ -80,7 +80,7 @@ describe('Observable.prototype.windowCount', () => {
     const subs =        '^';
     const expected =    'w';
     const w =      cold('-');
-    const expectedValues = { w: w };
+    const expectedValues = { w };
 
     const result = source.windowCount(2, 1);
 
@@ -93,7 +93,7 @@ describe('Observable.prototype.windowCount', () => {
     const subs =          '(^!)';
     const expected =      '(w#)';
     const w =        cold('#');
-    const expectedValues = { w: w };
+    const expectedValues = { w };
 
     const result = source.windowCount(2, 1);
 
@@ -112,7 +112,7 @@ describe('Observable.prototype.windowCount', () => {
     const y = cold(               '---e--f--#');
     const z = cold(                  '---f--#');
     const q = cold(                     '---#');
-    const values = { u: u, v: v, w: w, x: x, y: y, z: z, q: q };
+    const values = { u: u, v: v, w, x, y, z, q };
 
     const result = source.windowCount(3, 1);
 
@@ -129,7 +129,7 @@ describe('Observable.prototype.windowCount', () => {
     const y = cold(         '---c-     ');
     const z = cold(            '--     ');
     const unsub =      '         !     ';
-    const values = { w: w, x: x, y: y, z: z };
+    const values = { w, x, y, z };
 
     const result = source.windowCount(2, 1);
 
@@ -146,7 +146,7 @@ describe('Observable.prototype.windowCount', () => {
     const y = cold(         '---c-     ');
     const z = cold(            '--     ');
     const unsub =      '         !     ';
-    const values = { w: w, x: x, y: y, z: z };
+    const values = { w, x, y, z };
 
     const result = source
       .mergeMap((x) => Observable.of(x))

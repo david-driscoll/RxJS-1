@@ -12,6 +12,7 @@ declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscript
 declare const rxTestScheduler: Rx.TestScheduler;
 const Observable = Rx.Observable;
 const ReplaySubject = Rx.ReplaySubject;
+type Frame<T> = { frame: number; notification: Rx.Notification<T> };
 
 /** @test {groupBy} */
 describe('Observable.prototype.groupBy', () => {
@@ -20,7 +21,7 @@ describe('Observable.prototype.groupBy', () => {
     const expected = '--x---y---------------|';
     const x = cold(    '1-------3-------5---|');
     const y = cold(        '2-------4-------|');
-    const expectedValues = { x: x, y: y };
+    const expectedValues = { x, y };
 
     const source = e1
       .groupBy((val) => parseInt(val) % 2);
@@ -168,7 +169,7 @@ describe('Observable.prototype.groupBy', () => {
     const e1subs =   '^     !';
     const expected = '---g--|';
     const g = cold(     'a--|', values);
-    const expectedValues = { g: g };
+    const expectedValues = { g };
 
     const source = e1
       .groupBy((val) => val.toLowerCase().trim());
@@ -199,7 +200,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(             'c-------g-h---------|', values);
     const y = cold(                 'e---------j-k---|', values);
     const z = cold(                   'f-------------|', values);
-    const expectedValues = { w: w, x: x, y: y, z: z };
+    const expectedValues = { w, x, y, z };
 
     const source = e1
       .groupBy((val) => val.toLowerCase().trim());
@@ -308,7 +309,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(             'c-------g-h---------#', values);
     const y = cold(                 'e---------j-k---#', values);
     const z = cold(                   'f-------------#', values);
-    const expectedValues = { w: w, x: x, y: y, z: z };
+    const expectedValues = { w, x, y, z };
 
     const source = e1
       .groupBy((val) => val.toLowerCase().trim());
@@ -426,7 +427,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(             'c-------g-h---#', values);
     const y = cold(                 'e---------#', values);
     const z = cold(                   'f-------#', values);
-    const expectedValues = { w: w, x: x, y: y, z: z };
+    const expectedValues = { w, x, y, z };
 
     let invoked = 0;
     const source = e1
@@ -466,7 +467,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(             'c-------g-h---#', reversedValues);
     const y = cold(                 'e---------#', reversedValues);
     const z = cold(                   'f-------#', reversedValues);
-    const expectedValues = { w: w, x: x, y: y, z: z };
+    const expectedValues = { w, x, y, z };
 
     let invoked = 0;
     const source = e1
@@ -503,7 +504,7 @@ describe('Observable.prototype.groupBy', () => {
     const expected =      '--w---x---';
     const w = cold(         'a-b---d---------i-----l-|', values);
     const x = cold(             'c-------g-h---------|', values);
-    const expectedValues = { w: w, x: x };
+    const expectedValues = { w, x };
 
     const source = e1
       .groupBy((val) => val.toLowerCase().trim());
@@ -548,7 +549,7 @@ describe('Observable.prototype.groupBy', () => {
     const source = e1
       .groupBy((val) => val.toLowerCase().trim())
       .map((group) => {
-        const arr: { frame: number, notification: Rx.Notification<any> }[] = [];
+        const arr: Frame<string>[] = [];
 
         const subscription = group
           .materialize()
@@ -612,7 +613,7 @@ describe('Observable.prototype.groupBy', () => {
     const source = e1
       .groupBy((val) => val.toLowerCase().trim())
       .map((group) => {
-        const arr: { frame: number, notification: Rx.Notification<any> }[] = [];
+        const arr: Frame<string>[] = [];
 
         const subscription = group
           .materialize()
@@ -727,7 +728,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(                 'e---------j-(k|)' , reversedValues);
     const y = cold(                   'f-------------|', reversedValues);
     const z = cold(                         'i-----l-|', reversedValues);
-    const expectedValues = { v: v, w: w, x: x, y: y, z: z };
+    const expectedValues = { v: v, w, x, y, z };
 
     const source = e1
       .groupBy(
@@ -763,7 +764,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(                 'e---------j-(k#)' , reversedValues);
     const y = cold(                   'f-------------|', reversedValues);
     const z = cold(                         'i-----l-|', reversedValues);
-    const expectedValues = { v: v, w: w, x: x, y: y, z: z };
+    const expectedValues = { v: v, w, x, y, z };
 
     const source = e1
       .groupBy(
@@ -797,7 +798,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(                 'e---------j-(k|)' , values);
     const y = cold(                   'f-------------#', values);
     const z = cold(                         'i-----l-#', values);
-    const expectedValues = { v: v, w: w, x: x, y: y, z: z };
+    const expectedValues = { v: v, w, x, y, z };
 
     const source = e1
       .groupBy(
@@ -831,7 +832,7 @@ describe('Observable.prototype.groupBy', () => {
     const v = cold(         'a-b---(d|)'               , values);
     const w = cold(             'c-------g-(h|)'       , values);
     const x = cold(                 'e---------j-(k|)' , values);
-    const expectedValues = { v: v, w: w, x: x };
+    const expectedValues = { v: v, w, x };
 
     const source = e1
       .groupBy(
@@ -883,7 +884,7 @@ describe('Observable.prototype.groupBy', () => {
         (group) => group.skip(2)
       )
       .map((group) => {
-        const arr: { frame: number, notification: Rx.Notification<any> }[] = [];
+        const arr: Frame<string>[] = [];
 
         const subscription = group
           .materialize()
@@ -959,7 +960,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(                 'e---------#'      , values);
     const y = cold(                   'f-------#'      , values);
     const z = cold(                         'i-#'      , values);
-    const expectedValues = { v: v, w: w, x: x, y: y, z: z };
+    const expectedValues = { v: v, w, x, y, z };
 
     let invoked = 0;
     const source = e1
@@ -1002,7 +1003,7 @@ describe('Observable.prototype.groupBy', () => {
     const x = cold(                 'e---------#      ', values);
     const y = cold(                   'f-------#      ', values);
     const z = cold(                         'i-#      ', values);
-    const expectedValues = { v: v, w: w, x: x, y: y, z: z };
+    const expectedValues = { v: v, w, x, y, z };
 
     let invoked = 0;
     const source = e1
@@ -1044,7 +1045,7 @@ describe('Observable.prototype.groupBy', () => {
     const w = cold(             'c-----#              ', values);
     const x = cold(                 'e-#              ', values);
     const y = cold(                   '#              ', values);
-    const expectedValues = { v: v, w: w, x: x, y: y };
+    const expectedValues = { v: v, w, x, y };
 
     let invoked = 0;
     const source = e1
@@ -1110,7 +1111,7 @@ describe('Observable.prototype.groupBy', () => {
         (group) => group.skip(2)
       )
       .map((group, index) => {
-        const arr: { frame: number, notification: Rx.Notification<any> }[] = [];
+        const arr: Frame<string>[] = [];
 
         const subscription = group
           .materialize()
@@ -1187,7 +1188,7 @@ describe('Observable.prototype.groupBy', () => {
         (group) => group.skip(2)
       )
       .map((group) => {
-        const arr: { frame: number, notification: Rx.Notification<any> }[] = [];
+        const arr: Frame<string>[] = [];
 
         const subscription = group
           .materialize()
@@ -1258,13 +1259,13 @@ describe('Observable.prototype.groupBy', () => {
          (val) => val.toLowerCase().trim(),
          (val) => val
        ).map((group) => {
-         const innerNotifications = [];
+         const innerNotifications: Frame<string>[] = [];
          const subscriptionFrame = subscriptionFrames[group.key];
 
          rxTestScheduler.schedule(() => {
            group
              .materialize()
-             .map((notification: Rx.Notification<any>) => {
+             .map((notification) => {
                return { frame: rxTestScheduler.frame, notification: notification };
              })
              .subscribe((value) => {
@@ -1308,7 +1309,7 @@ describe('Observable.prototype.groupBy', () => {
         (group) => group.skip(7)
       )
       .map((group) => {
-        const arr: { frame: number, notification: Rx.Notification<any> }[] = [];
+        const arr: Frame<string>[] = [];
 
         rxTestScheduler.schedule(() => {
           group
@@ -1357,7 +1358,7 @@ describe('Observable.prototype.groupBy', () => {
         (group) => group.skip(7)
       )
       .map((group) => {
-        const arr: { frame: number, notification: Rx.Notification<any> }[] = [];
+        const arr: Frame<string>[] = [];
 
         rxTestScheduler.schedule(() => {
           group
@@ -1408,7 +1409,7 @@ describe('Observable.prototype.groupBy', () => {
         (group) => group.skip(7)
       )
       .map((group) => {
-        const arr: { frame: number, notification: Rx.Notification<any> }[] = [];
+        const arr: Frame<string>[] = [];
 
         rxTestScheduler.schedule(() => {
           group

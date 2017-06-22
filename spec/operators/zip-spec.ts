@@ -127,7 +127,7 @@ describe('Observable.prototype.zip', () => {
     it('should work with never observable and empty iterable', () => {
       const a = cold(  '-');
       const asubs =    '^';
-      const b = [];
+      const b = <string[]>[];
       const expected = '-';
 
       expectObservable(a.zip(b)).toBe(expected);
@@ -137,7 +137,7 @@ describe('Observable.prototype.zip', () => {
     it('should work with empty observable and empty iterable', () => {
       const a = cold('|');
       const asubs = '(^!)';
-      const b = [];
+      const b = <string[]>[];
       const expected = '|';
 
       expectObservable(a.zip(b)).toBe(expected);
@@ -157,7 +157,7 @@ describe('Observable.prototype.zip', () => {
     it('should work with non-empty observable and empty iterable', () => {
       const a = hot('---^----a--|');
       const asubs =    '^       !';
-      const b = [];
+      const b = <string[]>[];
       const expected = '--------|';
 
       expectObservable(a.zip(b)).toBe(expected);
@@ -187,7 +187,7 @@ describe('Observable.prototype.zip', () => {
     it('should work with non-empty observable and empty iterable', () => {
       const a = hot('---^----#');
       const asubs =    '^    !';
-      const b = [];
+      const b = <string[]>[];
       const expected = '-----#';
 
       expectObservable(a.zip(b)).toBe(expected);
@@ -221,7 +221,7 @@ describe('Observable.prototype.zip', () => {
       const b = [4, 5, 6];
       const expected = '---x--#';
 
-      const selector = function (x, y) {
+      const selector = function (x: string, y: number) {
         if (y === 5) {
           throw new Error('too bad');
         } else {
@@ -338,7 +338,7 @@ describe('Observable.prototype.zip', () => {
     const bsubs =      '^       !     ';
     const expected =   '---x----#     ';
 
-    const selector = function (x, y) {
+    const selector = function (x: string, y: string) {
       if (y === '5') {
         throw new Error('too bad');
       } else {

@@ -7,7 +7,7 @@ declare const __root__: any;
 
 /** @test {ImmediateDefinition} */
 describe('ImmediateDefinition', () => {
-  let sandbox;
+  let sandbox: any;
   beforeEach(function () {
       sandbox = sinon.sandbox.create();
   });
@@ -80,7 +80,7 @@ describe('ImmediateDefinition', () => {
 
   describe('prototype.createPostMessageSetImmediate()', () => {
     it('should create the proper flavor of setImmediate using postMessage', () => {
-      let addEventListenerCalledWith = null;
+      let addEventListenerCalledWith: any[] = null;
 
       const instance = {
         root: {
@@ -123,7 +123,7 @@ describe('ImmediateDefinition', () => {
         postMessage: sinon.spy()
       };
 
-      function MockMessageChannel() {
+      function MockMessageChannel(this: any) {
         this.port1 = port1;
         this.port2 = port2;
       }
@@ -409,7 +409,7 @@ describe('ImmediateDefinition', () => {
             let postMessageCalled = false;
             const instance = {
               root: {
-                postMessage: function () {
+                postMessage: function (this: any) {
                   postMessageCalled = true;
                   this.onmessage();
                 }
@@ -427,7 +427,7 @@ describe('ImmediateDefinition', () => {
             let postMessageCalled = false;
             const instance = {
               root: {
-                postMessage: function () {
+                postMessage: function (this: any) {
                   postMessageCalled = true;
                   const _onmessage = this.onmessage;
                   setTimeout(() => { _onmessage(); });
@@ -504,7 +504,7 @@ describe('ImmediateDefinition', () => {
     describe('when there is a document in global scope', () => {
       it('should return true if created script elements have an onreadystatechange property', () => {
         const fakeScriptElement = {
-          onreadystatechange: null
+          onreadystatechange: <any>null
         };
 
         const instance = {
@@ -688,7 +688,7 @@ describe('ImmediateDefinition', () => {
 
   describe('integration test', () => {
     it('should work', (done) => {
-      const results = [];
+      const results: number[] = [];
       Rx.Observable.from([1, 2, 3], Rx.Scheduler.asap)
         .subscribe((x) => {
           results.push(x);

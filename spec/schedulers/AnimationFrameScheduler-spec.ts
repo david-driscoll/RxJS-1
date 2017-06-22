@@ -93,8 +93,8 @@ describe('Scheduler.animationFrame', () => {
 
   it('should execute the rest of the scheduled actions if the first action is canceled', (done) => {
     let actionHappened = false;
-    let firstSubscription = null;
-    let secondSubscription = null;
+    let firstSubscription: Rx.Subscription = null;
+    let secondSubscription: Rx.Subscription = null;
 
     firstSubscription = animationFrame.schedule(() => {
       actionHappened = true;

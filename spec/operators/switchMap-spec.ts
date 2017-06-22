@@ -36,7 +36,7 @@ describe('Observable.prototype.switchMap', () => {
   });
 
   it('should unsub inner observables', () => {
-    const unsubbed = [];
+    const unsubbed: string[] = [];
 
     Observable.of('a', 'b').switchMap((x) =>
       Observable.create((subscriber: Rx.Subscriber<string>) => {
@@ -58,7 +58,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                                    !';
     const expected = '-----------a--b--c----f---g---h---i--|';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -108,7 +108,7 @@ describe('Observable.prototype.switchMap', () => {
     const unsub =    '                     !                ';
     const expected = '-----------a--b--c----                ';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -128,7 +128,7 @@ describe('Observable.prototype.switchMap', () => {
     const expected = '-----------a--b--c----                ';
     const unsub =    '                     !                ';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1
       .mergeMap((x) => Observable.of(x))
@@ -150,7 +150,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                                    ';
     const expected = '-----------a--b--c----f---g---h---i--';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -169,7 +169,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                            !';
     const expected = '------------f---g---h---i----|';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -188,7 +188,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                !                   ';
     const expected = '-----------a--b--#                   ';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -207,7 +207,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                                    !';
     const expected = '-----------c--d--e----f---g---h---i--|';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -226,7 +226,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                            !';
     const expected = '-----------------------------|';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -245,7 +245,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                             ';
     const expected = '------------------------------';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -264,7 +264,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                            !';
     const expected = '-----------------------------|';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -283,7 +283,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                  !          ';
     const expected = '-------------------#          ';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -302,7 +302,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                  !          ';
     const expected = '-------------------#          ';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -352,7 +352,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                  !       ';
     const expected = '-----------a--b--c-#       ';
 
-    const observableLookup = { x: x };
+    const observableLookup = { x };
 
     const result = e1.switchMap((value) => observableLookup[value]);
 
@@ -370,7 +370,7 @@ describe('Observable.prototype.switchMap', () => {
     const e1subs =   '^                                    !';
     const expected = '-----------a--b--c----f---g---h---i--|';
 
-    const observableLookup = { x: x, y: y };
+    const observableLookup = { x, y };
 
     const expectedValues = {
       a: ['x', 'a', 0, 0],

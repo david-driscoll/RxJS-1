@@ -65,7 +65,7 @@ describe('MapPolyfill', () => {
       };
 
       //intentionally not using lambda to avoid typescript's this context capture
-      map.forEach(function (value, key) {
+      map.forEach(function (this: typeof thisArg, value: string, key: number) {
         expect(this).to.equal(thisArg);
         expect(value).to.equal(expectedValues.shift());
         expect(key).to.equal(expectedKeys.shift());

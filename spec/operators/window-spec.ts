@@ -22,7 +22,7 @@ describe('Observable.prototype.window', () => {
     const x = cold(      '---a---b---c-|                              ');
     const y = cold(                   '--d---e---f--|                 ');
     const z = cold(                                '-g---h---i---|    ');
-    const expectedValues = { x: x, y: y, z: z };
+    const expectedValues = { x, y, z };
 
     const result = source.window(closings);
 
@@ -38,7 +38,7 @@ describe('Observable.prototype.window', () => {
     const closingSubs =   '(^!)';
     const expected =      '(w|)';
     const w =         cold('|');
-    const expectedValues = { w: w };
+    const expectedValues = { w };
 
     const result = source.window(closings);
 
@@ -54,7 +54,7 @@ describe('Observable.prototype.window', () => {
     const closingSubs =   '(^!)';
     const expected =      '(w|)';
     const w =        cold('|');
-    const expectedValues = { w: w };
+    const expectedValues = { w };
 
     const result = source.window(closings);
 
@@ -68,7 +68,7 @@ describe('Observable.prototype.window', () => {
     const sourceSubs =    '(^!)';
     const expected =      '(w|)';
     const w =        cold('|');
-    const expectedValues = { w: w };
+    const expectedValues = { w };
 
     const result = source.window(Observable.empty());
 
@@ -85,7 +85,7 @@ describe('Observable.prototype.window', () => {
     const closingSubs =   '(^!)';
     const expected =      '(w|)';
     const w =        cold('(a|)');
-    const expectedValues = { w: w };
+    const expectedValues = { w };
 
     const result = source.window(closings);
 
@@ -101,7 +101,7 @@ describe('Observable.prototype.window', () => {
     const closingSubs =   '^     ';
     const expected =      'w-----';
     const w =        cold('------');
-    const expectedValues = { w: w };
+    const expectedValues = { w };
 
     const result = source.window(closings);
 
@@ -119,7 +119,7 @@ describe('Observable.prototype.window', () => {
     const a =        cold('--|      ');
     const b =        cold(  '---|   ');
     const c =        cold(     '---|');
-    const expectedValues = { a: a, b: b, c: c };
+    const expectedValues = { a, b, c };
 
     const result = source.window(closings);
 
@@ -135,7 +135,7 @@ describe('Observable.prototype.window', () => {
     const closingSubs =   '(^!)';
     const expected =      '(w#)';
     const w =        cold('#');
-    const expectedValues = { w: w };
+    const expectedValues = { w };
 
     const result = source.window(closings);
 
@@ -154,7 +154,7 @@ describe('Observable.prototype.window', () => {
     const b = cold(             '-5-6|                ');
     const c = cold(                 '-7-8|            ');
     const d = cold(                     '-9-|         ');
-    const expectedValues = { a: a, b: b, c: c, d: d };
+    const expectedValues = { a, b, c, d };
 
     const result = source.window(closings);
 
@@ -173,7 +173,7 @@ describe('Observable.prototype.window', () => {
     const b = cold(             '-5-6|                ');
     const c = cold(                 '-7-8|            ');
     const d = cold(                     '-9-#         ');
-    const expectedValues = { a: a, b: b, c: c, d: d };
+    const expectedValues = { a, b, c, d };
 
     const result = source.window(closings);
 
@@ -191,7 +191,7 @@ describe('Observable.prototype.window', () => {
     const a = cold(         '-3-4|                    ');
     const b = cold(             '-5-6                 ');
     const unsub =           '        !                ';
-    const expectedValues = { a: a, b: b };
+    const expectedValues = { a, b };
 
     const result = source.window(closings);
 
@@ -209,7 +209,7 @@ describe('Observable.prototype.window', () => {
     const a = cold(         '-3-4|                    ');
     const b = cold(             '-5-6-                ');
     const unsub =           '        !                ';
-    const expectedValues = { a: a, b: b };
+    const expectedValues = { a, b };
 
     const result = source
       .mergeMap((x) => Observable.of(x))
@@ -228,7 +228,7 @@ describe('Observable.prototype.window', () => {
     const closingSubs =     '^   !           ';
     const expected =        'a---#           ';
     const a = cold(         '-3-4#           ');
-    const expectedValues = { a: a };
+    const expectedValues = { a };
 
     const result = source.window(closings);
 
@@ -246,7 +246,7 @@ describe('Observable.prototype.window', () => {
     const a = cold(         '-3-4|           ');
     const b = cold(             '-5-6|       ');
     const c = cold(                 '-7-8|   ');
-    const expectedValues = { a: a, b: b, c: c };
+    const expectedValues = { a, b, c };
 
     const result = source.window(closings);
 

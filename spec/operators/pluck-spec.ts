@@ -81,7 +81,7 @@ describe('Observable.prototype.pluck', () => {
     const a =   cold('--a-b--c-d---e-|', inputs);
     const asubs =    '^              !';
     const expected = '--r-x--y-z---w-|';
-    const values = {r: 1, x: undefined, y: undefined, z: undefined, w: 5};
+    const values = {r: 1, x: <any>undefined, y: <any>undefined, z: <any>undefined, w: 5};
 
     const r = a.pluck('a', 'b', 'c');
     expectObservable(r).toBe(expected, values);

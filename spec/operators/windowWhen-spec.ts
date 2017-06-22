@@ -24,7 +24,7 @@ describe('Observable.prototype.windowWhen', () => {
     const b = cold(                '-e--f--g--h|     ');
     const c = cold(                           '--i--|');
     const expected =    'a----------b----------c----|';
-    const values = { a: a, b: b, c: c };
+    const values = { a, b, c };
 
     const source = e1.windowWhen(() => e2);
 
@@ -47,7 +47,7 @@ describe('Observable.prototype.windowWhen', () => {
     const x = cold(     '----b---c---d---e|                       ');
     const y = cold(                      '---f-|                  ');
     const z = cold(                           '--g---h------|     ');
-    const values = { x: x, y: y, z: z };
+    const values = { x, y, z };
 
     let i = 0;
     const result = e1.windowWhen(() => closings[i++]);
@@ -73,7 +73,7 @@ describe('Observable.prototype.windowWhen', () => {
     const x = cold(     '----b---c---d---e|                     ');
     const y = cold(                      '---f-|                ');
     const z = cold(                           '--g---h------|   ');
-    const values = { x: x, y: y, z: z };
+    const values = { x, y, z };
 
     let i = 0;
     const result = e1.windowWhen(() => closings[i++].obs);
@@ -99,7 +99,7 @@ describe('Observable.prototype.windowWhen', () => {
     const x = cold(     '----b---c---d---e|                    ');
     const y = cold(                      '---f-|               ');
     const z = cold(                           '--g---h------|  ');
-    const values = { x: x, y: y, z: z };
+    const values = { x, y, z };
 
     let i = 0;
     const result = e1.windowWhen(() => closings[i++]);
@@ -123,7 +123,7 @@ describe('Observable.prototype.windowWhen', () => {
     const x = cold(     '----b---c---d---e|                       ');
     const y = cold(                      '---f-                   ');
     const unsub =       '                     !                   ';
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowWhen(() => closings[i++]);
@@ -146,7 +146,7 @@ describe('Observable.prototype.windowWhen', () => {
     const x = cold(     '----b---c---d---e|                       ');
     const y = cold(                      '---f-                   ');
     const unsub =       '                     !                   ';
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1
@@ -171,7 +171,7 @@ describe('Observable.prototype.windowWhen', () => {
     const expected =    'x----------------(y#)                    ';
     const x = cold(     '----b---c---d---e|                       ');
     const y = cold(                      '#                       ');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowWhen(() => {
@@ -197,7 +197,7 @@ describe('Observable.prototype.windowWhen', () => {
     const expected =    'x----------------(y#)                    ';
     const x = cold(     '----b---c---d---e|                       ');
     const y = cold(                      '#                       ');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowWhen(() => closings[i++]);
@@ -219,7 +219,7 @@ describe('Observable.prototype.windowWhen', () => {
     const expected =    'x----------------y----#                  ';
     const x = cold(     '----b---c---d---e|                       ');
     const y = cold(                      '---f-#                  ');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowWhen(() => closings[i++]);
@@ -241,7 +241,7 @@ describe('Observable.prototype.windowWhen', () => {
     const expected =    'x----------------y----#                  ';
     const x = cold(     '----b---c---d---e|                       ');
     const y = cold(                      '---f-#                  ');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowWhen(() => closings[i++]);
@@ -282,7 +282,7 @@ describe('Observable.prototype.windowWhen', () => {
     const win = cold('-----|');
     const d =   cold(               '---');
     const expected = 'a----b----c----d--';
-    const values = { a: win, b: win, c: win, d: d };
+    const values = { a: win, b: win, c: win, d };
 
     const result = e1.windowWhen(() => e2);
 
@@ -314,7 +314,7 @@ describe('Observable.prototype.windowWhen', () => {
     const e2subs =      '^                                  !';
     const expected =    'x----------------------------------|';
     const x = cold(     '----b---c---d---e---f---g---h------|');
-    const values = { x: x };
+    const values = { x };
 
     const result = e1.windowWhen(() => e2);
 
@@ -330,7 +330,7 @@ describe('Observable.prototype.windowWhen', () => {
     const e2subs =      '(^!)                                ';
     const expected =    '(x#)                                ';
     const x = cold(     '#                                   ');
-    const values = { x: x };
+    const values = { x };
 
     const result = e1.windowWhen(() => e2);
 

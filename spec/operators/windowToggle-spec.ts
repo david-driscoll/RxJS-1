@@ -29,7 +29,7 @@ describe('Observable.prototype.windowToggle', () => {
     const x = cold(                '-b--c|                ');
     const y = cold(                         '-e--f|       ');
     const z = cold(                                  '-h-|');
-    const values = { x: x, y: y, z: z };
+    const values = { x, y, z };
 
     const result = source.windowToggle(e2, () => e3);
 
@@ -56,7 +56,7 @@ describe('Observable.prototype.windowToggle', () => {
     const x = cold(                '-c--d--e--(f|)      ');
     const y = cold(                        '--f--g--h-| ');
     const z = cold(                                '---|');
-    const values = { x: x, y: y, z: z };
+    const values = { x, y, z };
 
     const source = e1.windowToggle(e2, (value) => {
       expect(value).to.equal('x');
@@ -85,7 +85,7 @@ describe('Observable.prototype.windowToggle', () => {
     const x = cold(       '--b---c---d---e|                        ');
     const y = cold(                   '--e-|                       ');
     const z = cold(                            '-g---h------|      ');
-    const values = { x: x, y: y, z: z };
+    const values = { x, y, z };
 
     let i = 0;
     const result = e1.windowToggle(e2, () => close[i++]);
@@ -114,7 +114,7 @@ describe('Observable.prototype.windowToggle', () => {
     const x = cold(       '--b---c---d---e|                     ');
     const y = cold(                   '--e-|                    ');
     const z = cold(                            '-g---h------|   ');
-    const values = { x: x, y: y, z: z };
+    const values = { x, y, z };
 
     let i = 0;
     const result = e1.windowToggle(e2, () => closings[i++].obs);
@@ -139,7 +139,7 @@ describe('Observable.prototype.windowToggle', () => {
     const x = cold(       '--b---c---d---e|                     ');
     const y = cold(                   '--e-|                    ');
     const z = cold(                            '-g---h------|   ');
-    const values = { x: x, y: y, z: z };
+    const values = { x, y, z };
 
     let i = 0;
     const result = e1.windowToggle(e2, () => close[i++]);
@@ -163,7 +163,7 @@ describe('Observable.prototype.windowToggle', () => {
     const x = cold(       '--b---c---d--|                          ');
     const y = cold(                   '--e-                        ');
     const unsub =       '                 !                        ';
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowToggle(e2, () => close[i++]);
@@ -190,7 +190,7 @@ describe('Observable.prototype.windowToggle', () => {
     const x = cold(       '--b---c---d---                          ');
     const y = cold(                   '--                          ');
     const unsub =       '               !                          ';
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1
@@ -213,9 +213,9 @@ describe('Observable.prototype.windowToggle', () => {
     const x = cold(    '--a--b--c-                 ');
     const unsub =      '         !                 ';
     const late =  time('---------------|           ');
-    const values = { x: x };
+    const values = { x };
 
-    let window;
+    let window: Rx.Observable<string>;
     const result = source
       .windowToggle(open, () => Observable.never())
       .do((w) => { window = w; });
@@ -239,7 +239,7 @@ describe('Observable.prototype.windowToggle', () => {
       cold(                                  '---------------(s|)')];
     const expected =    '--x-----------#----                       ';
     const x = cold(       '--b---c---d-#                           ');
-    const values = { x: x };
+    const values = { x };
 
     let i = 0;
     const result = e1.windowToggle(e2, () => {
@@ -264,7 +264,7 @@ describe('Observable.prototype.windowToggle', () => {
     const expected =    '--x-----------(y#)                  ';
     const x = cold(       '--b---c---d-#                     ');
     const y = cold(                   '#                     ');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowToggle(e2, () => close[i++]);
@@ -284,7 +284,7 @@ describe('Observable.prototype.windowToggle', () => {
     const expected =    '--x-----------y----#                ';
     const x = cold(       '--b---c---d---e|                  ');
     const y = cold(                   '--e--#                ');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowToggle(e2, () => close[i++]);
@@ -304,7 +304,7 @@ describe('Observable.prototype.windowToggle', () => {
     const expected =    '--x-----------y----#                ';
     const x = cold(       '--b---c---d---e|                  ');
     const y = cold(                   '--e--#                ');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     let i = 0;
     const result = e1.windowToggle(e2, () => close[i++]);
@@ -357,7 +357,7 @@ describe('Observable.prototype.windowToggle', () => {
     const y = cold(                       '--|                     ');
     const z = cold(                           '--|                 ');
     const unsub =    '                                            !';
-    const values = { u: u, v: v, x: x, y: y, z: z };
+    const values = { u: u, v: v, x, y, z };
 
     const result = e1.windowToggle(e2, () => e3);
 
@@ -390,7 +390,7 @@ describe('Observable.prototype.windowToggle', () => {
     const expected =    '---x---------------y---------------|';
     const x = cold(        '-b---c---d---e---f---g---h------|');
     const y = cold(                        '-f---g---h------|');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     const result = e1.windowToggle(e2, () => e3);
 
@@ -425,7 +425,7 @@ describe('Observable.prototype.windowToggle', () => {
     const expected =    '---x---------------y---------------|';
     const x = cold(        '|');
     const y = cold(                        '|');
-    const values = { x: x, y: y };
+    const values = { x, y };
 
     const result = e1.windowToggle(e2, () => e3);
 

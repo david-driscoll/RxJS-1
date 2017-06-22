@@ -16,7 +16,7 @@ describe('Observable.prototype.mergeAll', () => {
   asDiagram('mergeAll')('should merge a hot observable of cold observables', () => {
     const x = cold(    '--a---b--c---d--|      ');
     const y = cold(           '----e---f--g---|');
-    const e1 = hot(  '--x------y-------|       ', { x: x, y: y });
+    const e1 = hot(  '--x------y-------|       ', { x, y });
     const expected = '----a---b--c-e-d-f--g---|';
 
     expectObservable(e1.mergeAll()).toBe(expected);
@@ -49,7 +49,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^           !   ';
     const y = cold(        'd---e---f---|');
     const ysubs =     '     ^           !';
-    const e1 =    hot('--x--y--|         ', { x: x, y: y });
+    const e1 =    hot('--x--y--|         ', { x, y });
     const e1subs =    '^                !';
     const expected =  '--a--db--ec--f---|';
 
@@ -64,7 +64,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^           !            ';
     const y = cold(                 'd---e---f---|');
     const ysubs =     '              ^           !';
-    const e1 =    hot('--x--y--|                  ', { x: x, y: y });
+    const e1 =    hot('--x--y--|                  ', { x, y });
     const e1subs =    '^                         !';
     const expected =  '--a---b---c---d---e---f---|';
 
@@ -81,7 +81,7 @@ describe('Observable.prototype.mergeAll', () => {
     const ysubs =     '     ^           !     ';
     const z = cold(                 '--g---h-|');
     const zsubs =     '              ^       !';
-    const e1 =    hot('--x--y--z--|           ', { x: x, y: y, z: z });
+    const e1 =    hot('--x--y--z--|           ', { x, y, z });
     const e1subs =    '^                     !';
     const expected =  '--a--db--ec--f--g---h-|';
 
@@ -97,7 +97,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^            !          ';
     const y =     hot('-------------d---e---f---|');
     const ysubs =     '               ^         !';
-    const e1 =    hot('--x--y--|                 ', { x: x, y: y });
+    const e1 =    hot('--x--y--|                 ', { x, y });
     const e1subs =    '^                        !';
     const expected =  '---a---b---c-----e---f---|';
 
@@ -114,7 +114,7 @@ describe('Observable.prototype.mergeAll', () => {
     const ysubs =     '     ^            !     ';
     const z =     hot('--i--i--i--i-----g---h-|');
     const zsubs =     '               ^       !';
-    const e1 =    hot('--x--y--z--|            ', { x: x, y: y, z: z });
+    const e1 =    hot('--x--y--z--|            ', { x, y, z });
     const e1subs =    '^                      !';
     const expected =  '---a--db--ec--f--g---h-|';
 
@@ -130,7 +130,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^         !     ';
     const y = cold(        'd---e---f---|');
     const ysubs =     '     ^      !     ';
-    const e1 =    hot('--x--y--|         ', { x: x, y: y });
+    const e1 =    hot('--x--y--|         ', { x, y });
     const e1subs =    '^           !     ';
     const unsub =     '            !     ';
     const expected =  '--a--db--ec--     ';
@@ -146,7 +146,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^         !     ';
     const y = cold(        'd---e---f---|');
     const ysubs =     '     ^      !     ';
-    const e1 =    hot('--x--y--|         ', { x: x, y: y });
+    const e1 =    hot('--x--y--|         ', { x, y });
     const e1subs =    '^           !     ';
     const expected =  '--a--db--ec--     ';
     const unsub =     '            !     ';
@@ -167,7 +167,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^                 !';
     const y = cold(        '-d----e----f---|');
     const ysubs =     '     ^              !';
-    const e1 =    hot('--x--y--|            ', { x: x, y: y });
+    const e1 =    hot('--x--y--|            ', { x, y });
     const e1subs =    '^                   !';
     const expected =  '------(ad)-(be)-(cf)|';
 
@@ -182,7 +182,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  (^!)   ';
     const y = cold(        '|');
     const ysubs =     '     (^!)';
-    const e1 =    hot('--x--y--|', { x: x, y: y });
+    const e1 =    hot('--x--y--|', { x, y });
     const e1subs =    '^       !';
     const expected =  '--------|';
 
@@ -199,7 +199,7 @@ describe('Observable.prototype.mergeAll', () => {
     const ysubs =     '     (^!)  ';
     const z = cold(          '|');
     const zsubs =     '       (^!)';
-    const e1 =    hot('--x--y-z---|', { x: x, y: y, z: z });
+    const e1 =    hot('--x--y-z---|', { x, y, z });
     const e1subs =    '^          !';
     const expected =  '-----------|';
 
@@ -215,7 +215,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^';
     const y = cold(        '|');
     const ysubs =     '     (^!)';
-    const e1 =    hot('--x--y--|', { x: x, y: y });
+    const e1 =    hot('--x--y--|', { x, y });
     const e1subs =    '^        ';
     const expected =  '---------';
 
@@ -230,7 +230,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^';
     const y = cold(        '-');
     const ysubs =     '     ^';
-    const e1 =    hot('--x--y--|', { x: x, y: y });
+    const e1 =    hot('--x--y--|', { x, y });
     const e1subs =    '^        ';
     const expected =  '---------';
 
@@ -245,7 +245,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  (^!)   ';
     const y = cold(        '#');
     const ysubs =     '     (^!)';
-    const e1 =    hot('--x--y--|', { x: x, y: y });
+    const e1 =    hot('--x--y--|', { x, y });
     const e1subs =    '^    !   ';
     const expected =  '-----#   ';
 
@@ -260,7 +260,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^  !';
     const y = cold(        '#');
     const ysubs =     '     (^!)';
-    const e1 =    hot('--x--y--|', { x: x, y: y });
+    const e1 =    hot('--x--y--|', { x, y });
     const e1subs =    '^    !   ';
     const expected =  '-----#   ';
 
@@ -275,7 +275,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  (^!)';
     const y = cold(        '------#');
     const ysubs =     '     ^     !';
-    const e1 =    hot('--x--y--|', { x: x, y: y });
+    const e1 =    hot('--x--y--|', { x, y });
     const e1subs =    '^          !';
     const expected =  '-----------#';
 
@@ -290,7 +290,7 @@ describe('Observable.prototype.mergeAll', () => {
     const xsubs =     '  ^        !';
     const y = cold(        '------#');
     const ysubs =     '     ^     !';
-    const e1 =    hot('--x--y--|', { x: x, y: y });
+    const e1 =    hot('--x--y--|', { x, y });
     const e1subs =    '^          !';
     const expected =  '-----------#';
 
@@ -334,7 +334,7 @@ describe('Observable.prototype.mergeAll', () => {
     const ysubs =    '            ^       !           ';
     const z = cold(                       'g-h-i-j-k-|');
     const zsubs =    '                     ^         !';
-    const e1 =   hot('--x---------y--------z--------| ', { x: x, y: y, z: z });
+    const e1 =   hot('--x---------y--------z--------| ', { x, y, z });
     const e1subs =   '^                              !';
     const expected = '--a-b-------c-d-e-f--g-h-i-j-k-|';
 
@@ -352,7 +352,7 @@ describe('Observable.prototype.mergeAll', () => {
     const ysubs =    '            ^       !           ';
     const z = cold(                       'g-h-i-j-k-|');
     const zsubs = '';
-    const e1 =   hot('--x---------y--------z--------| ', { x: x, y: y, z: z });
+    const e1 =   hot('--x---------y--------z--------| ', { x, y, z });
     const e1subs =   '^                   !           ';
     const expected = '--a-b-------c-d-e-f-#           ';
 
@@ -368,7 +368,7 @@ describe('Observable.prototype.mergeAll', () => {
     const ysubs =    '  ^           !                ';
     const z = cold(              'c-d-e-f-|          ');
     const zsubs =    '            ^   !              ';
-    const e1 =   hot('--y---------z---#              ', { y: y, z: z });
+    const e1 =   hot('--y---------z---#              ', { y, z });
     const e1subs =   '^               !              ';
     const expected = '--a-b-------c-d-#              ';
 

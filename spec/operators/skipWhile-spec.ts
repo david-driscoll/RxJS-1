@@ -17,7 +17,7 @@ describe('Observable.prototype.skipWhile', () => {
     const sourceSubs =    '^               !';
     const expected =      '-------4--5--6--|';
 
-    const predicate = function (v) {
+    const predicate = function (v: string) {
       return +v < 4;
     };
 
@@ -66,7 +66,7 @@ describe('Observable.prototype.skipWhile', () => {
     const sourceSubs =        '^                   ';
     const expected =          '--------5--6--7--8--';
 
-    const predicate = function (v) {
+    const predicate = function (v: string) {
       return +v < 5;
     };
 
@@ -79,7 +79,7 @@ describe('Observable.prototype.skipWhile', () => {
     const sourceSubs =        '^                   !';
     const expected =          '--------e--f--g--h--|';
 
-    const predicate = function (v, index) {
+    const predicate = function (v: string, index: number) {
       return index < 2;
     };
 
@@ -93,7 +93,7 @@ describe('Observable.prototype.skipWhile', () => {
     const unsub =             '-----------!';
     const expected =          '-----d--e---';
 
-    const predicate = function (v, index) {
+    const predicate = function (v: string, index: number) {
       return index < 1;
     };
 
@@ -107,7 +107,7 @@ describe('Observable.prototype.skipWhile', () => {
     const expected =          '-----d--e---';
     const unsub =             '           !';
 
-    const predicate = function (v, index) {
+    const predicate = function (v: string, index: number) {
       return index < 1;
     };
 
@@ -125,7 +125,7 @@ describe('Observable.prototype.skipWhile', () => {
     const sourceSubs =        '^                   !';
     const expected =          '-----d--e--f--g--h--#';
 
-    const predicate = function (v) {
+    const predicate = function (v: string) {
       return v !== 'd';
     };
 
@@ -139,7 +139,7 @@ describe('Observable.prototype.skipWhile', () => {
     const expected =          '--------e--f--g--h--|';
 
     let invoked = 0;
-    const predicate = function (v) {
+    const predicate = function (v: string) {
       invoked++;
       return v !== 'e';
     };
@@ -157,7 +157,7 @@ describe('Observable.prototype.skipWhile', () => {
     const sourceSubs =        '^       !';
     const expected =          '--------#';
 
-    const predicate = function (v) {
+    const predicate = function (v: string) {
       if (v === 'e') {
         throw new Error('nom d\'une pipe !');
       }

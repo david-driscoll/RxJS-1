@@ -173,7 +173,7 @@ describe('Observable.prototype.mergeScan', () => {
     const e1subs =      '^                    !';
     const expected =    '---------------------(x|)';
 
-    const values = { x: [] };
+    const values = { x: <any[]>[] };
 
     const source = e1.mergeScan((acc: any, x: string) => Observable.empty(), []);
 
@@ -186,7 +186,7 @@ describe('Observable.prototype.mergeScan', () => {
     const e1subs =      '^                     ';
     const expected =    '----------------------';
 
-    const values = { x: [] };
+    const values = { x: <any[]>[] };
 
     const source = e1.mergeScan((acc: any, x: string) => Observable.never(), []);
 
@@ -200,7 +200,7 @@ describe('Observable.prototype.mergeScan', () => {
     const expected = '(u|)';
 
     const values = {
-      u: []
+      u: <any[]>[]
     };
 
     const source = e1.mergeScan((acc: any, x: string) => Observable.of(acc.concat(x)), []);

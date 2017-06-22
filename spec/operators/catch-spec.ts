@@ -270,7 +270,7 @@ describe('Observable.prototype.catch', () => {
     const input$ = createObservableInputs(42);
 
     input$.mergeMap(input =>
-      Observable.throw('bad').catch(err => input$)
+      Observable.throw('bad').catch(err => input)
     ).subscribe(x => {
       expect(x).to.be.equal(42);
     }, (err) => {

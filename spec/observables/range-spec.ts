@@ -47,7 +47,7 @@ describe('Observable.range', () => {
 
     const source = Observable.range(12, 4, asap);
 
-    expect(source.scheduler).to.deep.equal(asap);
+    expect((<any>source).scheduler).to.deep.equal(asap);
 
     source.subscribe(function (x) {
       expect(asap.schedule).have.been.called;

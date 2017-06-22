@@ -9,7 +9,7 @@ describe('subscribeToResult', () => {
   it('should synchronously complete when subscribe to scalarObservable', () => {
     const result = Rx.Observable.of(42);
     let expected: number;
-    const subscriber = new OuterSubscriber((x) => expected = x);
+    const subscriber = new OuterSubscriber<number, number>((x) => expected = x);
 
     const subscription = subscribeToResult(subscriber, result);
 
@@ -49,9 +49,9 @@ describe('subscribeToResult', () => {
 
   it('should subscribe to an array and emit synchronously', () => {
     const result = [1, 2, 3];
-    const expected = [];
+    const expected: number[] = [];
 
-    const subscriber = new OuterSubscriber(x => expected.push(x));
+    const subscriber = new OuterSubscriber<number, number>(x => expected.push(x));
 
     subscribeToResult(subscriber, result);
 
@@ -60,9 +60,9 @@ describe('subscribeToResult', () => {
 
   it('should subscribe to an array-like and emit synchronously', () => {
     const result = {0: 0, 1: 1, 2: 2, length: 3};
-    const expected = [];
+    const expected: number[] = [];
 
-    const subscriber = new OuterSubscriber(x => expected.push(x));
+    const subscriber = new OuterSubscriber<number, number>(x => expected.push(x));
 
     subscribeToResult(subscriber, result);
 
@@ -112,7 +112,7 @@ describe('subscribeToResult', () => {
       };
     }};
 
-    const subscriber = new OuterSubscriber((x) => expected = x);
+    const subscriber = new OuterSubscriber<number, number>((x) => expected = x);
 
     subscribeToResult(subscriber, iterable);
     expect(expected).to.be.equal(42);

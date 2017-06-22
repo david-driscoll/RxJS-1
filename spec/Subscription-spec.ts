@@ -7,22 +7,22 @@ const Subscription = Rx.Subscription;
 /** @test {Subscription} */
 describe('Subscription', () => {
   it('should not leak', (done) => {
-    const tearDowns = [];
+    const tearDowns: number[] = [];
 
-    const source1 = Observable.create((observer: Rx.Observer<any>) => {
+    const source1 = new Observable<number>(observer => {
       return () => {
         tearDowns.push(1);
       };
     });
 
-    const source2 = Observable.create((observer: Rx.Observer<any>) => {
+    const source2 = new Observable<number>(observer => {
       return () => {
         tearDowns.push(2);
         throw new Error('oops, I am a bad unsubscribe!');
       };
     });
 
-    const source3 = Observable.create((observer: Rx.Observer<any>) => {
+    const source3 = new Observable<number>(observer => {
       return () => {
         tearDowns.push(3);
       };
@@ -40,17 +40,17 @@ describe('Subscription', () => {
   });
 
   it('should not leak when adding a bad custom subscription to a subscription', (done) => {
-    const tearDowns = [];
+    const tearDowns: number[] = [];
 
     const sub = new Subscription();
 
-    const source1 = Observable.create((observer: Rx.Observer<any>) => {
+    const source1 = new Observable<number>(observer => {
       return () => {
         tearDowns.push(1);
       };
     });
 
-    const source2 = Observable.create((observer: Rx.Observer<any>) => {
+    const source2 = new Observable<number>(observer => {
       return () => {
         tearDowns.push(2);
         sub.add(<any>({
@@ -62,7 +62,7 @@ describe('Subscription', () => {
       };
     });
 
-    const source3 = Observable.create((observer: Rx.Observer<any>) => {
+    const source3 = new Observable<number>(observer => {
       return () => {
         tearDowns.push(3);
       };

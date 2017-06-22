@@ -36,7 +36,7 @@ describe('Observable.prototype.switch', () => {
   });
 
   it('should unsub inner observables', () => {
-    const unsubbed = [];
+    const unsubbed: string[] = [];
 
     Observable.of('a', 'b').map((x) =>
       Observable.create((subscriber: Rx.Subscriber<string>) => {
@@ -229,10 +229,10 @@ describe('Observable.prototype.switch', () => {
     let iStream: Rx.Subject<number>;
     const oStreamControl = new Rx.Subject<number>();
     const oStream = oStreamControl.map(() => {
-      return (iStream = new Rx.Subject());
+      return (iStream = new Rx.Subject<number>());
     });
     const switcher = oStream.switch();
-    const result = [];
+    const result: number[] = [];
     let sub = switcher.subscribe((x) => result.push(x));
 
     [0, 1, 2, 3, 4].forEach((n) => {
@@ -249,10 +249,10 @@ describe('Observable.prototype.switch', () => {
   it('should not leak if we switch before child completes (prevent memory leaks #2355)', () => {
     const oStreamControl = new Rx.Subject<number>();
     const oStream = oStreamControl.map(() => {
-      return (new Rx.Subject());
+      return (new Rx.Subject<number>());
     });
     const switcher = oStream.switch();
-    const result = [];
+    const result: number[] = [];
     let sub = switcher.subscribe((x) => result.push(x));
 
     [0, 1, 2, 3, 4].forEach((n) => {
