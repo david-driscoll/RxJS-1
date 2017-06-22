@@ -34,7 +34,7 @@ describe('Observable.prototype.publishBehavior', () => {
 
   it('should only emit default value if connect is not called, despite subscriptions', () => {
     const source = cold('--1-2---3-4--5-|');
-    const sourceSubs = [];
+    const sourceSubs = '';
     const published = source.publishBehavior('0');
     const expected =    '0';
 
@@ -99,7 +99,7 @@ describe('Observable.prototype.publishBehavior', () => {
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);
 
     // Set up unsubscription action
-    let connection;
+    let connection: Rx.Subscription;
     expectObservable(hot(unsub).do(() => {
       connection.unsubscribe();
     })).toBe(unsub);
@@ -127,7 +127,7 @@ describe('Observable.prototype.publishBehavior', () => {
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);
 
     // Set up unsubscription action
-    let connection;
+    let connection: Rx.Subscription;
     expectObservable(hot(unsub).do(() => {
       connection.unsubscribe();
     })).toBe(unsub);
@@ -205,8 +205,8 @@ describe('Observable.prototype.publishBehavior', () => {
   });
 
   it('should emit completed when subscribed after completed', (done) => {
-    const results1 = [];
-    const results2 = [];
+    const results1: number[] = [];
+    const results2: number[] = [];
     let subscriptions = 0;
 
     const source = new Observable((observer: Rx.Observer<number>) => {
@@ -280,8 +280,8 @@ describe('Observable.prototype.publishBehavior', () => {
   });
 
   it('should multicast one observable to multiple observers', (done) => {
-    const results1 = [];
-    const results2 = [];
+    const results1: number[] = [];
+    const results2: number[] = [];
     let subscriptions = 0;
 
     const source = new Observable((observer: Rx.Observer<number>) => {
@@ -315,7 +315,7 @@ describe('Observable.prototype.publishBehavior', () => {
   });
 
   it('should follow the RxJS 4 behavior and emit nothing to observer after completed', (done) => {
-    const results = [];
+    const results: number[] = [];
 
     const source = new Observable((observer: Rx.Observer<number>) => {
       observer.next(1);

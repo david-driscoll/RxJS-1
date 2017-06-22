@@ -60,7 +60,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('--|');
-    const e2subs = <string[]>[];
+    const e2subs = '';
     const expected =  '-';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -84,7 +84,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('-');
-    const e2subs = <string[]>[];
+    const e2subs = '';
     const expected =  '-';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -108,7 +108,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('---#');
     const e1subs =    '^  !';
     const e2 =   cold('----|');
-    const e2subs = <string[]>[];
+    const e2subs = '';
     const expected =  '---#';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -120,7 +120,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('---#');
     const e1subs =    '^  !';
     const e2 =   cold('------#');
-    const e2subs = <string[]>[];
+    const e2subs = '';
     const expected =  '---#';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -169,7 +169,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('-');
     const e1subs =    '^';
     const e2 =   cold('--a--|');
-    const e2subs = <string[]>[];
+    const e2subs = '';
     const expected =  '-';
 
     expectObservable(e1.concat(e2)).toBe(expected);
@@ -224,7 +224,7 @@ describe('Observable.prototype.concat', () => {
     const e1 =   cold('--#');
     const e1subs =    '^ !';
     const e2 =   cold('----a--|');
-    const e2subs = <string[]>[];
+    const e2subs = '';
     const expected =  '--#';
 
     expectObservable(e1.concat(e2)).toBe(expected);

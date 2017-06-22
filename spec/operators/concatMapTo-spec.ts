@@ -47,7 +47,7 @@ describe('Observable.prototype.concatMapTo', () => {
     const e1 = cold( '|');
     const e1subs =   '(^!)';
     const inner = cold('-1-2-3|');
-    const innersubs = <string[]>[];
+    const innersubs = '';
     const expected = '|';
 
     const result = e1.concatMapTo(inner);
@@ -61,7 +61,7 @@ describe('Observable.prototype.concatMapTo', () => {
     const e1 = cold( '-');
     const e1subs =   '^';
     const inner = cold('-1-2-3|');
-    const innersubs = <string[]>[];
+    const innersubs = '';
     const expected = '-';
 
     const result = e1.concatMapTo(inner);
@@ -75,7 +75,7 @@ describe('Observable.prototype.concatMapTo', () => {
     const e1 = cold( '#');
     const e1subs =   '(^!)';
     const inner = cold('-1-2-3|');
-    const innersubs = <string[]>[];
+    const innersubs = '';
     const expected = '#';
 
     const result = e1.concatMapTo(inner);

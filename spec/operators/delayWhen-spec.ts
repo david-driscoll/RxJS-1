@@ -160,7 +160,7 @@ describe('Observable.prototype.delayWhen', () => {
     const subs =          '^ !';
 
     const err = new Error('error');
-    const result = e1.delayWhen(<any>((x) => { throw err; }));
+    const result = e1.delayWhen(x => { throw err; });
 
     expectObservable(result).toBe(expected, null, err);
     expectSubscriptions(e1.subscriptions).toBe(subs);

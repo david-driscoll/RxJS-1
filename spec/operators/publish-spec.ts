@@ -34,7 +34,7 @@ describe('Observable.prototype.publish', () => {
 
   it('should do nothing if connect is not called, despite subscriptions', () => {
     const source = cold('--1-2---3-4--5-|');
-    const sourceSubs = [];
+    const sourceSubs = '';
     const published = source.publish();
     const expected =    '-';
 
@@ -118,7 +118,7 @@ describe('Observable.prototype.publish', () => {
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);
 
     // Set up unsubscription action
-    let connection;
+    let connection: Rx.Subscription;
     expectObservable(hot(unsub).do(() => {
       connection.unsubscribe();
     })).toBe(unsub);
@@ -146,7 +146,7 @@ describe('Observable.prototype.publish', () => {
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);
 
     // Set up unsubscription action
-    let connection;
+    let connection: Rx.Subscription;
     expectObservable(hot(unsub).do(() => {
       connection.unsubscribe();
     })).toBe(unsub);
@@ -224,8 +224,8 @@ describe('Observable.prototype.publish', () => {
   });
 
   it('should emit completed when subscribed after completed', (done) => {
-    const results1 = [];
-    const results2 = [];
+    const results1: number[] = [];
+    const results2: number[] = [];
     let subscriptions = 0;
 
     const source = new Observable((observer: Rx.Observer<number>) => {
@@ -299,8 +299,8 @@ describe('Observable.prototype.publish', () => {
   });
 
   it('should multicast one observable to multiple observers', (done) => {
-    const results1 = [];
-    const results2 = [];
+    const results1: number[] = [];
+    const results2: number[] = [];
     let subscriptions = 0;
 
     const source = new Observable((observer: Rx.Observer<number>) => {

@@ -25,7 +25,7 @@ describe('Observable.prototype.find', () => {
 
     const predicate = function (x: number) { return x % 5 === 0; };
 
-    expectObservable((<any>source).find(predicate)).toBe(expected, values);
+    expectObservable(source.find(predicate)).toBe(expected, values);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -40,7 +40,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^';
     const expected =   '-';
 
-    expectObservable((<any>source).find(truePredicate)).toBe(expected);
+    expectObservable(source.find(truePredicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -49,7 +49,7 @@ describe('Observable.prototype.find', () => {
     const subs =        '(^!)';
     const expected =    '(|)';
 
-    const result = (<any>source).find(truePredicate);
+    const result = source.find(truePredicate);
 
     expectObservable(result).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -64,7 +64,7 @@ describe('Observable.prototype.find', () => {
       return value === 'a';
     };
 
-    expectObservable((<any>source).find(predicate)).toBe(expected);
+    expectObservable(source.find(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -77,7 +77,7 @@ describe('Observable.prototype.find', () => {
       return value === 'b';
     };
 
-    expectObservable((<any>source).find(predicate)).toBe(expected);
+    expectObservable(source.find(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -93,7 +93,7 @@ describe('Observable.prototype.find', () => {
       return value === this.target;
     };
 
-    expectObservable((<any>source).find(predicate, finder)).toBe(expected);
+    expectObservable(source.find(predicate, finder)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -102,7 +102,7 @@ describe('Observable.prototype.find', () => {
     const subs =       '^          !';
     const expected =   '-----------|';
 
-    const predicate = (value) => value === 'z';
+    const predicate = (value: string) => value === 'z';
 
     expectObservable(source.find(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -114,7 +114,7 @@ describe('Observable.prototype.find', () => {
     const expected =   '-------     ';
     const unsub =      '      !     ';
 
-    const result = (<any>source).find((value) => value === 'z');
+    const result = source.find((value) => value === 'z');
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -126,7 +126,7 @@ describe('Observable.prototype.find', () => {
     const expected =   '-------     ';
     const unsub =      '      !     ';
 
-    const result = (<any>source)
+    const result = source
       .mergeMap((x) => Observable.of(x))
       .find((value) => value === 'z')
       .mergeMap((x) => Observable.of(x));
@@ -144,7 +144,7 @@ describe('Observable.prototype.find', () => {
       return value === 'z';
     };
 
-    expectObservable((<any>source).find(predicate)).toBe(expected);
+    expectObservable(source.find(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -157,7 +157,7 @@ describe('Observable.prototype.find', () => {
       throw 'error';
     };
 
-    expectObservable((<any>source).find(predicate)).toBe(expected);
+    expectObservable(source.find(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -169,7 +169,7 @@ describe('Observable.prototype.find', () => {
 
     const predicate = function (x: number) { return x % 5 === 0; };
 
-    expectObservable((<any>source).find(predicate).let(doNotUnsubscribe)).toBe(expected, values);
+    expectObservable(source.find(predicate).let(doNotUnsubscribe)).toBe(expected, values);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -184,7 +184,7 @@ describe('Observable.prototype.find', () => {
       throw 'error';
     };
 
-    expectObservable((<any>source).find(predicate).let(doNotUnsubscribe)).toBe(expected);
+    expectObservable(source.find(predicate).let(doNotUnsubscribe)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 

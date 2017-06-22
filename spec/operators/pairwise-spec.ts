@@ -19,7 +19,7 @@ describe('Observable.prototype.pairwise', () => {
       x: ['d', 'e']
     };
 
-    const source = (<any>e1).pairwise();
+    const source = e1.pairwise();
 
     expectObservable(source).toBe(expected, values);
   });
@@ -37,7 +37,7 @@ describe('Observable.prototype.pairwise', () => {
       z: ['f', 'g']
     };
 
-    const source = (<any>e1).pairwise();
+    const source = e1.pairwise();
 
     expectObservable(source).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -51,7 +51,7 @@ describe('Observable.prototype.pairwise', () => {
     const values = {
     };
 
-    const source = (<any>e1).pairwise();
+    const source = e1.pairwise();
 
     expectObservable(source).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -68,7 +68,7 @@ describe('Observable.prototype.pairwise', () => {
       x: ['d', 'e']
     };
 
-    const source = (<any>e1).pairwise();
+    const source = e1.pairwise();
 
     expectObservable(source).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -79,7 +79,7 @@ describe('Observable.prototype.pairwise', () => {
     const e1subs =   '(^!)';
     const expected = '|';
 
-    const source = (<any>e1).pairwise();
+    const source = e1.pairwise();
 
     expectObservable(source).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -90,7 +90,7 @@ describe('Observable.prototype.pairwise', () => {
     const e1subs =   '^';
     const expected = '-';
 
-    const source = (<any>e1).pairwise();
+    const source = e1.pairwise();
 
     expectObservable(source).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -101,7 +101,7 @@ describe('Observable.prototype.pairwise', () => {
     const e1subs =   '(^!)';
     const expected = '#';
 
-    const source = (<any>e1).pairwise();
+    const source = e1.pairwise();
 
     expectObservable(source).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);

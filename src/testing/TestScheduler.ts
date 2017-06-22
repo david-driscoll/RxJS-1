@@ -113,7 +113,7 @@ export class TestScheduler extends VirtualTimeScheduler {
     this.flushTests.push(flushTest);
     return {
       toBe(marbles: string | string[]) {
-        const marblesArray: string[] = (typeof marbles === 'string') ? [marbles] : marbles;
+        const marblesArray: string[] = (typeof marbles === 'string') ? (marbles.length === 0) ? [] : [marbles] : marbles;
         flushTest.ready = true;
         flushTest.expected = marblesArray.map(marbles =>
           TestScheduler.parseMarblesAsSubscriptions(marbles)

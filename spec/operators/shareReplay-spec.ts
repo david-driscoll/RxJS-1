@@ -146,7 +146,7 @@ describe('Observable.prototype.shareReplay', () => {
   });
 
   it('should be retryable, bufferSize=2', () => {
-    const subs = [];
+    const subs = '';
     const source =     cold('-1-2-----3-#                      ');
     const shared = source.shareReplay(2).retry(1);
     subs.push(              '^          !                      ');

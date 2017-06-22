@@ -23,7 +23,7 @@ describe('Observable.prototype.findIndex', () => {
 
     const predicate = function (x: number) { return x % 5 === 0; };
 
-    expectObservable((<any>source).findIndex(predicate)).toBe(expected, { x: 2 });
+    expectObservable(source.findIndex(predicate)).toBe(expected, { x: 2 });
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -32,7 +32,7 @@ describe('Observable.prototype.findIndex', () => {
     const subs =       '^';
     const expected =   '-';
 
-    expectObservable((<any>source).findIndex(truePredicate)).toBe(expected);
+    expectObservable(source.findIndex(truePredicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -41,7 +41,7 @@ describe('Observable.prototype.findIndex', () => {
     const subs =        '(^!)';
     const expected =    '(x|)';
 
-    const result = (<any>source).findIndex(truePredicate);
+    const result = source.findIndex(truePredicate);
 
     expectObservable(result).toBe(expected, {x: -1});
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -57,7 +57,7 @@ describe('Observable.prototype.findIndex', () => {
       return value === sourceValue;
     };
 
-    expectObservable((<any>source).findIndex(predicate)).toBe(expected, { x: 0 });
+    expectObservable(source.findIndex(predicate)).toBe(expected, { x: 0 });
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -70,7 +70,7 @@ describe('Observable.prototype.findIndex', () => {
       return value === 7;
     };
 
-    expectObservable((<any>source).findIndex(predicate)).toBe(expected, { x: 1 });
+    expectObservable(source.findIndex(predicate)).toBe(expected, { x: 1 });
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -83,7 +83,7 @@ describe('Observable.prototype.findIndex', () => {
     const predicate = function (this: typeof sourceValues, value: number) {
       return value === this.b;
     };
-    const result = (<any>source).findIndex(predicate, sourceValues);
+    const result = source.findIndex(predicate, sourceValues);
 
     expectObservable(result).toBe(expected, { x: 1 });
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -98,7 +98,7 @@ describe('Observable.prototype.findIndex', () => {
       return value === 'z';
     };
 
-    expectObservable((<any>source).findIndex(predicate)).toBe(expected, { x: -1 });
+    expectObservable(source.findIndex(predicate)).toBe(expected, { x: -1 });
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -108,7 +108,7 @@ describe('Observable.prototype.findIndex', () => {
     const expected =   '-------     ';
     const unsub =      '      !     ';
 
-    const result = (<any>source).findIndex((value) => value === 'z');
+    const result = source.findIndex((value) => value === 'z');
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
@@ -120,7 +120,7 @@ describe('Observable.prototype.findIndex', () => {
     const expected =   '-------     ';
     const unsub =      '      !     ';
 
-    const result = (<any>source)
+    const result = source
       .mergeMap((x) => Observable.of(x))
       .findIndex((value) => value === 'z')
       .mergeMap((x) => Observable.of(x));
@@ -138,7 +138,7 @@ describe('Observable.prototype.findIndex', () => {
       return value === 'z';
     };
 
-    expectObservable((<any>source).findIndex(predicate)).toBe(expected);
+    expectObservable(source.findIndex(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -151,7 +151,7 @@ describe('Observable.prototype.findIndex', () => {
       throw 'error';
     };
 
-    expectObservable((<any>source).findIndex(predicate)).toBe(expected);
+    expectObservable(source.findIndex(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 });

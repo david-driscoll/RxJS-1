@@ -11,7 +11,7 @@ declare const expectSubscriptions: typeof marbleTestingSignature.expectSubscript
 const Observable = Rx.Observable;
 
 // function shortcuts
-const addDrama = function (x: number) { return x + '!'; };
+const addDrama = function (x: number | string) { return x + '!'; };
 const identity = function <T>(x: T) { return x; };
 const throwError = function () { throw new Error(); };
 
@@ -22,7 +22,7 @@ describe('Observable.prototype.map', () => {
     const asubs =    '^          !';
     const expected = '--x--y--z--|';
 
-    const r = a.map(function (x) { return 10 * x; });
+    const r = a.map(function (x) { return 10 * parseInt(x); });
 
     expectObservable(r).toBe(expected, {x: 10, y: 20, z: 30});
     expectSubscriptions(a.subscriptions).toBe(asubs);

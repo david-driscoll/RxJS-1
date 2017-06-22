@@ -12,7 +12,7 @@ const Observable = Rx.Observable;
 
 /** @test {partition} */
 describe('Observable.prototype.partition', () => {
-  function expectObservableArray(result, expected) {
+  function expectObservableArray(result: Rx.Observable<string>[], expected: string[]) {
     for (let idx = 0; idx < result.length; idx++ ) {
       expectObservable(result[idx]).toBe(expected[idx]);
     }
@@ -25,7 +25,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['--1-----3---------5------|',
                     '----2----------4------6--|'];
 
-    const result = e1.partition((x) => x % 2 === 1);
+    const result = e1.partition((x) => parseInt(x) % 2 === 1);
 
     expectObservableArray(result, expected);
     expectSubscriptions(e1.subscriptions).toBe([e1subs, e1subs]);
@@ -37,7 +37,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['--a-----a---------a------|',
                     '----b----------d------c--|'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
 
@@ -51,7 +51,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['--a-----a---------a------|',
                     '----b----------d------c--|'];
 
-    function predicate(x) {
+    function predicate(this: { value: string }, x: string) {
       return x === this.value;
     }
 
@@ -65,7 +65,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['--a-----#',
                     '----b---#'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
 
@@ -79,7 +79,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['#',
                     '#'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
 
@@ -95,7 +95,7 @@ describe('Observable.prototype.partition', () => {
 
     let index = 0;
     const error = 'error';
-    function predicate(x) {
+    function predicate(x: string) {
       const match = x === 'a';
       if (match && index++ > 1) {
         throw error;
@@ -113,7 +113,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['----|',
                     '----|'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'x';
     }
 
@@ -127,7 +127,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['|',
                     '|'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'x';
     }
 
@@ -141,7 +141,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['--a--|',
                     '-----|'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
 
@@ -155,7 +155,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['--a--a--a--a--a--a--a--|',
                     '-----------------------|'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
 
@@ -169,7 +169,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['-----------------------|',
                     '--b--b--b--b--b--b--b--|'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
 
@@ -183,7 +183,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['--a-----a-----------',
                     '----b----------d----'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
 
@@ -197,7 +197,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['-',
                     '-'];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
 
@@ -212,7 +212,7 @@ describe('Observable.prototype.partition', () => {
     const expected = ['--a-----          ',
                     '----b---          '];
 
-    function predicate(x) {
+    function predicate(x: string) {
       return x === 'a';
     }
     const result = e1.partition(predicate);
@@ -249,7 +249,7 @@ describe('Observable.prototype.partition', () => {
   it('should accept thisArg', () => {
     const thisArg = {};
 
-    Observable.of(1).partition(function (value: number) {
+    Observable.of(1).partition(function (this: typeof thisArg, value: number) {
       expect(this).to.deep.equal(thisArg);
       return true;
     }, thisArg)

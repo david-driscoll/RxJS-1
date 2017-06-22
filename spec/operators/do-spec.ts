@@ -104,7 +104,7 @@ describe('Observable.prototype.do', () => {
 
   it('should handle an error with observer', () => {
     let errored = false;
-    Observable.throw('bad').do(<any>{ error: function (err: any) {
+    Observable.throw('bad').do({ error: function (err: any) {
       expect(err).to.equal('bad');
     } })
     .subscribe(null, function (err) {
@@ -118,7 +118,7 @@ describe('Observable.prototype.do', () => {
   it('should handle complete with observer', () => {
     let completed = false;
 
-    Observable.empty().do(<any>{
+    Observable.empty().do({
       complete: () => {
         completed = true;
       }
@@ -150,7 +150,7 @@ describe('Observable.prototype.do', () => {
   });
 
   it('should raise error if error handler raises error', () => {
-    Observable.throw('ops').do(<any>{
+    Observable.throw('ops').do({
       error: (x) => {
         throw new Error('bad');
       }
@@ -160,7 +160,7 @@ describe('Observable.prototype.do', () => {
   });
 
   it('should raise error if complete handler raises error', () => {
-    Observable.empty().do(<any>{
+    Observable.empty().do({
       complete: () => {
         throw new Error('bad');
       }

@@ -204,7 +204,7 @@ describe('Observable.prototype.count', () => {
     const e1 = hot('-1-^-2--3--4-|');
     const e1subs =    '^         !';
     const expected =  '----------(w|)';
-    const predicate = (value) => parseInt(value) < 10;
+    const predicate = (value: string) => parseInt(value) < 10;
 
     expectObservable(e1.count(predicate)).toBe(expected, { w: 3 });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -214,7 +214,7 @@ describe('Observable.prototype.count', () => {
     const e1 = hot('-1-^-2--3--4-|');
     const e1subs =    '^         !';
     const expected =  '----------(w|)';
-    const predicate = (value) => parseInt(value) > 10;
+    const predicate = (value: string) => parseInt(value) > 10;
 
     expectObservable(e1.count(predicate)).toBe(expected, { w: 0 });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -254,7 +254,7 @@ describe('Observable.prototype.count', () => {
     const e1 = hot('-1-^-2--3--|');
     const e1subs =    '^    !   ';
     const expected =  '-----#   ';
-    const predicate = (value) => {
+    const predicate = (value: string) => {
       if (value === '3') {
         throw 'error';
       }

@@ -16,8 +16,8 @@ describe('Observable.prototype.every', () => {
     return true;
   }
 
-  function predicate(x: number) {
-    return x % 5 === 0;
+  function predicate(x: string | number) {
+    return (<any>x) % 5 === 0;
   }
 
   asDiagram('every(x => x % 5 === 0)')('should return false if only some of element matches with predicate', () => {
@@ -55,7 +55,7 @@ describe('Observable.prototype.every', () => {
       observer.next(1);
       observer.complete();
     })
-    .every(function (value: number, index: number) {
+    .every(function (this: typeof thisArg, value: number, index: number) {
       expect(this).to.deep.equal(thisArg);
     }, thisArg).subscribe();
   });

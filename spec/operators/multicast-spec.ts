@@ -4,7 +4,7 @@ import marbleTestingSignature = require('../helpers/marble-testing'); // tslint:
 
 declare const asDiagram: Function;
 declare const time: Function;
-declare const rxTestScheduler: Function;
+declare const rxTestScheduler: typeof marbleTestingSignature.rxTestScheduler;
 declare const hot: typeof marbleTestingSignature.hot;
 declare const cold: typeof marbleTestingSignature.cold;
 declare const expectObservable: typeof marbleTestingSignature.expectObservable;
@@ -147,7 +147,7 @@ describe('Observable.prototype.multicast', () => {
 
   it('should do nothing if connect is not called, despite subscriptions', () => {
     const source = cold('--1-2---3-4--5-|');
-    const sourceSubs = [];
+    const sourceSubs = '';
     const multicasted = source.multicast(() => new Subject());
     const expected =    '-';
 
@@ -212,7 +212,7 @@ describe('Observable.prototype.multicast', () => {
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);
 
     // Set up unsubscription action
-    let connection;
+    let connection: Rx.Subscription;
     expectObservable(hot(unsub).do(() => {
       connection.unsubscribe();
     })).toBe(unsub);
@@ -240,7 +240,7 @@ describe('Observable.prototype.multicast', () => {
     expectSubscriptions(source.subscriptions).toBe(sourceSubs);
 
     // Set up unsubscription action
-    let connection;
+    let connection: Rx.Subscription;
     expectObservable(hot(unsub).do(() => {
       connection.unsubscribe();
     })).toBe(unsub);
@@ -524,11 +524,11 @@ describe('Observable.prototype.multicast', () => {
   });
 
   it('should multicast one observable to multiple observers', (done) => {
-    const results1 = [];
-    const results2 = [];
+    const results1: number[] = [];
+    const results2: number[] = [];
     let subscriptions = 0;
 
-    const source = new Observable((observer: Rx.Observer<number>) => {
+    const source = new Observable<number>((observer) => {
       subscriptions++;
       observer.next(1);
       observer.next(2);

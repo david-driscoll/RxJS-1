@@ -95,7 +95,7 @@ describe('Observable.prototype.expand', () => {
 
     const result = e1.expand((x) => {
       if (x === 8) {
-        return cold('#');
+        return cold<number>(<any>'#');
       }
       return cold(e2shape, { z: x + x });
     });
@@ -167,7 +167,7 @@ describe('Observable.prototype.expand', () => {
     const expected = 'a--b--c-  ';
     const unsub =    '       !  ';
 
-    const result = (<any>e1)
+    const result = e1
       .mergeMap((x) => Observable.of(x))
       .expand((x: number): Rx.Observable<any> => {
         if (x === 16) {
@@ -385,7 +385,7 @@ describe('Observable.prototype.expand', () => {
 
     (<any>Observable.of(1))
       .expand(project)
-      .subscribe((x) => {
+      .subscribe((x: any) => {
         expect(x).to.equal(expected.shift());
       }, null, () => {
         expect(expected.length).to.equal(0);

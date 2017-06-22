@@ -20,7 +20,7 @@ describe('Observable.prototype.switchMap', () => {
     const expected =  '--x-x-x-y-yz-z-z---|';
     const values = {x: 10, y: 30, z: 50};
 
-    const result = e1.switchMap(x => e2.map(i => i * x));
+    const result = e1.switchMap(x => e2.map(i => i * parseInt(x)));
 
     expectObservable(result).toBe(expected, values);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -183,7 +183,7 @@ describe('Observable.prototype.switchMap', () => {
     const x =   cold(         '--a--b--#--d--e--|          ');
     const xsubs =    '         ^       !                   ';
     const y =   cold(                   '---f---g---h---i--');
-    const ysubs = [];
+    const ysubs = '';
     const e1 =   hot('---------x---------y---------|       ');
     const e1subs =   '^                !                   ';
     const expected = '-----------a--b--#                   ';

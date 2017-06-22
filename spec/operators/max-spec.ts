@@ -17,7 +17,7 @@ describe('Observable.prototype.max', () => {
     const subs =       '^          !';
     const expected =   '-----------(x|)';
 
-    expectObservable((<any>e1).max()).toBe(expected, { x: 42 });
+    expectObservable(e1.max()).toBe(expected, { x: 42 });
     expectSubscriptions(e1.subscriptions).toBe(subs);
   });
 
@@ -26,7 +26,7 @@ describe('Observable.prototype.max', () => {
     const e1subs =   '^';
     const expected = '-';
 
-    expectObservable((<any>e1).max()).toBe(expected);
+    expectObservable(e1.max()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -35,7 +35,7 @@ describe('Observable.prototype.max', () => {
     const e1subs =   '(^!)';
     const expected = '|';
 
-    expectObservable((<any>e1).max()).toBe(expected);
+    expectObservable(e1.max()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -44,7 +44,7 @@ describe('Observable.prototype.max', () => {
     const e1subs =      '^     ';
     const expected =    '------';
 
-    expectObservable((<any>e1).max()).toBe(expected);
+    expectObservable(e1.max()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -53,7 +53,7 @@ describe('Observable.prototype.max', () => {
     const e1subs =    '^   !';
     const expected =  '----|';
 
-    expectObservable((<any>e1).max()).toBe(expected);
+    expectObservable(e1.max()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -62,7 +62,7 @@ describe('Observable.prototype.max', () => {
     const e1subs =    '^     !';
     const expected =  '------(w|)';
 
-    expectObservable((<any>e1).max()).toBe(expected, { w: 42 });
+    expectObservable(e1.max()).toBe(expected, { w: 42 });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -71,7 +71,7 @@ describe('Observable.prototype.max', () => {
     const subs =           '^          !';
     const expected =       '-----------(x|)';
 
-    expectObservable((<any>e1).max()).toBe(expected, { x: 666 });
+    expectObservable(e1.max()).toBe(expected, { x: 666 });
     expectSubscriptions(e1.subscriptions).toBe(subs);
   });
 
@@ -81,7 +81,7 @@ describe('Observable.prototype.max', () => {
     const subs =       '^     !     ';
     const expected =   '-------     ';
 
-    expectObservable((<any>e1).max(), unsub).toBe(expected, { x: 42 });
+    expectObservable(e1.max(), unsub).toBe(expected, { x: 42 });
     expectSubscriptions(e1.subscriptions).toBe(subs);
   });
 
@@ -91,7 +91,7 @@ describe('Observable.prototype.max', () => {
     const expected =   '-------     ';
     const unsub =      '      !     ';
 
-    const result = (<any>source)
+    const result = source
       .mergeMap((x) => Observable.of(x))
       .max()
       .mergeMap((x) => Observable.of(x));
@@ -101,7 +101,7 @@ describe('Observable.prototype.max', () => {
   });
 
   it('should max a range() source observable', (done) => {
-    (<any>Rx.Observable.range(1, 10000)).max().subscribe(
+    Rx.Observable.range(1, 10000).max().subscribe(
       (value) => {
         expect(value).to.equal(10000);
       }, (x) => {
@@ -112,7 +112,7 @@ describe('Observable.prototype.max', () => {
   });
 
   it('should max a range().skip(1) source observable', (done) => {
-    (<any>Rx.Observable.range(1, 10)).skip(1).max().subscribe(
+    Rx.Observable.range(1, 10).skip(1).max().subscribe(
       (value) => {
         expect(value).to.equal(10);
       }, (x) => {
@@ -123,7 +123,7 @@ describe('Observable.prototype.max', () => {
   });
 
   it('should max a range().take(1) source observable', (done) => {
-    (<any>Rx.Observable.range(1, 10)).take(1).max().subscribe(
+    Rx.Observable.range(1, 10).take(1).max().subscribe(
       (value) => {
         expect(value).to.equal(1);
       }, (x) => {
@@ -138,7 +138,7 @@ describe('Observable.prototype.max', () => {
     const e1subs =    '^        !';
     const expected =  '---------#';
 
-    expectObservable((<any>e1).max()).toBe(expected, null, 'too bad');
+    expectObservable(e1.max()).toBe(expected, null, 'too bad');
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -147,7 +147,7 @@ describe('Observable.prototype.max', () => {
     const e1subs =   '(^!)';
     const expected = '#';
 
-    expectObservable((<any>e1).max()).toBe(expected);
+    expectObservable(e1.max()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -156,11 +156,11 @@ describe('Observable.prototype.max', () => {
     const e1subs =    '^   !';
     const expected =  '----|';
 
-    const predicate = function (x, y) {
+    const predicate = function (x: string | number, y: string | number) {
       return 42;
     };
 
-    expectObservable((<any>e1).max(predicate)).toBe(expected);
+    expectObservable(e1.max(predicate)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -169,11 +169,11 @@ describe('Observable.prototype.max', () => {
     const e1subs =    '^    ';
     const expected =  '-----';
 
-    const predicate = function (x, y) {
+    const predicate = function (x: string | number, y: string | number) {
       return 42;
     };
 
-    expectObservable((<any>e1).max(predicate)).toBe(expected);
+    expectObservable(e1.max(predicate)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -186,7 +186,7 @@ describe('Observable.prototype.max', () => {
       return 42;
     };
 
-    expectObservable((<any>e1).max(predicate)).toBe(expected, { w: 1 });
+    expectObservable(e1.max(predicate)).toBe(expected, { w: 1 });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -195,11 +195,11 @@ describe('Observable.prototype.max', () => {
     const e1subs =    '^         !';
     const expected =  '----------(w|)';
 
-    const predicate = function (x, y) {
+    const predicate = function (x: string | number, y: string | number) {
       return x > y ? -1 : 1;
     };
 
-    expectObservable((<any>e1).max(predicate)).toBe(expected, { w: -1 });
+    expectObservable(e1.max(predicate)).toBe(expected, { w: -1 });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -208,11 +208,11 @@ describe('Observable.prototype.max', () => {
     const e1subs =    '^         !';
     const expected =  '----------(w|)';
 
-    const predicate = function (x, y) {
+    const predicate = function (x: string | number, y: string | number) {
       return x > y ? -1 : 1;
     };
 
-    expectObservable((<any>e1).max(predicate)).toBe(expected, { w: 'b' });
+    expectObservable(e1.max(predicate)).toBe(expected, { w: 'b' });
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -225,7 +225,7 @@ describe('Observable.prototype.max', () => {
       return 42;
     };
 
-    expectObservable((<any>e1).max(predicate)).toBe(expected);
+    expectObservable(e1.max(predicate)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -234,14 +234,14 @@ describe('Observable.prototype.max', () => {
     const e1subs =    '^    !   ';
     const expected =  '-----#   ';
 
-    const predicate = function (x, y) {
+    const predicate = function (x: string | number, y: string | number): number {
       if (y === '3') {
         throw 'error';
       }
-      return x > y ? x : y;
+      return x > y ? +x : +y;
     };
 
-    expectObservable((<any>e1).max(predicate)).toBe(expected);
+    expectObservable(e1.max(predicate)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });

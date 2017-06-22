@@ -12,11 +12,11 @@ const Observable = Rx.Observable;
 
 /** @test {filter} */
 describe('Observable.prototype.filter', () => {
-  function oddFilter(x: number) {
+  function oddFilter(x: number | string) {
     return (+x) % 2 === 1;
   }
 
-  function isPrime(i: number) {
+  function isPrime(i: number | string) {
     if (+i <= 1) { return false; }
     const max = Math.floor(Math.sqrt(+i));
     for (let j = 2; j <= max; ++j) {
@@ -92,7 +92,7 @@ describe('Observable.prototype.filter', () => {
       return isPrime(x);
     }
 
-    expectObservable((<any>source).filter(predicate)).toBe(expected);
+    expectObservable(source.filter(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -105,7 +105,7 @@ describe('Observable.prototype.filter', () => {
       return isPrime((+x) + i * 10);
     }
 
-    expectObservable((<any>source).filter(predicate)).toBe(expected);
+    expectObservable(source.filter(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -114,7 +114,7 @@ describe('Observable.prototype.filter', () => {
     const expected =          '--3---5----7-------|';
 
     let invoked = 0;
-    const predicate = (x) => {
+    const predicate = (x: string) => {
       invoked++;
       return isPrime(x);
     };
@@ -138,7 +138,7 @@ describe('Observable.prototype.filter', () => {
     function predicate(x: any, i: number) {
       return isPrime((+x) + i * 10);
     }
-    expectObservable((<any>source).filter(predicate), unsub).toBe(expected);
+    expectObservable(source.filter(predicate), unsub).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -150,7 +150,7 @@ describe('Observable.prototype.filter', () => {
     function predicate(x: any, i: number) {
       return isPrime((+x) + i * 10);
     }
-    expectObservable((<any>source).filter(predicate)).toBe(expected);
+    expectObservable(source.filter(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -168,7 +168,7 @@ describe('Observable.prototype.filter', () => {
       return isPrime((+x) + i * 10);
     }
 
-    expectObservable((<any>source).filter(predicate)).toBe(expected);
+    expectObservable(source.filter(predicate)).toBe(expected);
     expectSubscriptions(source.subscriptions).toBe(subs);
   });
 
@@ -178,8 +178,8 @@ describe('Observable.prototype.filter', () => {
 
     expectObservable(
       source
-        .filter((x) => x % 2 === 0)
-        .filter((x) => x % 3 === 0)
+        .filter((x) => parseInt(x) % 2 === 0)
+        .filter((x) => parseInt(x) % 3 === 0)
     ).toBe(expected);
   });
 
@@ -188,8 +188,8 @@ describe('Observable.prototype.filter', () => {
     const expected =          '--------6----------|';
 
     class Filterer {
-      filter1 = (x) => x % 2 === 0;
-      filter2 = (x) => x % 3 === 0;
+      filter1 = (x: string) => (+x) % 2 === 0;
+      filter2 = (x: string) => (+x) % 3 === 0;
     }
 
     const filterer = new Filterer();
@@ -209,8 +209,8 @@ describe('Observable.prototype.filter', () => {
 
     expectObservable(
       source
-        .filter((x) => x % 2 === 0)
-        .map((x) => x * x)
+        .filter((x) => parseInt(x) % 2 === 0)
+        .map((x) => parseInt(x) * parseInt(x))
     ).toBe(expected, values);
   });
 

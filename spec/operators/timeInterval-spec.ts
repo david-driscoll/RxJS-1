@@ -18,7 +18,7 @@ describe('Observable.prototype.timeInterval', () => {
     const expected =    '-w-x-----y--z--|';
     const expectedValue = { w: 10, x: 20, y: 60, z: 30 };
 
-    const result = (<any>e1).timeInterval(rxTestScheduler)
+    const result = e1.timeInterval(rxTestScheduler)
       .map((x) => x.interval);
 
     expectObservable(result).toBe(expected, expectedValue);
@@ -37,7 +37,7 @@ describe('Observable.prototype.timeInterval', () => {
       z: new Rx.TimeInterval('e', 40)
     };
 
-    expectObservable((<any>e1).timeInterval(rxTestScheduler)).toBe(expected, expectedValue);
+    expectObservable(e1.timeInterval(rxTestScheduler)).toBe(expected, expectedValue);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -46,7 +46,7 @@ describe('Observable.prototype.timeInterval', () => {
     const e1subs =   '^        !';
     const expected = '---------|';
 
-    expectObservable((<any>e1).timeInterval(rxTestScheduler)).toBe(expected);
+    expectObservable(e1.timeInterval(rxTestScheduler)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -55,7 +55,7 @@ describe('Observable.prototype.timeInterval', () => {
     const e1subs =   '(^!)';
     const expected = '|';
 
-    expectObservable((<any>e1).timeInterval(rxTestScheduler)).toBe(expected);
+    expectObservable(e1.timeInterval(rxTestScheduler)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -69,7 +69,7 @@ describe('Observable.prototype.timeInterval', () => {
       z: new Rx.TimeInterval('b', 30)
     };
 
-    expectObservable((<any>e1).timeInterval(rxTestScheduler)).toBe(expected, expectedValue);
+    expectObservable(e1.timeInterval(rxTestScheduler)).toBe(expected, expectedValue);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -84,7 +84,7 @@ describe('Observable.prototype.timeInterval', () => {
       z: new Rx.TimeInterval('b', 30)
     };
 
-    const result = (<any>e1).timeInterval(rxTestScheduler);
+    const result = e1.timeInterval(rxTestScheduler);
 
     expectObservable(result, unsub).toBe(expected, expectedValue);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
@@ -101,7 +101,7 @@ describe('Observable.prototype.timeInterval', () => {
       z: new Rx.TimeInterval('b', 30)
     };
 
-    const result = (<any>e1)
+    const result = e1
       .mergeMap((x) => Observable.of(x))
       .timeInterval(rxTestScheduler)
       .mergeMap((x) => Observable.of(x));
@@ -115,7 +115,7 @@ describe('Observable.prototype.timeInterval', () => {
     const e1subs =   '^';
     const expected = '-';
 
-    expectObservable((<any>e1).timeInterval(rxTestScheduler)).toBe(expected);
+    expectObservable(e1.timeInterval(rxTestScheduler)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -124,7 +124,7 @@ describe('Observable.prototype.timeInterval', () => {
     const e1subs =   '^  !';
     const expected = '---#';
 
-    expectObservable((<any>e1).timeInterval(rxTestScheduler)).toBe(expected);
+    expectObservable(e1.timeInterval(rxTestScheduler)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -138,7 +138,7 @@ describe('Observable.prototype.timeInterval', () => {
       z: new Rx.TimeInterval('b', 30)
     };
 
-    expectObservable((<any>e1).timeInterval(rxTestScheduler)).toBe(expected, expectedValue);
+    expectObservable(e1.timeInterval(rxTestScheduler)).toBe(expected, expectedValue);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -147,7 +147,7 @@ describe('Observable.prototype.timeInterval', () => {
     const e1subs =   '(^!)';
     const expected = '#';
 
-    expectObservable((<any>e1).timeInterval(rxTestScheduler)).toBe(expected);
+    expectObservable(e1.timeInterval(rxTestScheduler)).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 });
