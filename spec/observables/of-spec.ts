@@ -1,10 +1,8 @@
 import { expect } from 'chai';
 import * as Rx from '../../src/Rx';
-import { EmptyObservable } from '../../src/internal/observable/EmptyObservable';
+import { empty } from '../../src/internal/observable/empty';
 import { expectObservable } from '../helpers/marble-testing';
-
-declare function asDiagram(arg: string): Function;
-
+declare const asDiagram: any;
 declare const rxTestScheduler: Rx.TestScheduler;
 const Observable = Rx.Observable;
 
@@ -35,12 +33,7 @@ describe('Observable.of', () => {
 
   it('should return an empty observable if passed no values', () => {
     const obs = Observable.of();
-    expect(obs instanceof EmptyObservable).to.be.true;
-  });
-
-  it('should return an empty observable if passed only a scheduler', () => {
-    const obs = Observable.of(Rx.Scheduler.queue);
-    expect(obs instanceof EmptyObservable).to.be.true;
+    expect(obs).to.equal(empty());
   });
 
   it('should emit one value', (done: MochaDone) => {
