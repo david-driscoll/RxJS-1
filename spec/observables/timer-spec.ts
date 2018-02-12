@@ -1,5 +1,5 @@
-import { cold, expectObservable } from '../helpers/marble-testing';
-import { timer, never, merge } from '../../src/create';
+import { cold, expectObservable, time } from '../helpers/marble-testing';
+import { timer, never, merge } from '../../src/';
 import { TestScheduler } from '../../src/testing';
 import { mergeMap } from '../../src/operators';
 

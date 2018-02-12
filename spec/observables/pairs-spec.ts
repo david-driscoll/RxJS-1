@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { expectObservable } from '../helpers/marble-testing';
 import { TestScheduler } from '../../src/testing';
-import { pairs } from '../../src/create';
+import { pairs } from '../../src/';
 
 declare const asDiagram: any;
 

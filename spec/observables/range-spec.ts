@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { Observable, asapScheduler as asap} from '../../src';
-import { range } from '../../src/create';
+import { range } from '../../src/';
 import { TestScheduler } from '../../src/testing';
 import { expectObservable } from '../helpers/marble-testing';
 import { dispatch } from '../../src/internal/observable/range';

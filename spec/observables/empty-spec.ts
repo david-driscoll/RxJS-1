@@ -1,7 +1,7 @@
-import { expectObservable } from '../helpers/marble-testing';
-import { empty } from '../../src/create';
-import { EMPTY } from '../../src';
 import { expect } from 'chai';
+import { expectObservable } from '../helpers/marble-testing';
+import { empty } from '../../src/';
+import { EMPTY } from '../../src';
 
 declare const asDiagram: any;
 

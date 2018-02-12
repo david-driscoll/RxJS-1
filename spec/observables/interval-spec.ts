@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import { expectObservable } from '../helpers/marble-testing';
 import { asapScheduler, Observable, animationFrameScheduler, queueScheduler } from '../../src';
 import { TestScheduler } from '../../src/testing';
-import { interval } from '../../src/create';
+import { interval } from '../../src/';
 
 declare const asDiagram: any;
 declare const rxTestScheduler: TestScheduler;

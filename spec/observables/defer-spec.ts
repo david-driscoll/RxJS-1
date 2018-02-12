@@ -1,6 +1,7 @@
 import { expect } from 'chai';
-import { defer } from '../../src/create';
-import { Observable } from '../../src'; import { hot, cold, expectObservable, expectSubscriptions } from '../helpers/marble-testing';
+import { defer } from '../../src/';
+import { Observable } from '../../src';
+import { hot, cold, expectObservable, expectSubscriptions } from '../helpers/marble-testing';
 
 declare function asDiagram(arg: string): Function;
 
