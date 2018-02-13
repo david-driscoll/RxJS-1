@@ -21,6 +21,7 @@
     "no-var-keyword": true,
     "no-empty": true,
     "no-unused-expression": false,
+    "no-unused-expression-chai": true,
     "no-unused-variable": true,
     "no-use-before-declare": true,
     "no-var-requires": true,
@@ -59,5 +60,8 @@
       "check-separator",
       "check-type"
     ]
-  }
+  },
+  "rulesDirectory": [
+    "tslint-no-unused-expression-chai"
+  ]
 }

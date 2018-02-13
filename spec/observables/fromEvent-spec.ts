@@ -125,9 +125,10 @@ describe('Observable.fromEvent', () => {
     };
 
     Observable.fromEvent(obj as any, 'click').subscribe({
-      error(err: Error) {
-        expect(err.name).to.be.equal('TypeError');
-        expect(err.message).to.be.equal('Invalid event target');
+      error(err) {
+        expect(err).to.exist
+          .and.be.instanceof(Error)
+          .and.have.property('message', 'Invalid event target');
       }
     });
   });
