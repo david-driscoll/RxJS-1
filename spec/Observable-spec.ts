@@ -40,7 +40,9 @@ describe('Observable', () => {
     })
     .subscribe({
       error(err) {
-        expect(err).to.deep.equal(new Error('this should be handled'));
+        expect(err).to.exist
+          .and.be.instanceof(Error)
+          .and.have.property('message', 'this should be handled');
         done();
       }
     });
@@ -601,7 +603,9 @@ describe('Observable.create', () => {
     })
     .subscribe({
       error(err: Error) {
-        expect(err).to.deep.equal(new Error('this should be handled'));
+        expect(err).to.exist
+          .and.be.instanceof(Error)
+          .and.have.property('message', 'this should be handled');
         done();
       }
     });
