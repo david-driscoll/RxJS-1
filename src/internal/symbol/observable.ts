@@ -1,7 +1,7 @@
 import { root } from '..//util/root';
 
-export function getSymbolObservable(context: any) {
-  let $$observable: any;
+export function getSymbolObservable(context: { Symbol: SymbolConstructor; }): symbol {
+  let $$observable: symbol;
   let Symbol = context.Symbol;
 
   if (typeof Symbol === 'function') {
@@ -12,7 +12,7 @@ export function getSymbolObservable(context: any) {
         Symbol.observable = $$observable;
     }
   } else {
-    $$observable = '@@observable';
+    $$observable = <any>'@@observable';
   }
 
   return $$observable;

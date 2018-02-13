@@ -5,7 +5,7 @@ import { observable as Symbol_observable } from '../symbol/observable';
 import { subscribeToObservable } from '../util/subscribeToObservable';
 
 // tslint:disable-next-line:no-any TS is unable to type [Symbol.observable]
-export function fromObservable<T>(input: any, scheduler: IScheduler) {
+export function fromObservable<T>(input: { [Symbol.observable]: () => Subscribable<T>; }, scheduler: IScheduler) {
   if (!scheduler) {
     return new Observable<T>(subscribeToObservable(input));
   } else {
