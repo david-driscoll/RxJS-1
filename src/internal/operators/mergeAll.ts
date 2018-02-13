@@ -1,8 +1,11 @@
 
-import { ObservableInput } from '../Observable';
+import { ObservableInput, Observable } from '../Observable';
 import { mergeMap } from './mergeMap';
 import { identity } from '..//util/identity';
-import { MonoTypeOperatorFunction } from '../../internal/types';
+import { MonoTypeOperatorFunction, OperatorFunction } from '../../internal/types';
+
+export function mergeAll<T>(concurrent?: number): OperatorFunction<ObservableInput<T>, T>;
+export function mergeAll<T>(concurrent?: number): MonoTypeOperatorFunction<T>;
 
 /**
  * Converts a higher-order Observable into a first-order Observable which

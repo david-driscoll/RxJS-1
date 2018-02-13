@@ -19,7 +19,7 @@ describe('Observable.prototype.dematerialize', () => {
     const e1 =   hot('--a--b--c--d-|', values);
     const expected = '--x--y--z--|';
 
-    const result = e1.map((x: string) => {
+    const result = e1.map((x) => {
       if (x === '|') {
         return Notification.createComplete();
       } else {
@@ -67,7 +67,7 @@ describe('Observable.prototype.dematerialize', () => {
     const e1subs =   '^';
     const expected = '-';
 
-    expectObservable(e1.dematerialize()).toBe(expected);
+    expectObservable((<any>e1).dematerialize()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -76,7 +76,7 @@ describe('Observable.prototype.dematerialize', () => {
     const e1subs =   '^';
     const expected = '-';
 
-    expectObservable(e1.dematerialize()).toBe(expected);
+    expectObservable((<any>e1).dematerialize()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -85,7 +85,7 @@ describe('Observable.prototype.dematerialize', () => {
     const e1subs =   '^   !';
     const expected = '----|';
 
-    expectObservable(e1.dematerialize()).toBe(expected);
+    expectObservable((<any>e1).dematerialize()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -94,7 +94,7 @@ describe('Observable.prototype.dematerialize', () => {
     const e1subs =   '(^!)';
     const expected = '|';
 
-    expectObservable(e1.dematerialize()).toBe(expected);
+    expectObservable((<any>e1).dematerialize()).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
@@ -137,9 +137,9 @@ describe('Observable.prototype.dematerialize', () => {
     const unsub =    '       !       ';
 
     const result = e1
-      .mergeMap((x: any) => Observable.of(x))
+      .mergeMap((x) => Observable.of(x))
       .dematerialize()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(e1.subscriptions).toBe(e1subs);

@@ -24,3 +24,9 @@ export const observable = getSymbolObservable(root);
  * @deprecated use observable instead
  */
 export const $$observable = observable;
+
+declare global {
+  interface SymbolConstructor {
+    observable: symbol;
+  }
+}

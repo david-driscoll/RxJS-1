@@ -1,10 +1,13 @@
 import { Operator } from '../Operator';
-import { Observable } from '../Observable';
+import { Observable, ObservableInput } from '../Observable';
 import { Subscriber } from '../Subscriber';
 import { Subscription, TeardownLogic } from '../Subscription';
 import { OuterSubscriber } from '../OuterSubscriber';
 import { subscribeToResult } from '..//util/subscribeToResult';
-import { MonoTypeOperatorFunction } from '../../internal/types';
+import { MonoTypeOperatorFunction, OperatorFunction } from '../../internal/types';
+
+export function exhaust<T>(): OperatorFunction<ObservableInput<T>, T>;
+export function exhaust<T>(): MonoTypeOperatorFunction<T>;
 
 /**
  * Converts a higher-order Observable into a first-order Observable by dropping

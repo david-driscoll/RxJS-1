@@ -14,11 +14,11 @@ describe('throwError', () => {
     expectObservable(e1).toBe(expected);
   });
 
-  it('should emit one value', (done: MochaDone) => {
+  it('should emit one value', (done) => {
     let calls = 0;
     throwError('bad').subscribe(() => {
       done(new Error('should not be called'));
-    }, (err: any) => {
+    }, (err) => {
       expect(++calls).to.equal(1);
       expect(err).to.equal('bad');
       done();

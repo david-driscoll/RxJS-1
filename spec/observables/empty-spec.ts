@@ -2,8 +2,10 @@ import { expect } from 'chai';
 import { expectObservable } from '../helpers/marble-testing';
 import { empty } from '../../src/';
 import { EMPTY } from '../../src';
+import { TestScheduler } from '../../src/testing';
 
 declare const asDiagram: any;
+declare const rxTestScheduler: TestScheduler;
 
 /** @test {empty} */
 describe('empty', () => {

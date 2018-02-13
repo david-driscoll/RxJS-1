@@ -6,7 +6,7 @@ import { TestScheduler, observableToBeFn, subscriptionLogsToBeFn } from '../../s
 
 declare const global: any;
 
-export const rxTestScheduler: TestScheduler = global.rxTestScheduler;
+const rxTestScheduler: TestScheduler = global.rxTestScheduler;
 
 export const emptySubs: any[] = [];
 

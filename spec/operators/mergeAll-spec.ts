@@ -3,6 +3,7 @@ import * as Rx from '../../src/Rx';
 import { hot, cold, expectObservable, expectSubscriptions } from '../helpers/marble-testing';
 
 declare function asDiagram(arg: string): Function;
+declare const type: Function;
 
 const Observable = Rx.Observable;
 
@@ -31,7 +32,7 @@ describe('Observable.prototype.mergeAll', () => {
   it('should throw if any child observable throws', () => {
     const e1 = Observable.from([
       Observable.of('a'),
-      Observable.throw('error'),
+      Observable.throwError('error'),
       Observable.of('c')
     ]);
     const expected = '(a#)';
@@ -146,10 +147,10 @@ describe('Observable.prototype.mergeAll', () => {
     const expected =  '--a--db--ec--     ';
     const unsub =     '            !     ';
 
-    const result = (<any>e1)
-      .mergeMap((x: string) => Observable.of(x))
+    const result = e1
+      .mergeMap((x) => Observable.of(x))
       .mergeAll()
-      .mergeMap((x: any) => Observable.of(x));
+      .mergeMap((x) => Observable.of(x));
 
     expectObservable(result, unsub).toBe(expected);
     expectSubscriptions(x.subscriptions).toBe(xsubs);
@@ -346,7 +347,7 @@ describe('Observable.prototype.mergeAll', () => {
     const y = cold(              'c-d-e-f-#           ');
     const ysubs =    '            ^       !           ';
     const z = cold(                       'g-h-i-j-k-|');
-    const zsubs = [];
+    const zsubs: string[] = [];
     const e1 =   hot('--x---------y--------z--------| ', { x: x, y: y, z: z });
     const e1subs =   '^                   !           ';
     const expected = '--a-b-------c-d-e-f-#           ';
@@ -373,42 +374,66 @@ describe('Observable.prototype.mergeAll', () => {
     expectSubscriptions(e1.subscriptions).toBe(e1subs);
   });
 
-  it('should merge all promises in an observable', (done: MochaDone) => {
+  it('should merge all promises in an observable', (done) => {
     const e1 = Rx.Observable.from([
-      new Promise((res: any) => { res('a'); }),
-      new Promise((res: any) => { res('b'); }),
-      new Promise((res: any) => { res('c'); }),
-      new Promise((res: any) => { res('d'); }),
+      new Promise<string>((res) => { res('a'); }),
+      new Promise<string>((res) => { res('b'); }),
+      new Promise<string>((res) => { res('c'); }),
+      new Promise<string>((res) => { res('d'); }),
     ]);
     const expected = ['a', 'b', 'c', 'd'];
 
-    const res = [];
-    (<any>e1.mergeAll()).subscribe(
-      (x: any) => { res.push(x); },
-      (err: any) => { done(new Error('should not be called')); },
+    const res: string[] = [];
+    e1.mergeAll().subscribe(
+      (x) => { res.push(x); },
+      (err) => { done(new Error('should not be called')); },
       () => {
         expect(res).to.deep.equal(expected);
         done();
       });
   });
 
-  it('should raise error when promise rejects', (done: MochaDone) => {
+  it('should raise error when promise rejects', (done) => {
     const error = 'error';
     const e1 = Rx.Observable.from([
-      new Promise((res: any) => { res('a'); }),
-      new Promise((res: any, rej: any) => { rej(error); }),
-      new Promise((res: any) => { res('c'); }),
-      new Promise((res: any) => { res('d'); }),
+      new Promise<string>((res) => { res('a'); }),
+      new Promise<string>((res: any, rej) => { rej(error); }),
+      new Promise<string>((res) => { res('c'); }),
+      new Promise<string>((res) => { res('d'); }),
     ]);
 
-    const res = [];
-    (<any>e1.mergeAll()).subscribe(
-      (x: any) => { res.push(x); },
-      (err: any) => {
+    const res: string[] = [];
+    e1.mergeAll().subscribe(
+      (x) => { res.push(x); },
+      (err) => {
         expect(res.length).to.equal(1);
         expect(err).to.equal('error');
         done();
       },
       () => { done(new Error('should not be called')); });
+  });
+
+  type(() => {
+    /* tslint:disable:no-unused-variable */
+    const source1 = Rx.Observable.of(1, 2, 3);
+    const source2 = [1, 2, 3];
+    const source3 = new Promise<number>(d => d(1));
+
+    let result: Rx.Observable<number> = Rx.Observable
+      .of(source1, source2, source3)
+      .pipe(Rx.operators.mergeAll());
+    /* tslint:enable:no-unused-variable */
+  });
+
+  type(() => {
+    /* tslint:disable:no-unused-variable */
+    const source1 = Rx.Observable.of(1, 2, 3);
+    const source2 = [1, 2, 3];
+    const source3 = new Promise<number>(d => d(1));
+
+    let result: Rx.Observable<number> = Rx.Observable
+      .of(source1, source2, source3)
+      .mergeAll();
+    /* tslint:enable:no-unused-variable */
   });
 });
